@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/jest",
-    "test_liam": "NODE_ENV=test jest --detectOpenHandles",
+    "test": "node_modules/.bin/jest --detectOpenHandles --forceExit",
+    "test_liam": "NODE_ENV=test jest --detectOpenHandles", //TODO: remove that
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "init": "NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate"
   },
   "repository": {
     "type": "git",
