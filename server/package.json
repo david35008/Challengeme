@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "dev": "nodemon index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "devTest": "NODE_ENV=test nodemon index.js"
   },
   "repository": {

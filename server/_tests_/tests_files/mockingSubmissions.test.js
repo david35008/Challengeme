@@ -152,5 +152,4 @@ describe('Submission process', () => {
       expect(expectedSuccess2.state).toBe('SUCCESS')
       expect(expectedFail.state).toBe('FAIL')
     });
-
 });

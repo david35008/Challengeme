@@ -52,7 +52,7 @@ describe('Submission process', () => {
         done();
       });
     test('Posting submisson and status change to PENDING', async (done) => {
-        const myUser = User.findOne();
+        const myUser = await User.findOne();
         await request(app).post(`/api/v1/challenges/${solutionRepos[0].challengeId}/apply`).set('authorization',`bearer ${accessToken}`)
         .send({repository:solutionRepos[0].repo, ...review, user:myUser});
         await request(app).post(`/api/v1/challenges/${solutionRepos[1].challengeId}/apply`).set('authorization',`bearer ${accessToken}`)
