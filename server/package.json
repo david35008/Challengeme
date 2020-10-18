@@ -7,7 +7,7 @@
     "test": "jest --detectOpenHandles --forceExit --runInBand",
     "initDB":"node_modules/.bin/sequelize db:create",
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "dev": "NODE_ENV=devlopment nodemon index.js",
+    "dev": "nodemon index.js",
     "devTest": "NODE_ENV=test nodemon index.js"
   },
   "repository": {
