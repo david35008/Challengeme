@@ -1,4 +1,4 @@
-name: server only
+name: server-only
 on:
   workflow_dispatch:
     inputs:

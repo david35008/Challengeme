@@ -1,4 +1,4 @@
-name: client only
+name: client-only
 on:
   workflow_dispatch:
     inputs:

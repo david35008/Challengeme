@@ -1,4 +1,4 @@
-name: full stack
+name: fullstack
 on:
   workflow_dispatch:
     inputs:

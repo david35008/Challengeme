@@ -1,4 +1,4 @@
-name: full stack mysql
+name: fullstack-mysql
 on:
   workflow_dispatch:
     inputs:

@@ -1,4 +1,4 @@
-name: server mysql
+name: server-mysql
 on:
   workflow_dispatch:
     inputs:
