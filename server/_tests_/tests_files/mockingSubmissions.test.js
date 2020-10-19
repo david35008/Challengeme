@@ -69,7 +69,6 @@ describe('Submission process', () => {
         let testRepo = challenges.find(challenge=> challenge.id === solutionRepos[0].challengeId).repositoryName;
         const successId = initialSubmissions.find(submission => submission.solutionRepository === solutionRepos[0].repo).id;
         let webhookUrl = process.env.MY_URL.concat(`/api/v1/webhook/submission/${successId}`);
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAA',ref)
         const githubPostmock1 = nock(`https://api.github.com`, {reqHeaders: {
           'Content-Type': 'application/json',
           Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`
@@ -107,7 +106,6 @@ describe('Submission process', () => {
         })
         .reply(200)
 
-
         challengeType = challenges.find(challenge => challenge.id === solutionRepos[1].challengeId).type;
         testRepo = challengeArr.find(challenge=> challenge.id === solutionRepos[1].challengeId).repositoryName;
         webhookUrl = process.env.MY_URL.concat(`/api/v1/webhook/submission/${3}`);
@@ -127,16 +125,13 @@ describe('Submission process', () => {
         })
         .reply(200)
     
-        const myUser = await User.findOne();
-        //console.log(myUser , '--------------------------------')
         await request(app).post(`/api/v1/challenges/${solutionRepos[0].challengeId}/apply`).set('authorization',`bearer ${accessToken}`)
-        .send({repository:solutionRepos[0].repo , ...review, user:myUser.dataValues});
+        .send({repository:solutionRepos[0].repo , ...review});
         await request(app).post(`/api/v1/challenges/${failRepos[0].challengeId}/apply`).set('authorization',`bearer ${accessToken}`)
-        .send({repository:failRepos[0].repo, ...review, user:myUser.dataValues});
+        .send({repository:failRepos[0].repo, ...review});
         await request(app).post(`/api/v1/challenges/${solutionRepos[1].challengeId}/apply`).set('authorization',`bearer ${accessToken}`)
-        .send({repository:solutionRepos[1].repo, ...review, user:myUser.dataValues});
+        .send({repository:solutionRepos[1].repo, ...review});
         expect(githubPostmock1.isDone()).toEqual(true);
-        console.log('__AASSSSSSSSSSSSS__ASSAASAS', githubPostmock1)
         expect(githubPostmock2.isDone()).toEqual(true);
         expect(githubPostmock3.isDone()).toEqual(true);
 

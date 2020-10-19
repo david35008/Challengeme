@@ -147,8 +147,6 @@ router.post("/:challengeId/apply", async (req, res) => {
     const urltoSet = process.env.MY_URL.concat(
       `/api/v1/webhook/submission/${submission.id}`
     );
-    //const bearerToken  = jwt.sign({userId:req.user.userId, userName: req.user.userName}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h', })
-    //const bearerToken = req.headers.authorization || "bearer myToken";
     const bearerToken = jwt.sign({userId: req.user.userId, userName: req.user.userName}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
     const pureToken =
       bearerToken.indexOf(" ") !== -1 ? bearerToken.split(" ")[1] : bearerToken;
