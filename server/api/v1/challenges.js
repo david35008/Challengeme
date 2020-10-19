@@ -108,7 +108,6 @@ router.post(`/`, async (req, res) => {
 
 router.post("/:challengeId/apply", async (req, res) => {
   const challengeId = req.params.challengeId;
-  console.log(req.user.userId, '-----------------sdafSDFDSF-------------------')
   const { commentContent, commentTitle, rating } = req.body;
   const solutionRepository = req.body.repository;
   // adding review
