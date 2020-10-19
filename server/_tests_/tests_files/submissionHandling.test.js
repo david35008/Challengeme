@@ -1,11 +1,12 @@
 
 const request = require('supertest');
-const app = require('../app');
+const app = require('../../app');
 const ngrok = require('ngrok');
 const port = process.env.TEST_PORT || 4040;
-const {Submission, Challenge, User, Review} = require('../models');
-const {challengeArr, solutionRepos, failRepos} = require('./mockData');
+const {Submission, Challenge, User, Review} = require('../../models');
+const {challengeArr, solutionRepos, failRepos} = require('../mocks/mockingSubmissions');
 process.env.MY_URL = 'testingAddress';
+const getCurrentBranch = require('../../helpers/getCurrentBranch')
 let server;
 let accessToken;
 const review = { commentContent : 'why you do this', commentTitle: 'annoying', rating: 3, userId: 1 }
@@ -31,6 +32,8 @@ describe('Submission process', () => {
         server = app.listen(port, () => {
             console.log(`Example app listening at http://localhost:${port}`)
           })
+        process.env.MY_BRANCH = await getCurrentBranch();
+        console.log('current branch' , process.env.MY_BRANCH);  
         await Challenge.destroy({ truncate: true, force: true });
         await Submission.destroy({ truncate: true, force: true });
         await User.destroy({ truncate: true, force: true });

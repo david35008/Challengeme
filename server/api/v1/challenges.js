@@ -3,7 +3,7 @@ const { Router } = require("express");
 const axios = require("axios");
 const { Sequelize, Op } = require("sequelize");
 const router = Router();
-
+const jwt = require("jsonwebtoken");
 const { Submission, User, Challenge, Label, Review } = require("../../models");
 
 router.get("/", async (req, res) => {
@@ -108,6 +108,7 @@ router.post(`/`, async (req, res) => {
 
 router.post("/:challengeId/apply", async (req, res) => {
   const challengeId = req.params.challengeId;
+  console.log(req.user.userId, '-----------------sdafSDFDSF-------------------')
   const { commentContent, commentTitle, rating } = req.body;
   const solutionRepository = req.body.repository;
   // adding review
@@ -146,9 +147,13 @@ router.post("/:challengeId/apply", async (req, res) => {
     const urltoSet = process.env.MY_URL.concat(
       `/api/v1/webhook/submission/${submission.id}`
     );
-    const pureToken = 'dfd'
-    // jwt.sign(challengeId, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h', })
+    //const bearerToken  = jwt.sign({userId:req.user.userId, userName: req.user.userName}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h', })
+    //const bearerToken = req.headers.authorization || "bearer myToken";
+    const bearerToken = jwt.sign({userId: req.user.userId, userName: req.user.userName}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+    const pureToken =
+      bearerToken.indexOf(" ") !== -1 ? bearerToken.split(" ")[1] : bearerToken;
     const ref = process.env.MY_BRANCH || process.env.DEFAULT_BRANCH || "master"; // In case somehow the process env branches are not set.
+    
     const { status } = await axios.post(
       `https://api.github.com/repos/${process.env.GITHUB_REPO}/actions/workflows/${challenge.type}.yml/dispatches`,
       {
