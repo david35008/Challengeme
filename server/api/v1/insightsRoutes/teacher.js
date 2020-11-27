@@ -3,35 +3,36 @@ const { Op } = require('sequelize');
 const sequelize = require('sequelize');
 const { checkTeacherPermission, checkTeamPermission } = require('../../../middleware/checkTeamPermission');
 const { Submission, Challenge, User, Team, Assignment } = require('../../../models');
+const { getTeamUsersIds } = require('./getTeamUsers');
 
 
-async function getTeamUsersIds(teamId) {
+// async function getTeamUsersIds(teamId) {
 
-    // get team users
-    const currentTeamUsers = await Team.findOne({
-        where: {
-            id: teamId,
-        },
-        attributes: ['name'],
-        include: [
-            {
-                model: User,
-                attributes: ['id'],
-                through: {
-                    where: {
-                        permission: 'student'
-                    },
-                    attributes: [],
-                },
-            },
-        ],
-    });
+//     // get team users
+//     const currentTeamUsers = await Team.findOne({
+//         where: {
+//             id: teamId,
+//         },
+//         attributes: ['name'],
+//         include: [
+//             {
+//                 model: User,
+//                 attributes: ['id'],
+//                 through: {
+//                     where: {
+//                         permission: 'student'
+//                     },
+//                     attributes: [],
+//                 },
+//             },
+//         ],
+//     });
 
-    // returns array with users ids
-    const usersId = currentTeamUsers.Users.map((value) => value.id);
+//     // returns array with users ids
+//     const usersId = currentTeamUsers.Users.map((value) => value.id);
 
-    return usersId;
-}
+//     return usersId;
+// }
 
 const filterLastSubmissionPerChallenge = (submissionsOrderedByDate) => {
     const filteredAlready = [];
