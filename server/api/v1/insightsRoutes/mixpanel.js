@@ -6,7 +6,7 @@ const {
 const { getTeamUsersNames } = require("./getTeamUsers");
 const axios = require("axios");
 
-// get all team users start challenge time 
+// get all team users start challenge time of the last month
 // on development just team 3 have started events (suvelocity user)
 insightMixpanelRoute.get(
   "/started-challenge/:teamId",
@@ -15,9 +15,12 @@ insightMixpanelRoute.get(
   async (req, res) => {
     try {
       const usersNames = await getTeamUsersNames(req.params.teamId);
-      // the mixpanel return string!!
+      todayDate = new Date().toISOString().slice(0,10);
+      oneMonth = 30 * 24 * 60 * 60 * 1000;
+      oneMonthAgoDate = new Date(Date.now() - oneMonth).toISOString().slice(0,10);
+      // the mixpanel return string !!
       const { data } = await axios.get(
-        "https://data.mixpanel.com/api/2.0/export?to_date=2020-11-25&from_date=2020-11-01&event=%5B%22User%20Started%20Challenge%22%5D",
+        `https://data.mixpanel.com/api/2.0/export?to_date=${todayDate}&from_date=${oneMonthAgoDate}&event=%5B%22User%20Started%20Challenge%22%5D`,
         {
           headers: {
             "Content-Type": "application/json",
