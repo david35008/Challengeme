@@ -1,12 +1,10 @@
 const v1Router = require('express').Router();
 const checkToken = require('../../middleware/checkToken');
 const checkAdmin = require('../../middleware/checkAdmin');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+
 
 // Authentication
 v1Router.use('/auth', require('./auth'));
-v1Router.use('/challenges-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 v1Router.use('/webhook', checkToken, require('./webhook'));
 v1Router.use('/submissions', checkToken, require('./submissions'));
