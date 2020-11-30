@@ -9,7 +9,7 @@ module.exports = function checkToken(req, res, next) {
     if (error) {
       return res.status(408).json({ message: 'Invalid Access Token' });
     }
-      req.user = decoded;
+    req.user = decoded;
     next();
   });
 };

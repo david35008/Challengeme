@@ -4,11 +4,7 @@ import network from '../../services/network';
 import './ChooseLabel.css';
 
 const ChooseLabels = ({
-  labels,
-  chooseLabels,
-  setChooseLabels,
-  setLabels,
-  darkMode,
+  labels, chooseLabels, setChooseLabels, setLabels, darkMode,
 }) => {
   useEffect(
     // gets existing labels
@@ -21,9 +17,11 @@ const ChooseLabels = ({
             label: labelData.name,
           }));
           setChooseLabels(optionsForSelector);
-        } catch (error) { console.error(error); }
+        } catch (error) {
+        }
       })();
-    }, [setChooseLabels],
+    },
+    [setChooseLabels],
   );
 
   const selectionChange = (choosens) => {
@@ -38,9 +36,11 @@ const ChooseLabels = ({
       backgroundColor: darkMode ? 'rgb(51,51,51)' : 'white',
       height: '100%',
     }),
-    control: (provided) => ({
+    control: (provided) => (darkMode ? {
       ...provided,
       backgroundColor: 'neutral30',
+    } : {
+      ...provided,
     }),
   };
   return (

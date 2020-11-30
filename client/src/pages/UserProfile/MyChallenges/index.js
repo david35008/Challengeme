@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
-import Button from '@material-ui/core/Button';
 import network from '../../../services/network';
 import './MyChallenges.css';
 
@@ -16,7 +14,6 @@ const UserProfileLanding = () => {
       );
       setAllMyChallenges(allMyChallengesFromServer);
     } catch (error) {
-      console.error(error);
     }
   };
   useEffect(() => {
@@ -43,7 +40,7 @@ const UserProfileLanding = () => {
     };
   };
   return (
-    <div className="user-profile-my-challenges">
+    <div className="generic-page">
       <h1 className="user-profile-my-challenges-title">
         This is challenges page
       </h1>
@@ -117,13 +114,7 @@ const UserProfileLanding = () => {
             </div>
           ))}
       </div>
-      <div className="user-profile-my-challenges-button-container">
-        <Link to="/profile">
-          <Button style={{ minWidth: 150 }} variant="contained" color="default">
-            back to My Profile
-          </Button>
-        </Link>
-      </div>
+      <div className="user-profile-my-challenges-button-container" />
     </div>
   );
 };

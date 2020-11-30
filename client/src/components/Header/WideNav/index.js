@@ -9,47 +9,58 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import Menu from '@material-ui/core/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import HomeIcon from '@material-ui/icons/Home';
 import '../Header.css';
-import DarkModeToggle from 'react-dark-mode-toggle';
-import Search from '../Search';
-import { Logged } from '../../../context/LoggedInContext';
-import FilteredLabels from '../../../context/FilteredLabelsContext';
-import network from '../../../services/network';
-import ChooseLabels from '../../Choosers/ChooseLabels';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import Divider from '@material-ui/core/Divider';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import GroupIcon from '@material-ui/icons/Group';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LockIcon from '@material-ui/icons/Lock';
 import useStyles from './WideNavStyle';
+import ChooseLabels from '../../Choosers/ChooseLabels';
+import network from '../../../services/network';
+import FilteredLabels from '../../../context/FilteredLabelsContext';
+import { Logged } from '../../../context/LoggedInContext';
+import Search from '../Search';
 
 export default function WideNav({ darkMode, setDarkMode, isAdmin }) {
   const filteredLabels = useContext(FilteredLabels);
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const location = useHistory();
   const loggedContext = useContext(Logged);
   const [labels, setLabels] = useState([]);
   const [chooseLabels, setChooseLabels] = useState([]);
   const currentLocation = useLocation();
+  const [openNavBar, setOpenNavBar] = useState(false);
 
   useEffect(() => {
     if (currentLocation.pathname !== '/') {
       setLabels([]);
     } else {
       const newFilter = chooseLabels.filter(
-        (label) => label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+        (label) => label.value === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
       );
       setLabels(newFilter);
     }
     // eslint-disable-next-line
   }, [currentLocation]);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleDrawerOpen = () => {
+    setOpenNavBar(true);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleDrawerClose = () => {
+    setOpenNavBar(false);
   };
 
   const logOut = async () => {
@@ -66,165 +77,190 @@ export default function WideNav({ darkMode, setDarkMode, isAdmin }) {
       loggedContext.setLogged(false);
       location.push('/');
     } catch (error) {
-      console.error(error);
     }
   };
 
   const headerStyle = {
-    backgroundColor: darkMode ? 'rgb(51,51,51)' : 'white',
+    backgroundColor: darkMode ? 'rgb(51,51,51)' : 'rgb(44, 44, 119)',
   };
   const letterColor = {
+    color: darkMode ? 'white' : 'white',
+  };
+  const drawerColor = {
     color: darkMode ? 'white' : 'black',
   };
+  const dividerColor = darkMode
+    ? {
+      backgroundColor: 'rgba(255,255,255,0.3)',
+    }
+    : {};
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBarRegolar)}
-      style={headerStyle}
-    >
-      <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          <NavLink to="/" exact className="link-rout">
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginRight: '10px',
-              }}
-            >
-              <HomeIcon style={letterColor} />
-              &nbsp;
-              <span style={letterColor} className="header-link-title">
-                ChallengeMe
-              </span>
-            </div>
-          </NavLink>
-        </Typography>
-        <Search darkMode={darkMode} setDarkMode={setDarkMode} />
-        <div style={{ minWidth: '150px', width: 'fit-content' }}>
-          {currentLocation.pathname === '/' ? (
-            <ChooseLabels
-              labels={labels}
-              chooseLabels={chooseLabels}
-              setChooseLabels={setChooseLabels}
-              darkMode={darkMode}
-              setLabels={setLabels}
-            />
-          ) : null}
-        </div>
-        {currentLocation.pathname === '/' ? (
-          <Button
-            onClick={() => {
-              filteredLabels.setFilteredLabels(
-                labels ? labels.map((label) => label.value) : [],
-              );
-            }}
-            variant="contained"
-            className={
-              darkMode ? classes.filterButtonDark : classes.filterButton
-            }
-          >
-            filter
-          </Button>
-        ) : null}
-        <div style={{ flex: 1 }} />
-        <DarkModeToggle
-          className={classes.darkModeToggle}
-          checked={darkMode}
-          onChange={() => {
-            localStorage.setItem('darkMode', !darkMode);
-            setDarkMode((prev) => !prev);
-          }}
-          size={45}
-        />
-        <Tooltip title={Cookies.get('name')}>
-          <Avatar
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
+    <>
+      <AppBar position="fixed" className={clsx(classes.appBarRegolar)} style={headerStyle}>
+        <Toolbar>
+          <IconButton
             color="inherit"
-            style={{
-              cursor: 'pointer',
-              backgroundColor: darkMode ? 'rgb(140,110,99)' : '#7BACB4',
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton)}
+          >
+            <MenuIcon style={letterColor} />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            <NavLink to="/" exact className="link-rout">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginRight: '10px',
+                }}
+              >
+                <HomeIcon style={letterColor} />
+                &nbsp;
+                <span style={letterColor} className="header-link-title">
+                  ChallengeMe
+                </span>
+              </div>
+            </NavLink>
+          </Typography>
+          <Search darkMode={darkMode} setDarkMode={setDarkMode} />
+          <div style={{ minWidth: '150px', width: 'fit-content' }}>
+            {currentLocation.pathname === '/' ? (
+              <ChooseLabels
+                labels={labels}
+                chooseLabels={chooseLabels}
+                setChooseLabels={setChooseLabels}
+                darkMode={darkMode}
+                setLabels={setLabels}
+              />
+            ) : null}
+          </div>
+          {currentLocation.pathname === '/' ? (
+            <Button
+              onClick={() => {
+                filteredLabels.setFilteredLabels(labels ? labels.map((label) => label.value) : []);
+              }}
+              variant="contained"
+              className={darkMode ? classes.filterButtonDark : classes.filterButton}
+            >
+              filter
+            </Button>
+          ) : null}
+          <div style={{ flex: 1 }} />
+          <IconButton
+            aria-label="delete"
+            onClick={() => {
+              localStorage.setItem('darkMode', !darkMode);
+              setDarkMode((prev) => !prev);
             }}
           >
-            {Cookies.get('name').slice(0, 2)}
-          </Avatar>
-        </Tooltip>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          className={classes.menu}
-        >
-          <Link to="/profile" className="link-rout">
-            <Button
-              onClick={() => setAnchorEl(null)}
-              className={classes.infoButton}
-              style={{ minWidth: 150 }}
-              variant="contained"
-              color="default"
-            >
-              Profile
-            </Button>
+            {darkMode ? (
+              <Brightness7Icon style={letterColor} />
+            ) : (
+              <Brightness4Icon style={letterColor} />
+            )}
+          </IconButton>
+          <Tooltip title={Cookies.get('name')}>
+            <Link to="/profile/info" className="link-rout">
+              <Avatar
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                style={{
+                  cursor: 'pointer',
+                  backgroundColor: darkMode ? 'rgb(140,110,99)' : '#7BACB4',
+                }}
+              >
+                {Cookies.get('name').slice(0, 2)}
+              </Avatar>
+            </Link>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="persistent"
+        anchor="left"
+        open={openNavBar}
+        classes={darkMode ? { paper: classes.drawerPaperDark } : { paper: classes.drawerPaper }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon style={drawerColor} />
+          </IconButton>
+        </div>
+
+        <Divider style={dividerColor} />
+        <List className={classes.list}>
+          <Link to="/" className="link-rout">
+            <ListItem button onClick={handleDrawerClose} style={drawerColor}>
+              <ListItemIcon>
+                <HomeIcon style={drawerColor} />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
           </Link>
-          <Link to="/addnewchallenge" className="link-rout">
-            <Button
-              onClick={() => setAnchorEl(null)}
-              className={classes.infoButton}
-              style={{ minWidth: 150 }}
-              variant="contained"
-              color="default"
-            >
-              Add New Challenge
-            </Button>
+          <Divider style={dividerColor} />
+          <Link to="/profile/info" className="link-rout">
+            <ListItem button onClick={handleDrawerClose} style={drawerColor}>
+              <ListItemIcon>
+                <AccountCircleIcon style={drawerColor} />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
           </Link>
+
+          <Divider style={dividerColor} />
           <Link to="/teams" className="link-rout">
-            <Button
-              onClick={() => setAnchorEl(null)}
-              className={classes.infoButton}
-              style={{ minWidth: 150 }}
-              variant="contained"
-              color="default"
-            >
-              Teams Area
-            </Button>
+            <ListItem button onClick={handleDrawerClose} style={drawerColor}>
+              <ListItemIcon>
+                <GroupIcon style={drawerColor} />
+              </ListItemIcon>
+              <ListItemText primary="Teams Area" />
+            </ListItem>
           </Link>
           {isAdmin && (
-            <Link to="/admin" className="link-rout">
+            <>
+              <Divider style={dividerColor} />
+              <Link to="/admin/DashBoard" className="link-rout">
+                <ListItem button onClick={handleDrawerClose} style={drawerColor}>
+                  <ListItemIcon>
+                    <LockIcon style={drawerColor} />
+                  </ListItemIcon>
+                  <ListItemText primary="Admin Area" />
+                </ListItem>
+              </Link>
+            </>
+          )}
+          <Divider style={dividerColor} />
+          <Link to="/addnewchallenge" className="link-rout">
+            <ListItem className={classes.addChanllenge} onClick={handleDrawerClose}>
               <Button
-                onClick={() => setAnchorEl(null)}
-                className={classes.infoButton}
+                className={classes.addChanllengeButton}
                 style={{ minWidth: 150 }}
                 variant="contained"
-                color="default"
+                color="primary"
               >
-                Admin Area
+                Add New Challenge
               </Button>
-            </Link>
-          )}
-          <Button
-            className={classes.logOutButton}
-            onClick={logOut}
-            style={{ minWidth: 150 }}
-            variant="contained"
-            color="secondary"
-          >
-            Log Out
-          </Button>
-        </Menu>
-      </Toolbar>
-    </AppBar>
+            </ListItem>
+          </Link>
+          <Divider style={dividerColor} />
+          <ListItem className={classes.logOut} onClick={handleDrawerClose}>
+            <Button
+              className={classes.logOutButton}
+              onClick={logOut}
+              style={{ minWidth: 150 }}
+              variant="contained"
+              color="secondary"
+            >
+              Log Out
+            </Button>
+          </ListItem>
+          <Divider style={dividerColor} />
+        </List>
+      </Drawer>
+    </>
   );
 }

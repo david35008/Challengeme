@@ -50,7 +50,6 @@ export default function AddToken({ open, setOpen, getAllTokens }) {
       getAllTokens();
       setOpen(false);
     } catch (error) {
-      console.error(error);
     }
   };
 

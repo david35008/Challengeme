@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTeamMembers({
-  open, setOpen, getAllTeams, teamNameForMember,
+  open, setOpen, getAllTeams, teamNameForMember, isTeacher,
 }) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -47,7 +47,6 @@ export default function AddTeamMembers({
       setOpen(false);
       setNewTeamMembers([]);
     } catch (error) {
-      console.error(error);
     }
   };
 
@@ -64,6 +63,7 @@ export default function AddTeamMembers({
       </h2>
       <div id="simple-modal-description">
         <ChooseMembers
+          isTeacher={isTeacher}
           teamId={teamNameForMember}
           chooseMembers={newTeamMembers}
           setChooseMembers={setNewTeamMembers}
@@ -75,6 +75,7 @@ export default function AddTeamMembers({
         variant="contained"
         color="primary"
         onClick={handleSubmitNewTeam}
+
       >
         Add
       </Button>

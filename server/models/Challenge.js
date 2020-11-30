@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Review, {
         foreignKey: "challengeId",
       });
+      this.hasMany(models.Assignment, {
+        foreignKey: "challengeId",
+      });
       this.belongsToMany(models.Label, {
         through: "LabelChallenge",
         foreignKey: "challengeId",
@@ -31,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      paranoid: true,
       modelName: "Challenge",
       tableName: "challenges",
     }

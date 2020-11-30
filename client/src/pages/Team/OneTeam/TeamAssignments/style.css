@@ -1,0 +1,19 @@
+.team-task-cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-task-title-page {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.team-task-title-page-name {
+  text-decoration: underline;
+}
+
+.dark .team-task-title-page {
+  color: white;
+}

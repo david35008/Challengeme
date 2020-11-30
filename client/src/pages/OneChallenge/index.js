@@ -92,7 +92,6 @@ function ChallengePage({ darkMode }) {
         }
         setLoadingReq(true);
       } catch (error) {
-        console.error(error);
       }
     })();
     const getSubmissionInterval = setInterval(async () => {
@@ -110,7 +109,6 @@ function ChallengePage({ darkMode }) {
         }
         setLoadingReq(true);
       } catch (error) {
-        console.error(error);
       }
     }, 5000);
     const setImg = async () => {
@@ -118,7 +116,6 @@ function ChallengePage({ darkMode }) {
         const { data } = await network.get(`/api/v1/image?id=${challengeId}`);
         setImage(data.img);
       } catch (error) {
-        console.error(error);
       }
     };
     const fetchChallenge = async () => {
@@ -132,7 +129,6 @@ function ChallengePage({ darkMode }) {
         );
         setSubmissions(challengeFromServer.submissionsCount);
       } catch (error) {
-        console.error(error);
       }
     };
     setImg();

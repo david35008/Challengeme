@@ -1,0 +1,22 @@
+.assignments-title-and-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 0px 30px 0px;
+}
+
+.assignments-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.assignments-card-and-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .assignments-title-and-button {
+  color: white;
+}

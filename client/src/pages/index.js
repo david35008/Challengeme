@@ -52,11 +52,8 @@ export default function Router() {
     }
     (async () => {
       try {
-        const { data: challengesFromServer } = await network.get(
-          "/api/v1/challenges"
-        );
-        typeof challengesFromServer === "object" &&
-          setChallenges(challengesFromServer);
+        const { data: challengesFromServer } = await network.get("/api/v1/challenges");
+        typeof challengesFromServer === "object" && setChallenges(challengesFromServer);
       } catch {}
     })();
   }, [logged]);
@@ -115,9 +112,7 @@ export default function Router() {
         ) : (
           <Logged.Provider value={{ logged, setLogged }}>
             <AllChallenges.Provider value={{ challenges, setChallenges }}>
-              <FilteredLabels.Provider
-                value={{ filteredLabels, setFilteredLabels }}
-              >
+              <FilteredLabels.Provider value={{ filteredLabels, setFilteredLabels }}>
                 <Header darkMode={darkTheme} setDarkMode={setDarkTheme} />
                 <div className={darkTheme ? "dark" : "light"}>
                   <Suspense fallback={<Loading darkMode={darkTheme} />}>
@@ -133,11 +128,11 @@ export default function Router() {
                           <NewChallengeForm />
                         </Route>
                         <Route path="/teams">
-                          <Team />
+                          <Team darkMode={darkTheme} />
                         </Route>
                         {isAdmin && (
                           <Route path="/admin">
-                            <Admin />
+                            <Admin darkMode={darkTheme} />
                           </Route>
                         )}
                         <Route exact path="/">

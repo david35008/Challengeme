@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'GitToken',
-    underscored: true,
   });
   return GitToken;
 };

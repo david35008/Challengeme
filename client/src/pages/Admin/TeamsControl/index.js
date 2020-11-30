@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -18,6 +17,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import network from '../../../services/network';
 import AddTeam from '../../../components/Modals/AddTeam';
 import AddTeamMembers from '../../../components/Modals/AddTeamMembers';
+import './style.css';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -56,9 +56,7 @@ function Row(props) {
         await network.delete(`/api/v1/teams/remove-user/${row.id}?userId=${user}`);
         getAllTeams();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   const changeUserPermissionOnTeam = async (user, permission) => {
@@ -66,12 +64,13 @@ function Row(props) {
       const isDeleteOk = prompt("What's your favorite cocktail drink?");
       if (isDeleteOk != null) {
         const newPermission = permission === 'student' ? 'teacher' : 'student';
-        await network.patch(`/api/v1/teams/permission/${row.id}`, { userId: user, permission: newPermission });
+        await network.patch(`/api/v1/teams/permission/${row.id}`, {
+          userId: user,
+          permission: newPermission,
+        });
         getAllTeams();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   const deleteTeam = async (team) => {
@@ -81,24 +80,8 @@ function Row(props) {
         await network.delete(`/api/v1/teams/remove-team/${team}`);
         getAllTeams();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
-
-  // const updateTeam = async (token, status) => {
-  //     try {
-  //         const isUpdateOk = prompt("Who's your favorite student?");
-  //         if (isUpdateOk != null) {
-  //             const newStatus = status === 'blocked' ? 'available' : 'blocked';
-  //             const { data: allTokensFromServer } = await network.patch('/api/v1/git/', { token, status: newStatus });
-  //             console.log(allTokensFromServer);
-  //             getAllTeams();
-  //         }
-  //     } catch (error) {
-  //         console.error(error);
-  //     }
-  // };
 
   const classes = useRowStyles();
   return (
@@ -114,8 +97,12 @@ function Row(props) {
         </StyledTableCell>
         <StyledTableCell align="left">{row.name}</StyledTableCell>
         <StyledTableCell align="left">{row.teachers}</StyledTableCell>
-        <StyledTableCell align="left">{new Date(row.updatedAt).toString().substring(0, 24)}</StyledTableCell>
-        <StyledTableCell align="left">{new Date(row.createdAt).toString().substring(0, 24)}</StyledTableCell>
+        <StyledTableCell align="left">
+          {new Date(row.updatedAt).toString().substring(0, 24)}
+        </StyledTableCell>
+        <StyledTableCell align="left">
+          {new Date(row.createdAt).toString().substring(0, 24)}
+        </StyledTableCell>
         <StyledTableCell align="left">
           <Button onClick={() => deleteTeam(row.id)}>Delete Team</Button>
         </StyledTableCell>
@@ -153,10 +140,16 @@ function Row(props) {
                         {user.UserTeam.permission}
                       </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
-                        <Button onClick={() => changeUserPermissionOnTeam(user.id, user.UserTeam.permission)}>Change User Permission On Team</Button>
+                        <Button
+                          onClick={() => changeUserPermissionOnTeam(user.id, user.UserTeam.permission)}
+                        >
+                          Change User Permission On Team
+                        </Button>
                       </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
-                        <Button onClick={() => removeUserFromTeam(user.id)}>Remove User From team</Button>
+                        <Button onClick={() => removeUserFromTeam(user.id)}>
+                          Remove User From team
+                        </Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -169,7 +162,7 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function TeamsControl() {
+function TeamsControl({ darkMode }) {
   const [allTeams, setAllTeams] = useState([]);
   const [openNewTeamModal, setOpenNewTeamModal] = useState(false);
   const [teamNameForMember, setTeamNameForMember] = useState(false);
@@ -179,9 +172,7 @@ function TeamsControl() {
     try {
       const { data: allTeamsFromServer } = await network.get('/api/v1/teams/all-teams');
       setAllTeams(allTeamsFromServer);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   }
 
   const addNewTeam = () => {
@@ -198,16 +189,19 @@ function TeamsControl() {
   }, []);
 
   return (
-    <div className="admin" style={{ marginTop: '60px', textAlign: 'center' }}>
-      <h1>Teams Management Area</h1>
+    <div className="generic-page" style={{ textAlign: 'center' }}>
+      <h1 className="team-control-title">Teams Management Area</h1>
       <AddTeam open={openNewTeamModal} setOpen={setOpenNewTeamModal} getAllTeams={getAllTeams} />
-      <AddTeamMembers open={openAddMemberModal} setOpen={setOpenAddMemberModal} getAllTeams={getAllTeams} teamNameForMember={teamNameForMember} />
-      <Button variant="contained" color="secondary">
-        <Link to="/admin"><h2>Admin Router</h2></Link>
-      </Button>
+      <AddTeamMembers
+        open={openAddMemberModal}
+        setOpen={setOpenAddMemberModal}
+        getAllTeams={getAllTeams}
+        teamNameForMember={teamNameForMember}
+      />
+
       <Button
-        variant="contained"
-        color="primary"
+        variant={darkMode ? 'contained' : 'outlined'}
+        style={{ marginBottom: '20px' }}
         onClick={addNewTeam}
       >
         Add New Team
@@ -228,14 +222,15 @@ function TeamsControl() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allTeams && allTeams.map((team) => (
-              <Row
-                key={team.id + team.name}
-                row={team}
-                getAllTeams={getAllTeams}
-                handleAddMemberModal={handleAddMemberModal}
-              />
-            ))}
+            {allTeams
+              && allTeams.map((team) => (
+                <Row
+                  key={team.id + team.name}
+                  row={team}
+                  getAllTeams={getAllTeams}
+                  handleAddMemberModal={handleAddMemberModal}
+                />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

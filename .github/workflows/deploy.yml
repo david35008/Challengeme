@@ -44,8 +44,11 @@ jobs:
       run: |-
         gcloud --quiet compute ssh --zone us-central1-a instance-1 --command '
           cd ../../var/www &&
+          sudo git fetch --all &&
+          sudo git stash &&
           sudo git pull origin &&
           cd ./server &&
           sudo npm ci &&
           sudo npx sequelize db:migrate &&
-          sudo pm2 reload 0 
+          sudo pm2 reload 0
+        '

@@ -21,12 +21,11 @@ export default function AdminChallengeCard({
         const { data: coverImage } = await network.get(`/api/v1/image?id=${challengeId}`);
         setCoverImg(coverImage ? coverImage.img : '');
         setLoading(false);
-      } catch (err) {
-        console.error(err.message);
+      } catch (error) {
       }
     })();
     // eslint-disable-next-line
-    }, []);
+  }, []);
 
   return (
     // <Link to={`/challenges/${challengeId}`} style={{ textDecoration: 'none' }}>
@@ -54,7 +53,7 @@ export default function AdminChallengeCard({
             `${createdAt.split('T')[0]} || by ${authorName}`
           }
         </div>
-        { description === 'denied'
+        {description === 'denied'
           ? (
             <Button size="small" color="primary" onClick={(event) => changeChallengeState(event, challengeId, index)}>
               Approve

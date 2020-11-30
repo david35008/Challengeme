@@ -2,18 +2,16 @@ const request = require('supertest');
 const bcrypt = require('bcryptjs');
 const server = require('../../../app');
 const { User } = require('../../../models');
+const { usersMock, usersLoginMock } = require('../../mocks');
 
-const mockUser = require('../../mocks/users');
-const mockLogins = require('../../mocks/usersLogin');
-
-const originalAnswer = mockUser[2].securityAnswer;
+const originalAnswer = usersMock[2].securityAnswer;
 
 describe('Reset Password', () => {
   beforeAll(async () => {
     await User.destroy({ truncate: true, force: true });
-    mockUser[2].password = await bcrypt.hashSync(mockUser[2].password, 10);
-    mockUser[2].securityAnswer = await bcrypt.hashSync(mockUser[2].securityAnswer, 10);
-    await User.create(mockUser[2]);
+    usersMock[2].password = await bcrypt.hashSync(usersMock[2].password, 10);
+    usersMock[2].securityAnswer = await bcrypt.hashSync(usersMock[2].securityAnswer, 10);
+    await User.create(usersMock[2]);
   });
   afterAll(async () => {
     await server.close();
@@ -22,13 +20,13 @@ describe('Reset Password', () => {
   test('User Can Reset Password', async (done) => {
     const questionResponse = await request(server)
       .post('/api/v1/auth/get-question')
-      .send({ userName: mockUser[2].userName });
+      .send({ userName: usersMock[2].userName });
     expect(questionResponse.status).toBe(200);
-    expect(questionResponse.body.securityQuestion).toBe(mockUser[2].securityQuestion);
+    expect(questionResponse.body.securityQuestion).toBe(usersMock[2].securityQuestion);
 
     const answerRequest = {
       securityAnswer: originalAnswer,
-      userName: mockUser[2].userName,
+      userName: usersMock[2].userName,
     };
 
     const answerResponse = await request(server)
@@ -48,7 +46,7 @@ describe('Reset Password', () => {
     expect(newPasswordResponse.status).toBe(200);
 
     const loginAfterChangedPasswordRequest = {
-      userName: mockUser[2].userName,
+      userName: usersMock[2].userName,
       password: '87654321',
       rememberMe: true,
     };
@@ -60,7 +58,7 @@ describe('Reset Password', () => {
 
     const oldPasswordLoginResponse = await request(server)
       .post('/api/v1/auth/login')
-      .send(mockLogins[2]);
+      .send(usersLoginMock[2]);
     expect(oldPasswordLoginResponse.status).toBe(403);
 
     done();

@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      paranoid: true,
       modelName: 'RefreshToken',
       tableName: 'refresh_tokens',
     },

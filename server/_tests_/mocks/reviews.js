@@ -4,7 +4,7 @@ module.exports = [
     userId: 1,
     challengeId: 1,
     title: 'My First Review',
-    content: 'dsfdsfI liked this challenge alot!',
+    content: 'omer liked this challenge very much!',
     rating: 1,
   },
   {
@@ -18,7 +18,7 @@ module.exports = [
   {
     id: 3,
     userId: 1,
-    challengeId: 2,
+    challengeId: 3,
     title: 'My Second Review',
     content: 'Very hard challenge, but good practice...',
     rating: 3,

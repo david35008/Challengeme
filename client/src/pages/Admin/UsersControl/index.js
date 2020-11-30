@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -17,6 +16,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import network from '../../../services/network';
 import '../Admin.css';
+import './style.css';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -54,13 +54,13 @@ function Row(props) {
       const isUpdateOk = prompt("Who's your favorite student?");
       if (isUpdateOk != null) {
         const newPermission = row.permission === 'user' ? 'admin' : 'user';
-        await network.patch('/api/v1/users/permission',
-          { permission: newPermission, userName: row.userName });
+        await network.patch('/api/v1/users/permission', {
+          permission: newPermission,
+          userName: row.userName,
+        });
         props.getAllUsers();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -109,12 +109,8 @@ function Row(props) {
                     <StyledTableCell align="left">Country</StyledTableCell>
                     <StyledTableCell align="left">City</StyledTableCell>
                     <StyledTableCell align="left">Birth Date</StyledTableCell>
-                    <StyledTableCell align="left">
-                      Security Question
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      Reason Of Registration
-                    </StyledTableCell>
+                    <StyledTableCell align="left">Security Question</StyledTableCell>
+                    <StyledTableCell align="left">Reason Of Registration</StyledTableCell>
                     <StyledTableCell align="left">Created At</StyledTableCell>
                     <StyledTableCell align="left">Updated At</StyledTableCell>
                   </StyledTableRow>
@@ -129,16 +125,12 @@ function Row(props) {
                       {row.phoneNumber}
                       {' '}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.country}
-                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.country}</StyledTableCell>
                     <StyledTableCell align="left">{row.city}</StyledTableCell>
                     <StyledTableCell align="left">
                       {new Date(row.birthDate).toDateString()}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.securityQuestion}
-                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.securityQuestion}</StyledTableCell>
                     <StyledTableCell align="left">
                       {' '}
                       {row.reasonOfRegistration}
@@ -164,7 +156,7 @@ function UsersControl() {
   const [allUsers, setAllUsers] = useState([]);
 
   async function getAllUsers() {
-    const { data: allUsersFromServer } = await network.get('/api/v1/users/all');
+    const { data: allUsersFromServer } = await network.get('/api/v1/users/admin');
     setAllUsers(allUsersFromServer);
   }
   useEffect(() => {
@@ -172,14 +164,9 @@ function UsersControl() {
   }, []);
 
   return (
-    <div className="admin-page">
-      <div className="align-and-margin-top">
-        <h1>This is Users Management Page</h1>
-        <Button variant="contained" color="secondary">
-          <Link to="/admin">
-            <h2>Admin Router</h2>
-          </Link>
-        </Button>
+    <div className="generic-page">
+      <div className="align">
+        <h1 className="user-control-title">This is Users Management Page</h1>
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
             <TableHead>

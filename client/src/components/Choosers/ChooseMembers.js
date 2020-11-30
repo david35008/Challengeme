@@ -10,12 +10,14 @@ const ChooseMembers = ({
   membersOptions,
   setMembersOptions,
   darkMode,
+  isTeacher,
 }) => {
   useEffect(() => {
     (async () => {
       try {
-        const { data: teamAlreadyMembers } = await await network.get(`/api/v1/teams/single-team/${teamId}`);
-        const { data: allUsersFromServer } = await network.get('/api/v1/users/all');
+        const url = isTeacher ? `users/teacher/${teamId}` : 'users/admin';
+        const { data: allUsersFromServer } = await network.get(`/api/v1/${url}`);
+        const { data: teamAlreadyMembers } = await network.get(`/api/v1/teams/single-team/${teamId}`);
         setMembersOptions(allUsersFromServer.map((user) => {
           let userForOptions;
           if (teamAlreadyMembers[0].Users.some((memberUser) => memberUser.id === user.id)) {
@@ -29,10 +31,9 @@ const ChooseMembers = ({
           return userForOptions;
         }).filter((option) => !(!option)));
       } catch (error) {
-        console.error(error);
       }
     })();
-  }, [setMembersOptions, teamId]);
+  }, [setMembersOptions, teamId, isTeacher]);
 
   const selectionChange = (choosens) => {
     setChooseMembers(choosens);
@@ -57,7 +58,7 @@ const ChooseMembers = ({
         value={chooseMembers}
         className="selectLabels"
         maxMenuHeight={300}
-        placeholder="select labels"
+        placeholder="select members"
         isMulti
         name="labels"
         onChange={selectionChange}

@@ -20,7 +20,6 @@ function ReviewsTab({ challengeId, setRatingCount }) {
         setReviews(reviewsWithContent);
         setLoading(false);
       } catch (error) {
-        console.error(error);
       }
     };
     fetchReviews();

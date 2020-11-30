@@ -23,7 +23,6 @@ function ValidatingMail() {
           });
         });
     } catch (error) {
-      console.error(error);
     }
   }, [history, token]);
 

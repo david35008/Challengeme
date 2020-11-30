@@ -1,0 +1,27 @@
+.student-info-control-panel {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+  }
+  
+  .student-info-title-page {
+    text-align: center;
+  }
+  
+  .student-info-title-page-name {
+    text-decoration: underline;
+  }
+  
+  .title-and-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 20px;
+  }
+  
+  .dark .title-and-button,
+  .dark .student-info-control-panel {
+    color: white;
+  }
+  

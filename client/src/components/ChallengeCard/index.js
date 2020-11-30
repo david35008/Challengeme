@@ -23,8 +23,7 @@ export default function ChallengeCard({
         const { data: coverImage } = await network.get(`/api/v1/image?id=${challengeId}`);
         setCoverImg(coverImage ? coverImage.img : '');
         setLoading(false);
-      } catch (err) {
-        console.error(err.message);
+      } catch (error) {
       }
     })();
     // eslint-disable-next-line

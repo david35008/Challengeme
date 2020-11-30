@@ -1,0 +1,25 @@
+.dashboard-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.paper-dashboard-chart {
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  padding: 20px 50px;
+  margin-bottom: 40px;
+}
+
+.dashboard-title-page {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dark .dashboard-title-page {
+  color: white;
+}
+
+.dashboard-title-chart {
+  text-align: center;
+}

@@ -78,7 +78,7 @@ gitRouter.patch('/', async (req, res) => {
 gitRouter.delete('/:token', async (req, res) => {
   try {
     const { token } = req.params;
-    const removedToken = await GitToken.destroy({
+    await GitToken.destroy({
       where: {
         token,
       },

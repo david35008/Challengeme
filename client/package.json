@@ -18,6 +18,7 @@
     "js-cookie": "^2.2.1",
     "match-sorter": "^4.2.1",
     "mixpanel-browser": "^2.39.0",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dark-mode-toggle": "0.0.10",
     "react-dom": "^16.13.1",

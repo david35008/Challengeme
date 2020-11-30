@@ -1,0 +1,18 @@
+.admin-sub-status-control-panel {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.title-and-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 20px;
+}
+
+.dark .title-and-button,
+.dark .admin-sub-status-control-panel {
+  color: white;
+}

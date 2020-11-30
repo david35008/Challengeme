@@ -13,7 +13,6 @@ function SubmissionTab({ challengeId }) {
         );
         setSubmissions(submissionsFromDb);
       } catch (error) {
-        console.error(error);
       }
     };
     fetchSubmissions();

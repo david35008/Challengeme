@@ -8,7 +8,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import HomeIcon from '@material-ui/icons/Home';
 import '../Header.css';
-import DarkModeToggle from 'react-dark-mode-toggle';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,7 +18,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import InfoIcon from '@material-ui/icons/Info';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import GroupIcon from '@material-ui/icons/Group';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LockIcon from '@material-ui/icons/Lock';
+import AddIcon from '@material-ui/icons/Add';
 import ChooseLabels from '../../Choosers/ChooseLabels';
 import FilteredLabels from '../../../context/FilteredLabelsContext';
 import useStyles from './NarrowNavStyled';
@@ -42,8 +46,7 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
       setLabels([]);
     } else {
       const newFilter = chooseLabels.filter(
-        (label) => label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+        (label) => label.value === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
       );
       setLabels(newFilter);
     }
@@ -72,12 +75,11 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
       value.setLogged(false);
       location.push('/login');
     } catch (error) {
-      console.error(error);
     }
   };
 
   const headerStyle = {
-    backgroundColor: darkMode ? 'rgb(51,51,51)' : 'white',
+    backgroundColor: darkMode ? 'rgb(51,51,51)' : 'rgb(44, 44, 119)',
   };
   const letterColor = {
     color: darkMode ? 'white' : 'black',
@@ -89,11 +91,7 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
     : {};
   return (
     <>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {})}
-        style={headerStyle}
-      >
+      <AppBar position="fixed" className={clsx(classes.appBar, {})} style={headerStyle}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -125,14 +123,10 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
           {currentLocation.pathname === '/' ? (
             <Button
               onClick={() => {
-                filteredLabels.setFilteredLabels(
-                  labels ? labels.map((label) => label.value) : [],
-                );
+                filteredLabels.setFilteredLabels(labels ? labels.map((label) => label.value) : []);
               }}
               variant="contained"
-              className={
-                darkMode ? classes.filterButtonDark : classes.filterButton
-              }
+              className={darkMode ? classes.filterButtonDark : classes.filterButton}
             >
               filter
             </Button>
@@ -143,11 +137,7 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
         variant="persistent"
         anchor="left"
         open={openNavBar}
-        classes={
-          darkMode
-            ? { paper: classes.drawerPaperDark }
-            : { paper: classes.drawerPaper }
-        }
+        classes={darkMode ? { paper: classes.drawerPaperDark } : { paper: classes.drawerPaper }}
       >
         <div className={classes.generalDrawerHeader}>
           <div className={classes.avatarUserInfo}>
@@ -189,10 +179,10 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
             </ListItem>
           </Link>
           <Divider style={dividerColor} />
-          <Link to="/profile" className="link-rout">
+          <Link to="/profile/info" className="link-rout">
             <ListItem button onClick={handleDrawerClose} style={letterColor}>
               <ListItemIcon>
-                <InfoIcon style={letterColor} />
+                <AccountCircleIcon style={letterColor} />
               </ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
@@ -201,7 +191,7 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
           <Link to="/addnewchallenge" className="link-rout">
             <ListItem button onClick={handleDrawerClose} style={letterColor}>
               <ListItemIcon>
-                <InfoIcon style={letterColor} />
+                <AddIcon style={letterColor} />
               </ListItemIcon>
               <ListItemText primary="Add New Challenge" />
             </ListItem>
@@ -210,7 +200,7 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
           <Link to="/teams" className="link-rout">
             <ListItem button onClick={handleDrawerClose} style={letterColor}>
               <ListItemIcon>
-                <InfoIcon style={letterColor} />
+                <GroupIcon style={letterColor} />
               </ListItemIcon>
               <ListItemText primary="Teams Area" />
             </ListItem>
@@ -218,14 +208,10 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
           {isAdmin && (
             <>
               <Divider style={dividerColor} />
-              <Link to="/admin" className="link-rout">
-                <ListItem
-                  button
-                  onClick={handleDrawerClose}
-                  style={letterColor}
-                >
+              <Link to="/admin/DashBoard" className="link-rout">
+                <ListItem button onClick={handleDrawerClose} style={letterColor}>
                   <ListItemIcon>
-                    <InfoIcon style={letterColor} />
+                    <LockIcon style={letterColor} />
                   </ListItemIcon>
                   <ListItemText primary="Admin Area" />
                 </ListItem>
@@ -234,15 +220,19 @@ export default function NarrowNav({ darkMode, setDarkMode, isAdmin }) {
           )}
           <Divider style={dividerColor} />
           <ListItem className={classes.logOut} onClick={handleDrawerClose}>
-            <DarkModeToggle
-              className={classes.darkModeToggle}
-              checked={darkMode}
-              onChange={() => {
+            <IconButton
+              aria-label="delete"
+              onClick={() => {
                 localStorage.setItem('darkMode', !darkMode);
                 setDarkMode((prev) => !prev);
               }}
-              size={45}
-            />
+            >
+              {darkMode ? (
+                <Brightness7Icon style={letterColor} />
+              ) : (
+                <Brightness4Icon style={letterColor} />
+              )}
+            </IconButton>
           </ListItem>
           <Divider style={dividerColor} />
           <ListItem className={classes.logOut} onClick={handleDrawerClose}>

@@ -1,0 +1,11 @@
+.team-control-title-page {
+  text-align: center;
+}
+.dark .team-control-title-page {
+  color:white
+}
+.team-control-add-members {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}

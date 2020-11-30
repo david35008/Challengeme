@@ -7,7 +7,10 @@ module.exports = {
     database: process.env.DB_NAME || 'challenge',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: 'mysql',
-    define: { underscored: true },
+    define: {
+      underscored: true,
+      paranoid: true,
+    },
     logging: false,
     // "seederStorage": "sequelize",
     // "seederStorageTableName": "sequelize_seeds"
@@ -27,6 +30,9 @@ module.exports = {
     database: process.env.DB_NAME || 'challenge',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: 'mysql',
-    define: { underscored: true },
+    define: {
+      underscored: true,
+      paranoid: true,
+    },
   },
 };

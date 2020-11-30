@@ -35,7 +35,6 @@ const Search = ({ darkMode }) => {
       }
       setResults(filteredChallenges);
     } catch (error) {
-      console.error(error);
     }
   };
 
@@ -54,12 +53,7 @@ const Search = ({ darkMode }) => {
   const resultsList = results
     && results.length > 0
     && results.map((result) => (
-      <SearchTicket
-        darkMode={darkMode}
-        ticket={result}
-        key={result.id}
-        closeSearch={closeSearch}
-      />
+      <SearchTicket darkMode={darkMode} ticket={result} key={result.id} closeSearch={closeSearch} />
     ));
   // search bar item
   const searchInput = (
@@ -92,11 +86,9 @@ const Search = ({ darkMode }) => {
     <>
       <div id="search">{searchInput}</div>
       <Divider />
-      <div
-        id="searchResults"
-        className={results.length !== 0 ? 'open' : 'closed'}
-      >
+      <div id="searchResults" className={results.length !== 0 ? 'open' : 'closed'}>
         <div className="display" style={SearchContainerStyle}>
+          <div className="background-black-to-search" />
           {resultsList}
         </div>
       </div>

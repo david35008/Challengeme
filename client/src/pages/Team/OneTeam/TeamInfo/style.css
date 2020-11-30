@@ -1,0 +1,22 @@
+.team-info-paper-chart {
+  background-color: white;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+}
+
+.team-info-title-page {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.team-info-title-page-name {
+  text-decoration: underline;
+}
+
+.dark .team-info-title-page ,.dark .team-info-title-table{
+  color: white;
+}

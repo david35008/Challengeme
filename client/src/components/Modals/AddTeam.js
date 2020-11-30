@@ -43,7 +43,6 @@ export default function AddTeam({ open, setOpen, getAllTeams }) {
       getAllTeams();
       setOpen(false);
     } catch (error) {
-      console.error(error);
     }
   };
 

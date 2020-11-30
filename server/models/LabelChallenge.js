@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'LabelChallenge',
     tableName: 'labels_to_challenges',
-    underscored: true,
   });
   return LabelChallenge;
 };

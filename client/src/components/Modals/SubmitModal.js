@@ -91,7 +91,6 @@ function SubmitModal({ isOpen, handleClose, challengeParamId }) {
           })
       }
       catch (error) {
-        console.error(error);
       }
       handleClose();
       setUserRating('0');

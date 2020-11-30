@@ -8,7 +8,9 @@
     "initDB": "node_modules/.bin/sequelize db:create",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
+    "seedUndo": "node_modules/.bin/sequelize db:seed:undo:all",
     "dev": "nodemon index.js",
+    "initProject": "node_modules/.bin/sequelize db:create && node_modules/.bin/sequelize db:migrate && node_modules/.bin/sequelize db:seed:all && nodemon index.js",
     "devTest": "NODE_ENV=test nodemon index.js",
     "cyTest": "npm run devTest & cypress run"
   },
@@ -35,6 +37,7 @@
     "express": "^4.17.1",
     "helmet": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "nodemailer": "^6.4.13",

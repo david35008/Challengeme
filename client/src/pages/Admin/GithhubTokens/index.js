@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -17,6 +16,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import network from '../../../services/network';
 import AddToken from '../../../components/Modals/AddToken';
+import './style.css';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -55,9 +55,7 @@ function Row(props) {
         await network.delete(`/api/v1/git/${token}`);
         getAllTokens();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   const updateToken = async (token, status) => {
@@ -68,9 +66,7 @@ function Row(props) {
         await network.patch('/api/v1/git/', { token, status: newStatus });
         getAllTokens();
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   const classes = useRowStyles();
@@ -88,19 +84,16 @@ function Row(props) {
         <StyledTableCell align="left">{row.token}</StyledTableCell>
         <StyledTableCell align="left">{row.status}</StyledTableCell>
         <StyledTableCell align="left">
-          <div style={
-            row.active
-              ? { color: 'green' }
-              : { color: 'red' }
-          }
-          >
-            {`${row.active}`}
-          </div>
+          <div style={row.active ? { color: 'green' } : { color: 'red' }}>{`${row.active}`}</div>
         </StyledTableCell>
         <StyledTableCell align="left">{row.gitAccount}</StyledTableCell>
         <StyledTableCell align="left">{row.actionsLimit}</StyledTableCell>
-        <StyledTableCell align="left">{new Date(row.updatedAt).toString().substring(0, 24)}</StyledTableCell>
-        <StyledTableCell align="left">{new Date(row.createdAt).toString().substring(0, 24)}</StyledTableCell>
+        <StyledTableCell align="left">
+          {new Date(row.updatedAt).toString().substring(0, 24)}
+        </StyledTableCell>
+        <StyledTableCell align="left">
+          {new Date(row.createdAt).toString().substring(0, 24)}
+        </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -113,7 +106,9 @@ function Row(props) {
                 <TableBody>
                   <StyledTableRow key={row.userName}>
                     <StyledTableCell component="th" scope="row">
-                      <Button onClick={() => updateToken(row.token, row.status)}>Change Status</Button>
+                      <Button onClick={() => updateToken(row.token, row.status)}>
+                        Change Status
+                      </Button>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row">
                       <Button onClick={() => deleteToken(row.token)}>Delete Token</Button>
@@ -133,7 +128,7 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function GithubTokens() {
+function GithubTokens({ darkMode }) {
   const [allTokens, setAllTokens] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -141,9 +136,7 @@ function GithubTokens() {
     try {
       const { data: allTokensFromServer } = await network.get('/api/v1/git/');
       setAllTokens(allTokensFromServer);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   }
 
   const addNewToken = () => {
@@ -155,15 +148,12 @@ function GithubTokens() {
   }, []);
 
   return (
-    <div className="admin" style={{ marginTop: '60px', textAlign: 'center' }}>
-      <h1>Githhub Tokens Management Area</h1>
+    <div className="generic-page" style={{ textAlign: 'center' }}>
+      <h1 className="github-token-title">Githhub Tokens Management Area</h1>
       <AddToken open={open} setOpen={setOpen} getAllTokens={getAllTokens} />
-      <Button variant="contained" color="secondary">
-        <Link to="/admin"><h2>Admin Router</h2></Link>
-      </Button>
       <Button
-        variant="contained"
-        color="primary"
+        variant={darkMode ? 'contained' : 'outlined'}
+        style={{ marginBottom: '20px' }}
         onClick={addNewToken}
       >
         Add New Token
@@ -185,9 +175,10 @@ function GithubTokens() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allTokens && allTokens.map((token) => (
-              <Row key={token.token} row={token} getAllTokens={getAllTokens} />
-            ))}
+            {allTokens
+              && allTokens.map((token) => (
+                <Row key={token.token} row={token} getAllTokens={getAllTokens} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

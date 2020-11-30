@@ -4,18 +4,21 @@ const checkAdmin = require('../../middleware/checkAdmin');
 const { checkTeamPermission, checkTeacherPermission } = require('../../middleware/checkTeamPermission');
 const { User, Team, UserTeam } = require('../../models');
 
+// get team name
+teamRouter.get('/team-name/:teamId', checkTeamPermission, async (req, res) => {
+  const { teamId } = req.params;
+  const teamName = await Team.findOne({
+    where: {
+      id: teamId,
+    },
+  });
+  res.json({ name: teamName.name });
+});
+
 // check if user is a part of a team
 teamRouter.get('/team-page/:teamId', checkTeamPermission, async (req, res) => {
   const { teamId } = req.params;
-  const { userId } = req.user;
   try {
-    const userPermission = await UserTeam.findOne({
-      attributes: ['permission'],
-      where: {
-        userId,
-        teamId,
-      },
-    });
     const teamUsers = await Team.findOne({
       where: {
         id: teamId,
@@ -26,14 +29,14 @@ teamRouter.get('/team-page/:teamId', checkTeamPermission, async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'userName'],
+          attributes: ['id', 'userName', 'phoneNumber', 'email'],
           through: {
             attributes: [],
           },
         },
       ],
     });
-    res.json([teamUsers, userPermission]);
+    res.json(teamUsers);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'Cannot process request' });
@@ -54,7 +57,7 @@ teamRouter.get('/all-teams-by-user', async (req, res) => {
           model: Team,
           attributes: ['id', 'name'],
           through: {
-            attributes: [],
+            attributes: ['permission'],
           },
         },
       ],
@@ -70,7 +73,7 @@ teamRouter.get('/all-teams-by-user', async (req, res) => {
 //= ============================= Teacher Routes ======================================
 
 // get all the users of the teachers team
-teamRouter.get('/teacher-area/:teamId', checkTeamPermission, checkTeacherPermission, async (req, res) => {
+teamRouter.get('/teacher-area/:teamId', checkTeacherPermission, async (req, res) => {
   const { teamId } = req.params;
   try {
     const teamUsers = await Team.findOne({
@@ -86,6 +89,11 @@ teamRouter.get('/teacher-area/:teamId', checkTeamPermission, checkTeacherPermiss
           attributes: ['id', 'firstName', 'lastName', 'userName', 'phoneNumber'],
           through: {
             attributes: ['permission'],
+            where: {
+              [Op.not]: [
+                { userId: req.user.userId },
+              ],
+            },
           },
         },
       ],
@@ -98,7 +106,7 @@ teamRouter.get('/teacher-area/:teamId', checkTeamPermission, checkTeacherPermiss
 });
 
 // add users to team
-teamRouter.post('/add-users/:teamId', checkTeamPermission, checkTeacherPermission, async (req, res) => {
+teamRouter.post('/add-users/:teamId', checkTeacherPermission, async (req, res) => {
   try {
     const { newUsers } = req.body;
     await UserTeam.bulkCreate(
@@ -115,7 +123,7 @@ teamRouter.post('/add-users/:teamId', checkTeamPermission, checkTeacherPermissio
 });
 
 // delete user from team
-teamRouter.delete('/remove-user/:teamId', checkTeamPermission, checkTeacherPermission, async (req, res) => {
+teamRouter.delete('/remove-user/:teamId', checkTeacherPermission, async (req, res) => {
   const { userId } = req.query;
   const { teamId } = req.params;
   try {

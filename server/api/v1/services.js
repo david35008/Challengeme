@@ -1,6 +1,6 @@
 const serviceRouter = require('express').Router();
 const axios = require('axios');
-const handleGithubTokens = require('../../helpers/handleGithubTokens');
+const { handleGithubTokens } = require('../../helpers');
 
 // get repo details if its public
 serviceRouter.get('/public-repo', async (req, res) => {

@@ -1,6 +1,7 @@
 const userRouter = require('express').Router();
 const checkAdmin = require('../../middleware/checkAdmin');
-const { User } = require('../../models');
+const { checkTeacherPermission } = require('../../middleware/checkTeamPermission');
+const { User, Team } = require('../../models');
 
 // get information about user
 userRouter.get('/info', async (req, res) => {
@@ -26,10 +27,38 @@ userRouter.get('/info', async (req, res) => {
   }
 });
 
+//= ============================= Teacher Routes ======================================
+
+userRouter.get('/teacher/:teamId', checkTeacherPermission, async (req, res) => {
+  try {
+    const { teamId } = req.params;
+    const allUsers = await Team.findOne({
+      where: {
+        id: teamId,
+      },
+      include: {
+        model: User,
+        through: {
+          paranoid: false,
+        },
+      },
+    });
+    const flitteredUsersSensitiveData = allUsers.Users.map((user) => {
+      delete user.dataValues.password;
+      delete user.dataValues.securityAnswer;
+      return user.dataValues;
+    });
+    res.json(flitteredUsersSensitiveData);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Cannot process request' });
+  }
+});
+
 //= ============================= Admin Routes ======================================//
 
 // get information about all the users
-userRouter.get('/all', checkAdmin, async (req, res) => {
+userRouter.get('/admin', checkAdmin, async (req, res) => {
   try {
     const allUsers = await User.findAll({});
     const filtterdUsersSensitiveData = allUsers.map((user) => {

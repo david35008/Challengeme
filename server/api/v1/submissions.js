@@ -2,7 +2,7 @@ require('dotenv').config();
 const submissionRouter = require('express').Router();
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const handleGithubTokens = require('../../helpers/handleGithubTokens');
+const { handleGithubTokens } = require('../../helpers');
 const {
   Submission, User, Challenge, Review,
 } = require('../../models');
@@ -11,15 +11,12 @@ const {
 submissionRouter.get('/by-user/:challengeId', async (req, res) => {
   try {
     const { challengeId } = req.params;
-    const { userName } = req.user;
-    const { id } = await User.findOne({
-      where: { userName },
-      attributes: ['id'],
-    });
+    const { userId } = req.user;
+
     const testSubmission = await Submission.findAll({
       where: {
         challengeId,
-        userId: id,
+        userId,
       },
       include: [
         {
@@ -27,6 +24,7 @@ submissionRouter.get('/by-user/:challengeId', async (req, res) => {
           attributes: ['userName'],
         },
       ],
+      order: [['createdAt', 'ASC']],
     });
     const timeNow = Date.now();
     if (testSubmission.length > 0) {
@@ -40,6 +38,7 @@ submissionRouter.get('/by-user/:challengeId', async (req, res) => {
         }
       }
     }
+
     res.json(testSubmission[testSubmission.length - 1]);
   } catch (error) {
     console.error(error.message);

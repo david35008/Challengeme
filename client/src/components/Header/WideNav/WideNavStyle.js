@@ -83,4 +83,27 @@ export default makeStyles((theme) => ({
     color: 'white',
     marginLeft: '10px',
   },
+  logOut: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addChanllenge: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addChanllengeButton: {
+    margin: '10px',
+  },
+  // drawerPaper: {
+  //   width: drawerWidth,
+  //   backgroundColor: 'white',
+  //   boxShadow: '10px 0px 35px 0px rgba(51,51,51,0.7)',
+  // },
+  drawerPaperDark: {
+    width: drawerWidth,
+    backgroundColor: 'rgb(51,51,51)',
+    boxShadow: '2px 0px 35px 0px black',
+  },
 }));

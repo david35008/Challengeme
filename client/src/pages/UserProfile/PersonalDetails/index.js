@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
-import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import network from '../../../services/network';
 
 import './UserInfo.css';
@@ -81,12 +79,11 @@ function UserInfo({ darkMode }) {
         const { data: info } = await network.get('/api/v1/users/info');
         setUserInfo(info);
       } catch (error) {
-        console.error(error);
       }
     })();
   }, []);
   return userInfo.firstName ? (
-    <div className="user-page-background">
+    <div className="generic-page">
       <div className="user-page">
         <div className="user-info-container">
           <h1>User Info</h1>
@@ -147,16 +144,7 @@ function UserInfo({ darkMode }) {
               readOnly: true,
             }}
           />
-          <Link to="/profile">
-            <Button
-              className={classes.userProfileBackToMyProfile}
-              style={{ minWidth: 150 }}
-              variant="contained"
-              color="default"
-            >
-              back to My Profile
-            </Button>
-          </Link>
+
         </div>
       </div>
     </div>
