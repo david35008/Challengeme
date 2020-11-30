@@ -5,10 +5,11 @@ const swaggerDocument = require('./swagger.json');
 const swaggerUi = require('swagger-ui-express');
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(express.json({ limit: '50mb' }));
+
 app.use(require("./middleware/morgan"));
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', require('./api'));
 
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
