@@ -1,6 +1,16 @@
 ![Mysterious Hacker men use laptops to code](photos/CM_Single_Blue.svg)
 
 Test-based, Open-Source code learning platform.
+## Table of contents
+- [Features](#features)
+- [Getting Started](#Getting-Started)
+  - [Signing up](#Signup)
+  - [Find a Challenge](#Finding-a-Challenge)
+  - [Start a Challenge](#Starting-a-Challenge)
+  - [Submit a Solution](#Submitting-a-Solution)
+- [Guides](#guides)
+- [About](#About)
+- [Contact us!](#contact)
 
 ## Features
 - Learn to Code and Solve diverse test based challenges
@@ -8,18 +18,12 @@ Test-based, Open-Source code learning platform.
 - Manage assignments, submission's and progress for your students, all in site.
 - Build and Share your own challenges, for your students and the world
 
-Can't wait to try? [Get Started!](getting-started.md)
+- [Get Started](getting-started.md)
 
 ## Guides
-<!-- TODO -->
 - Create your own challenges
 - ChallengeMe for Teachers 
+<!-- TODO -->
 - [Contribution Guide](pages/setup.md)
 ## About
-ChallengeMe was created by Cyber4s 2020 class,  
-and Developed by:  
-🥾 [David Bootstrap](https://github.com/david35008)  
-🍗 [Roy Schnitzel](https://github.com/RoyShnitzel)  
-🎨 [Dor Vinchi](https://github.com/DorKachlon)
-
 ## Contact us
