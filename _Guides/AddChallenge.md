@@ -42,12 +42,11 @@ interactive form to propose challenge which will contain
 15. ApprovedBy : number (must be admin ID)
 16. UpdatedAt : Date(native sequelize Date) , will be desplayed at the client as "added at"
 
----
 
-    /api/v1/challenge/propose POST Premisios: any registered user
+
+    /api/v1/challenge/propose POST Permissions: any registered user
      // add the challenge to the challenge table with all props above
 
----
 
     /api/v1/challenges/propose GET Premisios: Admin,Teacher
     //get all proposed challenges

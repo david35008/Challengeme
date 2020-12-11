@@ -10,6 +10,7 @@ Test-based, Open-Source code learning platform.
 
 Can't wait to try? [Get Started!](getting-started.md)
 
+## [API Reference](_API/api_reference.md)
 ## Guides
 <!-- TODO -->
 - Create your own challenges
