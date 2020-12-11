@@ -1,6 +1,11 @@
 # Adding a Challenge to ChallengeMe!
+{: .no_toc }
 
-# Stack
+## Table Of Contents
+{: .no_toc }
+- TOC
+{:toc}
+## Stack
 
 we will need to be synchronized
 

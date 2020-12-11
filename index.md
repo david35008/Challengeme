@@ -1,4 +1,4 @@
-![Mysterious Hacker men use laptops to code](photos/CM_Single_Blue.svg)
+![Mysterious Hacker men use laptops to code](photos/CM_Double.svg)
 
 Test-based, Open-Source code learning platform.
 

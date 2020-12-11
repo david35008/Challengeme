@@ -1,9 +1,9 @@
 
 # Contribution Guide
-ChallengeMe is a n open source project and we encourage you to add from your skill and knowledge for the better of all.  
+ChallengeMe is an open source project and we encourage you to add from your skill and knowledge for the better of all.  
 We are happy to see issues brought up in github by our users and are honoured to accept your contributions into are site.
 
-You can see the WIP version of the site here on the [Staging Build](http://35.239.15.221:8080/)
+You can see the WIP version of the site, with experimental features here on the [Staging Build](http://35.239.15.221:8080/)
 
 ## Table of Contents
 - [Setup](#setup) 
@@ -68,6 +68,5 @@ If you need to add any change for files under [`.github/workflows`](../.github/w
 You may need add a newline at the end of the file or change the name of the folder, then  commit it and change it back - in order to ensure the changes are noticed by Github.
 - Create .env file from example and fill the params (repo name / access token)
 - You should [create an access token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) from a github user who has admin permission on the forked repo - if you don't, your team leader probably does.
----
 
 ## Working on the Project
