@@ -6,7 +6,7 @@ remote_theme: pmarsceill/just-the-docs
 
 
 # # theme documentation: https://pmarsceill.github.io/just-the-docs/docs/configuration/
-# logo: "/photos/CM_Single_Blue.png"
+logo: "/photos/CM_Single_Blue.png"
 
 # aux_links:
 #   "ChallengeMe Online":
