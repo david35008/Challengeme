@@ -8,15 +8,15 @@ description: Test-based, Open-Source code learning platform.
 # # theme documentation: https://pmarsceill.github.io/just-the-docs/docs/configuration/
 # logo: "/photos/CM_Single_Blue.svg"
 
-# aux_links:
-#   "ChallengeMe Online":
-#     - "//http://35.239.15.221:8080/"
+aux_links:
+  "ChallengeMe Online":
+    - "//http://35.239.15.221:8080/"
 
 # # Makes Aux links open in a new tab. Default is false
 # aux_links_new_tab: false
 
-# back_to_top: true
-# back_to_top_text: "Go back up"
+back_to_top: true
+back_to_top_text: "Go back up"
 
 # # Color scheme supports "light" (default) and "dark"
 # color_scheme: dark
