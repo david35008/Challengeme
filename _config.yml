@@ -25,7 +25,7 @@ description: Test-based, Open-Source code learning platform.
 collections:
   # Define a collection named "API", its documents reside in the "_API" directory
   API:
-    permalink: "/:collection/:path/"
+    permalink: "/_API/:path/"
     output: true
   Guides:
     permalink: "/:collection/:path/"
