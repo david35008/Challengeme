@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Webhooks
-parent: API
+parent: API Reference
 has_children: false
 nav_order: 6
 ---
