@@ -1,3 +1,9 @@
+---
+layout: default
+title: API Reference
+has_children: true
+nav_order: 6
+---
 # API Reference
 
 Some Features of ChallengeMe can be accessed by sending http requests.

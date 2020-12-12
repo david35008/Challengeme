@@ -1,3 +1,10 @@
+---
+layout: default
+title: Add a Challenge
+parent: Guides
+has_children: false
+nav_order: 6
+---
 # Adding a Challenge to ChallengeMe!
 {: .no_toc }
 

@@ -1,4 +1,10 @@
-
+---
+layout: default
+title: Contribute
+parent: Guides
+has_children: false
+nav_order: 6
+---
 # Contribution Guide
 {: .no_toc}
 ChallengeMe is an open source project and we encourage you to add from your skill and knowledge for the better of all.  

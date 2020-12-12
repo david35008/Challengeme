@@ -1,3 +1,10 @@
+---
+layout: default
+title: Get Started
+parent: Guides
+has_children: false
+nav_order: 6
+---
 # Getting Started
 ## Signup
 In order to start using ChallengeMe
