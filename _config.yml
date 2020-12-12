@@ -22,27 +22,27 @@ description: Test-based, Open-Source code learning platform.
 # color_scheme: dark
 
 # # Define Jekyll collections
-# collections:
-#   # Define a collection named "API", its documents reside in the "_API" directory
-#   API:
-#     permalink: "/:collection/:path/"
-#     output: true
-#   Guides:
-#     permalink: "/:collection/:path/"
-#     output: true
+collections:
+  # Define a collection named "API", its documents reside in the "_API" directory
+  API:
+    permalink: "/:collection/:path/"
+    output: true
+  Guides:
+    permalink: "/:collection/:path/"
+    output: true
 
-# just_the_docs:
-#   # Define which collections are used in just-the-docs
-#   collections:
-#     # Reference the "API" collection
-#     API:
-#       # Give the collection a name
-#       name: API Reference
-#       # Exclude the collection from the navigation
-#       # Supports true or false (default)
-#       nav_exclude: false
-#       # Exclude the collection from the search
-#       # Supports true or false (default)
-#       search_exclude: false
-#     GUides:
-#       name: Guides
+just_the_docs:
+  # Define which collections are used in just-the-docs
+  collections:
+    # Reference the "API" collection
+    API:
+      # Give the collection a name
+      name: API Reference
+      # Exclude the collection from the navigation
+      # Supports true or false (default)
+      nav_exclude: false
+      # Exclude the collection from the search
+      # Supports true or false (default)
+      search_exclude: false
+    Guides:
+      name: Guides
