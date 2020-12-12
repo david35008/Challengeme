@@ -1,3 +1,10 @@
+---
+layout: default
+title: Teams
+parent: API
+has_children: false
+nav_order: 6
+---
 # Registering Teams
 {: .no_toc}  
 You can use an http post request to Create teams (eg. classes) on the ChallengeMe system.  

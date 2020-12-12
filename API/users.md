@@ -1,3 +1,10 @@
+---
+layout: default
+title: Users
+parent: API
+has_children: false
+nav_order: 6
+---
 # Registering Users
 {: .no_toc}  
 You can use an http post request to register users on the ChallengeMe system.

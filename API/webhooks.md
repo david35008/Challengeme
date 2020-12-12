@@ -1,3 +1,10 @@
+---
+layout: default
+title: Webhooks
+parent: API
+has_children: false
+nav_order: 6
+---
 # Registering a Webhook
 In order to receive updates on events in the ChallengeMe system you have to register a webhook on our system that will send you updates as events happen.
 to register a webhook you must send a `POST` request to:
