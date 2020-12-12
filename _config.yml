@@ -9,8 +9,8 @@ description: Test-based, Open-Source code learning platform.
 # logo: "/photos/CM_Single_Blue.svg"
 
 aux_links:
-  "ChallengeMe Online":
-    - "//http://35.239.15.221:8080/"
+  "see ChallengeMe Online":
+    - "35.239.15.221:8080/"
 
 # # Makes Aux links open in a new tab. Default is false
 # aux_links_new_tab: false
