@@ -1,16 +1,16 @@
 # theme: jekyll-theme-leap-day
 remote_theme: pmarsceill/just-the-docs
 
-# title: ChallengeMe
-# description: Test-based, Open-Source code learning platform.
+title: ChallengeMe
+description: Test-based, Open-Source code learning platform.
 
 
 # # theme documentation: https://pmarsceill.github.io/just-the-docs/docs/configuration/
-logo: "/photos/CM_Single_Blue.svg"
+# logo: "/photos/CM_Single_Blue.svg"
 
-aux_links:
-  "ChallengeMe Online":
-    - "//http://35.239.15.221:8080/"
+# aux_links:
+#   "ChallengeMe Online":
+#     - "//http://35.239.15.221:8080/"
 
 # # Makes Aux links open in a new tab. Default is false
 # aux_links_new_tab: false
