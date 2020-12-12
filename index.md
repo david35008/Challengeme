@@ -10,12 +10,12 @@ Test-based, Open-Source code learning platform.
 
 Can't wait to try? [Get Started!](guides/getting-started.md)
 
-## [API Reference](API/api_reference.md)
+## [API Reference](https://david35008.github.io/Challengeme-Development/API/index.html)
 ## Guides
 <!-- TODO -->
 - Create [your own challenges](guides/addChallenge.md)
 - ChallengeMe for Teachers 
-- [Contribution Guide](Guides/setup.md)
+- [Contribution Guide](https://david35008.github.io/Challengeme-DevelopmentGuides/setup.html)
 ## About
 ChallengeMe was created by Cyber4s 2020 class,  
 and Developed by:  

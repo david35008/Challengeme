@@ -1,19 +1,23 @@
 
 # Contribution Guide
+{: .no_toc}
 ChallengeMe is an open source project and we encourage you to add from your skill and knowledge for the better of all.  
 We are happy to see issues brought up in github by our users and are honoured to accept your contributions into are site.
 
 You can see the WIP version of the site, with experimental features here on the [Staging Build](http://35.239.15.221:8080/)
 
 ## Table of Contents
-- [Setup](#setup) 
+{: .no_toc}
+- TOC
+{:toc}
+<!-- - [Setup](#setup) 
   - [Server setup](#Server-setup)
   - [Client setup](#Client-setup)
   - [env parameters](#env-parameters)
   - [Startup](#startup)
   - [Only on First Time](#Only-On-first-time---init)
 - [Working on the Project](#Working-on-the-project)
-- [System Diagram](#system-diagram)
+- [System Diagram](#system-diagram) -->
 
 ## Setup
 Fork the [development repository](https://github.com/david35008/Challengeme-Development) to your account. clone it to your machine and go to the project folder.
