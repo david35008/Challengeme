@@ -8,14 +8,14 @@ Test-based, Open-Source code learning platform.
 - Manage assignments, submission's and progress for your students, all in site.
 - Build and Share your own challenges, for your students and the world
 
-Can't wait to try? [Get Started!](guides/getting-started.md)
+Can't wait to try? [Get Started!](https://david35008.github.io/Challengeme-DevelopmentGuides/Guides/getting-started.md)
 
 ## [API Reference](https://david35008.github.io/Challengeme-Development/API/index.html)
 ## Guides
 <!-- TODO -->
-- Create [your own challenges](guides/addChallenge.md)
+- Create [your own challenges](https://david35008.github.io/Challengeme-DevelopmentGuides/guides/addChallenge.md)
 - ChallengeMe for Teachers 
-- [Contribution Guide](https://david35008.github.io/Challengeme-DevelopmentGuides/setup.html)
+- [Contribution Guide](https://david35008.github.io/Challengeme-DevelopmentGuides/Guides/contribute.html)
 ## About
 ChallengeMe was created by Cyber4s 2020 class,  
 and Developed by:  
@@ -24,4 +24,4 @@ and Developed by:
 🎨 [Dor Vinchi](https://github.com/DorKachlon)
 
 ## Contact us
-1234
+12345

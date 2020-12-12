@@ -1,11 +1,3 @@
----
-layout: default
-title: Add a Challenge
-parent: UI Components
-has_children: true
-nav_order: 6
----
-
 # Adding a Challenge to ChallengeMe!
 {: .no_toc }
 
