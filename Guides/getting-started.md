@@ -7,9 +7,8 @@ nav_order: 6
 ---
 # Getting Started
 ## Signup1
-In order to start using ChallengeMe
-Head on to the [Site](http://34.123.35.48:8080/) and sign up. 
-![ChallengeMe Signup-Login Page](../photos/ChallengeMe-Login.png) 
+In order to start using ChallengeMe head on to the [Site](http://34.123.35.48:8080/) and sign up.  
+![ChallengeMe Signup-Login Page](../photos/ChallengeMe-login.png) 
 You'll receive an Email asking you to confirm and once you do you'll be able to log into the site.
 ## Finding a Challenge
 When entering the site for the first Time, what you'll see will resemble this:
