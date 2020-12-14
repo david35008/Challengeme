@@ -119,9 +119,10 @@ PATCH http://35.239.15.221:8080/api/v1/webhook/team/change-permissions/:teamId
 - teamId = team uuid
 With headers as such: 
 
-```JavaScript
+```js
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
 ```
+
 The request body: (? means optional property)
 ```JSON
  {

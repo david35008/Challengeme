@@ -22,7 +22,7 @@ Fork the [development repository](https://github.com/david35008/Challengeme-Deve
 from the root directory:
 - run `cd server`
 - run `npm i`
-- depending on the changes you want to work on you may need to add certain parameters to the [`.env`](../.example.env) file for [certain systems](#env-parameters) to work.
+- depending on the changes you want to work on you may need to add certain parameters to the [`.env`](.example.env) file for [certain systems](#env-parameters) to work.
 ### Client setup
 - run `cd ../client`
 - run `npm i`
@@ -31,7 +31,7 @@ from the root directory:
 the project uses [Sequelize](https://github.com/sequelize/sequelize) to exchange information with a **MySQL** DataBase.
 to set it up locally:
 
-- create new db for development - default name is `challenge` (can change by [`.env`](../.example.env) file). Also add to `.env` all the required data to connect to the database.
+- create new db for development - default name is `challenge` (can change by [`.env`](.example.env) file). Also add to `.env` all the required data to connect to the database.
 - run structure migrations: `npm run migrate`
 - run test data seeds: `npx sequelize db:seed:all`
 
