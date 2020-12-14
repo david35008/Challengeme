@@ -16,22 +16,13 @@ You can see the WIP version of the site, with experimental features here on the 
 {: .no_toc}
 - TOC
 {:toc}
-<!-- - [Setup](#setup) 
-  - [Server setup](#Server-setup)
-  - [Client setup](#Client-setup)
-  - [env parameters](#env-parameters)
-  - [Startup](#startup)
-  - [Only on First Time](#Only-On-first-time---init)
-- [Working on the Project](#Working-on-the-project)
-- [System Diagram](#system-diagram) -->
-
 ## Setup
 Fork the [development repository](https://github.com/david35008/Challengeme-Development) to your account. clone it to your machine and go to the project folder.
 ### Server setup
 from the root directory:
 - run `cd server`
 - run `npm i`
-- depending on the changes you want to work on you may need to add certain parameters to the [`.env`](../server/.example.env) file for [certain systems](#env-parameters) to work.
+- depending on the changes you want to work on you may need to add certain parameters to the [`.env`](../.example.env) file for [certain systems](#env-parameters) to work.
 ### Client setup
 - run `cd ../client`
 - run `npm i`
@@ -40,7 +31,7 @@ from the root directory:
 the project uses [Sequelize](https://github.com/sequelize/sequelize) to exchange information with a **MySQL** DataBase.
 to set it up locally:
 
-- create new db for development - default name is `challenge` (can change by [`.env`](../server/.example.env) file). Also add to `.env` all the required data to connect to the database.
+- create new db for development - default name is `challenge` (can change by [`.env`](../.example.env) file). Also add to `.env` all the required data to connect to the database.
 - run structure migrations: `npm run migrate`
 - run test data seeds: `npx sequelize db:seed:all`
 
@@ -74,7 +65,7 @@ Client:
 - Enable **GitHub actions** in your forked repo - go to https://github.com/{your-user}/{your-repo}/actions and press "I understand my workflows, go ahead and enable them"
 
 - Github has many issues when it comes to actions and forked repositories.    
-If you need to add any change for files under [`.github/workflows`](../.github/workflows), in this step we just need to ensure Github is aware of those changes 🥵.  
+If you need to add any change for files under [`.github/workflows`](https://github.com/david35008/Challengeme-Development/tree/master/.github/workflows), in this step we just need to ensure Github is aware of those changes 🥵.  
 You may need add a newline at the end of the file or change the name of the folder, then  commit it and change it back - in order to ensure the changes are noticed by Github.
 - Create .env file from example and fill the params (repo name / access token)
 - You should [create an access token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) from a github user who has admin permission on the forked repo - if you don't, your team leader probably does.

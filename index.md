@@ -10,18 +10,20 @@ Test-based, Open-Source code learning platform.
 
 Can't wait to try? [Get Started!](Guides/getting-started.md)
 
-## [API Reference](https://david35008.github.io/Challengeme-Development/API/index.html)
+## [API Reference](API/index.md)
 ## Guides
 <!-- TODO -->
-- Create [your own challenges](https://david35008.github.io/Challengeme-DevelopmentGuides/guides/addChallenge.md)
+- Create [your own challenges](Guides/addChallenge.md)
 - ChallengeMe for Teachers 
-- [Contribution Guide](https://david35008.github.io/Challengeme-DevelopmentGuides/Guides/contribute.html)
+- [Contribution Guide](Guides/contribute.md)
 ## About
-ChallengeMe was created by Cyber4s 2020 class,  
+<span style="color:red">ChallengeMe </span> was created by Cyber4s 2020 class,  
 and Developed by:  
 🥾 [David Bootstrap](https://github.com/david35008)  
 🍗 [Roy Schnitzel](https://github.com/RoyShnitzel)  
 🎨 [Dor Vinchi](https://github.com/DorKachlon)
 
 ## Contact us
-123456789
+Have a really great idea? want to work with us?
+contact us at:  
+📧 suvelocity@gmail.com

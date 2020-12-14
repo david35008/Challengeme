@@ -1,4 +1,4 @@
-<!-- ---
+ <!-- ---
 layout: default
 title: Users
 parent: API Reference
@@ -6,6 +6,9 @@ has_children: false
 nav_order: 6
 --- -->
 # Registering Users
+<script>alert('This route is currently inactive')</script>
+This route is currently
+<!--
 {: .no_toc}  
 You can use an http post request to register users on the ChallengeMe system.
 
@@ -114,4 +117,4 @@ A successful request will receive a a response:
 }
 ```
 ### Errors
-
+ -->
