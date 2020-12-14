@@ -1,10 +1,10 @@
----
+<!-- ---
 layout: default
 title: Users
 parent: API Reference
 has_children: false
 nav_order: 6
----
+--- -->
 # Registering Users
 {: .no_toc}  
 You can use an http post request to register users on the ChallengeMe system.
@@ -29,15 +29,15 @@ The request body: (? means optional property)
 ```JSON
 {
   "userName": "david12", // the userName to be used for login.
+  "email": "david@email.com",
   "firstName"?: "david", 
   "lastName"?: "diamant",
-  "email"?: "david@email.com", // will receive a confirmation message
   "country"?: "israel",
   "city"?: "tel aviv",
   "birthDate"?: "1997/05/07",
   "phoneNumber"?: "0501234567",
   "reasonOfRegistration"?: "challenge my self",
-  "githubAccount"?: "davidGit123"
+  "githubAccount"?: "davidGit123" //github user name
 }
 ```
 ### Response
