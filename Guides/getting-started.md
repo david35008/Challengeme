@@ -9,7 +9,7 @@ nav_order: 6
 ## Signup
 In order to start using ChallengeMe
 Head on to the [Site](http://34.123.35.48:8080/) and sign up. 
-![ChallengeMe Signup-Login Page](https://raw.githubusercontent.com/david35008/Challengeme-Development/gh-pages) 
+![ChallengeMe Signup-Login Page](../photos/ChallengeMe-Login.png) 
 You'll receive an Email asking you to confirm and once you do you'll be able to log into the site.
 ## Finding a Challenge
 When entering the site for the first Time, what you'll see will resemble this:
