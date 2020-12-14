@@ -8,7 +8,7 @@ Test-based, Open-Source code learning platform.
 - Manage assignments, submission's and progress for your students, all in site.
 - Build and Share your own challenges, for your students and the world
 
-Can't wait to try? [Get Started!](https://david35008.github.io/Challengeme-DevelopmentGuides/Guides/getting-started.md)
+Can't wait to try? [Get Started!](Guides/getting-started.md)
 
 ## [API Reference](https://david35008.github.io/Challengeme-Development/API/index.html)
 ## Guides

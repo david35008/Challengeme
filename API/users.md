@@ -13,16 +13,6 @@ You can use an http post request to register users on the ChallengeMe system.
 {: .no_toc}
 - TOC
 {:toc}
-
-<!-- ### [single user](#single-user)
-- [request](#request)
-- [response](#response)
-- [Errors](#Errors)
-### [multiple users](#multiple-users)
-- [request](#request)
-- [response](#response)
-- [Errors](#Errors) -->
-
 ## single user
 
 ### Request
