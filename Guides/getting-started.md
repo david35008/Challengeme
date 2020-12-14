@@ -6,14 +6,14 @@ has_children: false
 nav_order: 6
 ---
 # Getting Started
-## Signup
+## Signup1
 In order to start using ChallengeMe
 Head on to the [Site](http://34.123.35.48:8080/) and sign up. 
 ![ChallengeMe Signup-Login Page](../photos/ChallengeMe-Login.png) 
 You'll receive an Email asking you to confirm and once you do you'll be able to log into the site.
 ## Finding a Challenge
 When entering the site for the first Time, what you'll see will resemble this:
-![ChallengeMe Home Page with coloured rectangles marking the different sections](https://raw.githubusercontent.com/david35008/Challengeme-Development/gh-pages/photos/main_page.png)
+![ChallengeMe Home Page with coloured rectangles marking the different sections](../photos/main_page.png)
 🟢 Green is for options and your profile.  
 🔴 In Red is the main challenge feed, showing all the challenges.  You Can pick one if you'd like.  
 🔵 In Blue are Search and Filters. You can look for a Challenge by its name or find challenges with certain topic by using the filter by label system.
