@@ -32,6 +32,7 @@ this is the data used for User registration (? denotes an optional property)
   "githubAccount"?: "davidGit123" //github user name
 }
 ```
+
 ## Create a Team
 
 To create a team on ChallengeMe send a `POST` request to:
@@ -141,17 +142,21 @@ A successful request will receive one of these responses:
 
 ```
 ### Possible Errors
+Status : 409
 ```JSON
-// bad teamId
-{
-    "message": "There is no such team with 77d2ccb6-e6e2-4e85-92b2-73bf7c642ada team id"
-}
+// some of the Users you are trying to create already exist in the system
 {
     "message": "There are usernames that already exists",
     "userNamesTakenAlready": [
         "dan",
         "yon"
     ]
+}
+```
+```JSON
+// bad teamId
+{
+    "message": "There is no such team with 77d2ccb6-e6e2-4e85-92b2-73bf7c642ada team id"
 }
 // UserName not recognized
 {
@@ -205,6 +210,7 @@ The **Team** was registered, but the events registration failed. in this case yo
 }
 
 ```
+
 ## Add Users to a Team
 
 ### Request
@@ -243,8 +249,6 @@ A successful request will receive a a response:
 
 ## Edit Team Permissions
 
-### Request
-
 To create a team on ChallengeMe send a `PATCH` request to:
 ```
 PATCH http://35.239.15.221:8080/api/v1/webhooks/teams/change-permissions/:teamId
@@ -275,7 +279,14 @@ The request body: (? means optional property)
 A successful request will receive a a response:
 ```JSON
 {
-
+    "message": "Update 2 Users Permission"
 }
 ```
 
+### Possible Errors
+A username you are trying to promote is not on the team
+```JSON
+{
+    "message": "<username> Are not exist on this team, Please check the 'usersToBeLeaders' list that will contain only team members"
+}
+```

@@ -10,7 +10,7 @@ description: Test-based, Open-Source code learning platform.
 
 aux_links:
   "see ChallengeMe Online":
-    - "//35.239.15.221:8080/"
+    - "//http://35.239.15.221:8080/"
 
 # # Makes Aux links open in a new tab. Default is false
 # aux_links_new_tab: false
