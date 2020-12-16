@@ -63,8 +63,58 @@ NOTE:
 
 
 ### Response
-A successful request will receive a a response:
+A successful request will receive one of these responses:
 ```JSON
+{
+    "message": "Create crm12 Team Success",
+    "leaders": [
+        {
+            "userName": "roman"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "96f33b50-5c5a-4782-a5af-53a23bd04016"
+}
+// with events registered 
+{
+    "message": "Create crm12 Team Success",
+    "leaders": [
+        {
+            "userName": "romy"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "23df158d-6b3d-4b91-9bff-62cf2cce4a2b",
+    "eventRegistrationMessage": "Events Registration Success"
+}
+// with new users
+{
+    "message": "Create crm12 Team With 2 New Users Success",
+    "leaders": [
+        {
+            "userName": "roman"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "1946579b-d115-421e-bc2d-aada23be047c",
+    "newUsers": [
+        {
+            "userName": "roman",
+            "password": "h4uneEYG"
+        },
+        {
+            "userName": "yoram",
+            "password": "i6GCeim4"
+        }
+    ]
+}
+// with new users and event registration
 {
     "message": "Create crm12 Team With 2 New Users Success",
     "leaders": [
@@ -88,58 +138,7 @@ A successful request will receive a a response:
     ],
     "eventRegistrationMessage": "Events Registration Success"
 }
-// or ----------------
 
-{
-    "message": "Create crm12 Team With 2 New Users Success",
-    "leaders": [
-        {
-            "userName": "roman"
-        },
-        {
-            "userName": "dana"
-        }
-    ],
-    "teamId": "1946579b-d115-421e-bc2d-aada23be047c",
-    "newUsers": [
-        {
-            "userName": "roman",
-            "password": "h4uneEYG"
-        },
-        {
-            "userName": "yoram",
-            "password": "i6GCeim4"
-        }
-    ]
-}
-or -----------------
-
-{
-    "message": "Create crm12 Team Success",
-    "leaders": [
-        {
-            "userName": "roman"
-        },
-        {
-            "userName": "dana"
-        }
-    ],
-    "teamId": "96f33b50-5c5a-4782-a5af-53a23bd04016"
-}
-or------------------
-{
-    "message": "Create crm12 Team Success",
-    "leaders": [
-        {
-            "userName": "romy"
-        },
-        {
-            "userName": "dana"
-        }
-    ],
-    "teamId": "23df158d-6b3d-4b91-9bff-62cf2cce4a2b",
-    "eventRegistrationMessage": "Events Registration Success"
-}
 ```
 ### Possible Errors
 ```JSON
