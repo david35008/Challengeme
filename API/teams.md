@@ -21,8 +21,7 @@ this is the data used for User registration (? denotes an optional property)
 ```JSON
 {
   "userName": "david12", // the userName to be used for login.
-  "email": "david@email.com",
-  "leader"?: "true" // if the user is a team leader, use "true", else do not include. 
+  "email": "david@email.com", 
   "firstName"?: "david", 
   "lastName"?: "diamant",
   "country"?: "israel",
@@ -35,11 +34,9 @@ this is the data used for User registration (? denotes an optional property)
 ```
 ## Create a Team
 
-### Request
-
 To create a team on ChallengeMe send a `POST` request to:
 ```
-POST http://35.239.15.221:8080/api/v1/webhook/team/create
+POST http://35.239.15.221:8080/api/v1/webhooks/teams
 ```
 With headers as such: 
 ```JavaScript
@@ -60,27 +57,164 @@ The request body: (? means optional property)
 NOTE:
 - Users data as defined in [here](#user-Data) page.  
 - Webhook Registration data as defined in the [Webhooks](webhooks.md) page.  
-- The request must contain at least one leader user. if that user does not exist it must be included in `usersToCreate` .
-- The users property is optional, but if you choose to include it use it only to **create new users** and place them in the team
-- Presently there is no way to use this endpoint to enroll existing students into the team, and trying to do so **will cause an error**
+- The request must contain at least one leader user. if that user does not exist it must be included in `usersToCreate` with a property `leader:true`.
+- The `usersToCreate` property is optional, but if you choose to include it use it only to **create new users** and place them in the team
+- Presently you <span style='color:red'>can't</span> to use this endpoint to enroll existing students into the team, and trying to do so **will cause an error**
 
 
 ### Response
 A successful request will receive a a response:
 ```JSON
 {
+    "message": "Create crm12 Team With 2 New Users Success",
+    "leaders": [
+        {
+            "userName": "roy"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "08e1c0a1-368f-4f98-a67c-aceac1d6c902",
+    "newUsers": [
+        {
+            "userName": "dana",
+            "password": "ABNvWeUg"
+        },
+        {
+            "userName": "yona",
+            "password": "A4Ci7BhZ"
+        }
+    ],
+    "eventRegistrationMessage": "Events Registration Success"
+}
+// or ----------------
 
+{
+    "message": "Create crm12 Team With 2 New Users Success",
+    "leaders": [
+        {
+            "userName": "roman"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "1946579b-d115-421e-bc2d-aada23be047c",
+    "newUsers": [
+        {
+            "userName": "roman",
+            "password": "h4uneEYG"
+        },
+        {
+            "userName": "yoram",
+            "password": "i6GCeim4"
+        }
+    ]
+}
+or -----------------
+
+{
+    "message": "Create crm12 Team Success",
+    "leaders": [
+        {
+            "userName": "roman"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "96f33b50-5c5a-4782-a5af-53a23bd04016"
+}
+or------------------
+{
+    "message": "Create crm12 Team Success",
+    "leaders": [
+        {
+            "userName": "romy"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "23df158d-6b3d-4b91-9bff-62cf2cce4a2b",
+    "eventRegistrationMessage": "Events Registration Success"
 }
 ```
-### Errors
+### Possible Errors
+```JSON
+// bad teamId
+{
+    "message": "There is no such team with 77d2ccb6-e6e2-4e85-92b2-73bf7c642ada team id"
+}
+{
+    "message": "There are usernames that already exists",
+    "userNamesTakenAlready": [
+        "dan",
+        "yon"
+    ]
+}
+// UserName not recognized
+{
+    "message": "romy Are not Exist In The System, Please Add Them Inside 'usersToCreate' Array "
+}
+// Request missing Leaders
+{
+    "success": false,
+    "message": "\"leaders\" must contain at least 1 items"
+}
+```
+These Next two responses have a catch:
+The **Team** was registered, but the events registration failed. in this case you will have to try and register these events on the the [events endpoints](webhooks.md)
+```JSON
+{
+    "message": "Create crm12 Team Success",
+    "leaders": [
+        {
+            "userName": "romy"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "45e0eca8-0201-4a21-ae5e-c90a35e2cc61",
+    "eventRegistrationMessage": "There is no such events"
+}
+// With newUsers
+{
+    "message": "Create crm12 Team With 2 New Users Success",
+    "leaders": [
+        {
+            "userName": "romy"
+        },
+        {
+            "userName": "dana"
+        }
+    ],
+    "teamId": "3dd674cb-7f54-47f8-8da2-9f0a2a265e24",
+    "newUsers": [
+        {
+            "userName": "romy",
+            "password": "PYK68PXr"
+        },
+        {
+            "userName": "yoni",
+            "password": "buIUjWbD"
+        }
+    ],
+    "eventRegistrationMessage": "There is no such events"
+}
+
+```
 ## Add Users to a Team
 
 ### Request
 
 To create a team on ChallengeMe send a `POST` request to:
 ```
-POST http://35.239.15.221:8080/api/v1/webhook/team/add-users
+POST http://35.239.15.221:8080/api/v1/webhooks/teams/add-users/:userId
 ```
+- userId on the requesting platform
 With headers as such: 
 ```JavaScript
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
@@ -114,9 +248,10 @@ A successful request will receive a a response:
 
 To create a team on ChallengeMe send a `PATCH` request to:
 ```
-PATCH http://35.239.15.221:8080/api/v1/webhook/team/change-permissions/:teamId
+PATCH http://35.239.15.221:8080/api/v1/webhooks/teams/change-permissions/:teamId
 ```
 - teamId = team uuid
+
 With headers as such: 
 
 ```js
@@ -144,5 +279,4 @@ A successful request will receive a a response:
 
 }
 ```
-### Errors
 

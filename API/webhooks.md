@@ -7,17 +7,63 @@ nav_order: 6
 ---
 # Registering Webhooks
 {: .no_toc}
-In order to receive updates on events in the ChallengeMe system you have to register a webhook on our system that will send you updates as events happen.
+In order to receive updates on events in the ChallengeMe system you have to register a webhook on our system that will send you updates as events happen, to a given address.
 
 ## Table Of Contents
 {: .no_toc}
 - TOC
 {:toc}
 
+## Get All Available Events 
+to get a list of all the events you can register to, send a `GET` request to:
+```
+GET http://35.239.15.221:8080/api/v1/webhooks/events/all
+```
+With headers as such: 
+```JavaScript
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
+```
+### Response
+A successful request will receive an array with event names
+
+
+## Get All Events registered to a Team 
+to get a list of all the events you can register to, send a `GET` request to:
+```
+GET http://35.239.15.221:8080/api/v1/webhooks/events/registered/:teamId
+```
+With headers as such: 
+```JavaScript
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
+```
+### Response
+A successful will be an array of objects:
+```JSON
+[
+    {
+        "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", 
+        "teamName": "teamC",
+        "webhookUrl": "http://your_address.com/api/v1/webhook", // url receiving updates
+        "authorizationToken": "1234567abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+        "events": [
+            "submittedChallenge",
+            "startedChallenge",
+            "finishRegistration"
+        ] // an array of events the webhook listens for
+    }
+]
+
+```
+### Possible Error:
+```JSON
+{
+    "message": "This team are not registered on any event on our system"
+}
+```
 ## Registering a Webhook
 to register a webhook you must send a `POST` request to:
 ```
-POST http://35.239.15.221:8080/api/v1/webhook/events/registration
+POST http://35.239.15.221:8080/api/v1/webhooks/events/registration/:teamId
 ```
 With headers as such: 
 ```JavaScript
@@ -27,7 +73,7 @@ The request body:
 ```JSON
 {
     "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", // team id on ChallengeMe
-    "webhookUrl": "http://localhost:8090/api/v1/webhook", // webhook address to send events to you on
+    "webhookUrl": "http://your_address.com/api/v1/webhook", // webhook address to send events to you on
     "events": ["submittedChallenge", "startedChallenge"] // array of strings, event names to listen for
     "authorizationToken": "1234567abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // the requesting team's Access token to ChallengeMe
 
@@ -36,7 +82,7 @@ The request body:
 ## Update Authorization Token
 to update your auth token, send a `PATCH` request to:
 ```
-PATCH http://35.239.15.221:8080/api/v1/webhook/events/authorization
+PATCH http://35.239.15.221:8080/api/v1/webhook/events/authorization/:teamId
 ```
 With headers as such: 
 ```JavaScript
@@ -45,13 +91,65 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" follo
 The request body:
 ```JSON
 {
-    "webhookUrl": "http://localhost:8090/api/v1/webhook", // webhook address to send events to you on
+    "webhookUrl": "http://your_address.com/api/v1/webhook", // webhook address used to send events to you on
     "authorizationToken": "1234567abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // the new token to switch to
 
 }
 ```
-## Remove Webhook
-to update the Webhook URL address to be sent updates, send a `DELETE` request to:
+
+### Response
+A successful request will receive a a response:
+```JSON
+{
+    "message": "Update Authorization Token Success"
+}
+
+```
+### Possible Error
+
+```JSON
+{
+    "message": "Update Authorization Token Fail, There is no webhook url 'http://localhost:8095/api/v1/webhook' fot this team"
+}
+```
+
+## Update Webhook URL
+to update the url you want updates sent to, send a `PATCH` request to:
+```
+PATCH http://35.239.15.221:8080/api/v1/webhooks/events/url/:teamId
+```
+With headers as such: 
+```JavaScript
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your current webhook token
+```
+The request body:
+```JSON
+{
+    "oldWebhookUrl": "http://your_address.com/api/v1/webhook",
+    "newWebhookUrl": "http://your_address.com/api/v1/webhook", // new webhook address to send events to you on
+
+}
+```
+
+### Response
+A successful request will receive a a response:
+```JSON
+{
+    "message": "Update Url Success"
+}
+
+```
+### Possible Error
+
+```JSON
+{
+    "message": "Update url Fail, There is no webhook url 'http://your_address.com/api/v1/webhook' fot this team"
+}
+```
+
+
+## Logout a Webhook
+to logout a Webhook, send a `DELETE` request to:
 ```
 DELETE http://35.239.15.221:8080/api/v1/webhook/events/logout
 ```
@@ -63,7 +161,23 @@ The request body:
 ```JSON
 {
     "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", // team id on ChallengeMe
-    "webhookUrl": "http://localhost:8090/api/v1/webhook", // webhook address used to send events to you on
+    "webhookUrl": "http://your_address.com/api/v1/webhook", // webhook address used to send events to you on
     "events": ["submittedChallenge", "startedChallenge"] // array of strings, event names listened for
+}
+```
+
+### Response
+A successful request will receive a a response:
+```JSON
+{
+  "message": "Logout from submittedChallenge,startedChallenge,finishRegistration Events Success"
+} // comma delimited list of events
+
+```
+### Possible Error
+
+```JSON
+{
+    "message": "You are not register with this 'submittedChallenge,startedChallenge' events to this webhookUrl"
 }
 ```
