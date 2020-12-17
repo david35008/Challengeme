@@ -18,7 +18,7 @@ These teams have users defined as **teachers** that can add other users to the t
 
 ## User Data
 this is the data used for User registration (? denotes an optional property)
-```JSON
+{% highlight JSON %}
 {
   "userName": "david12", // the userName to be used for login.
   "email": "david@email.com", 
@@ -31,15 +31,17 @@ this is the data used for User registration (? denotes an optional property)
   "reasonOfRegistration"?: "challenge my self",
   "githubAccount"?: "davidGit123" //github user name
 }
-```
+{% endhighlight %}
+
 
 ## General Errors
 Status : 401
-```JSON 
+{% highlight JSON %} 
 {
     "message": "you don't have permission for team <teamId>" // you may only access teams for which you have permissions
 }
-```
+{% endhighlight %}
+
 ## Create a Team
 
 To create a team on ChallengeMe send a `POST` request to:
@@ -47,11 +49,12 @@ To create a team on ChallengeMe send a `POST` request to:
 POST http://35.239.15.221:8080/api/v1/webhooks/teams
 ```
 With headers as such: 
-```JavaScript
+{% highlight JavaScript %}
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
-```
+{% endhighlight %}
+
 The request body: (? means optional property)
-```JSON
+{% highlight JSON %}
 {
   "teamName": "crm", // name of the team
   "leaders": [
@@ -61,7 +64,7 @@ The request body: (? means optional property)
   "usersToCreate"?: user[] //array of users to create and enroll in the team
   "eventsRegistration"?: webhookRegistration //  Webhook registration data to register a webhook for the team
 }
-```
+{% endhighlight %}
 NOTE:
 - Users data as defined in [here](#user-Data) page.  
 - Webhook Registration data as defined in the [Webhooks](webhooks.md) page.  
@@ -72,7 +75,7 @@ NOTE:
 
 ### Response
 A successful request will receive one of these responses:
-```JSON
+{% highlight JSON %}
 {
     "message": "Create crm12 Team Success",
     "leaders": [
@@ -148,11 +151,11 @@ A successful request will receive one of these responses:
     "eventRegistrationStatus":201,
     "eventRegistrationMessage": "Events Registration Success"
 }
+{% endhighlight %}
 
-```
 ### Possible Errors
 Status : 409
-```JSON
+{% highlight JSON %}
 // some of the Users you are trying to create already exist in the system
 {
     "message": "There are usernames that already exists",
@@ -161,10 +164,11 @@ Status : 409
         "yon"
     ]
 }
-```  
+{% endhighlight %}
+  
 
 Status : 404
-```JSON
+{% highlight JSON %}
 // bad teamId
 {
     "message": "There is no such team with 77d2ccb6-e6e2-4e85-92b2-73bf7c642ada team id"
@@ -178,7 +182,8 @@ Status : 404
     "success": false,
     "message": "\"leaders\" must contain at least 1 items"
 }
-```
+{% endhighlight %}
+
 These Next two responses have a catch:
 Note The 207 status- the **Team** was registered, but the events registration failed. in this case you will have to try and register these events on the the [events endpoints](webhooks.md).    
 These responses will have an
@@ -187,7 +192,6 @@ These responses will have an
 
 Status: 207
 {% highlight JSON %}
-```JSON
 {
     "message": "Create crm12 Team Success",
     "leaders": [
@@ -227,8 +231,7 @@ Status: 207
     "eventRegistrationStatus":404,
     "eventRegistrationMessage": "There is no such events"
 }
-```
-{% endhighlight JSON %}
+{% endhighlight %}
 ## Add Users to a Team
 
 To add users to a team on ChallengeMe send a `POST` request to:
@@ -237,16 +240,18 @@ POST http://35.239.15.221:8080/api/v1/webhooks/teams/add-users/:userId
 ```
 - teamId on the requesting platform
 With headers as such: 
-```JavaScript
+{% highlight JavaScript %}
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
-```
+{% endhighlight %}
+
 
 The request body: (? means optional property)
-```JSON
+{% highlight JSON %}
 {
   "usersToCreate"?: user[] //array of users to create and enroll in the team
 }
-```
+{% endhighlight %}
+
 
 NOTE:
 - Used only to **create new users** and place them in the team
@@ -256,7 +261,7 @@ NOTE:
 ### Response
 A successful request will receive a a response:
 Status:201
-```JSON
+{% highlight JSON %}
 {
   "message":"Add 12 users to MyTeam team Success",
   "leaders":["Wendy","Peter"], // array of leader users added
@@ -281,15 +286,16 @@ Status:201
   ] // array of the new users and their temporary passwords (leaders included)
 
 }
-```
+{% endhighlight %}
 ### Errors
 Status : 404
-```JSON
+{% highlight JSON %}
 // some of the Users you are trying to create already exist in the system
 {
     "message": "There is no such team with <wrongTeamId> team id"
 }
-```
+{% endhighlight %}
+
 
 ## Edit Team Permissions
 
@@ -301,12 +307,14 @@ PATCH http://35.239.15.221:8080/api/v1/webhooks/teams/change-permissions/:teamId
 
 With headers as such: 
 
-```js
+{% highlight javascript %}
+
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
-```
+{% endhighlight %}
+
 
 The request body: (? means optional property)
-```JSON
+{% highlight JSON %}
  {
     "usersToBeLeaders": [
         {
@@ -317,20 +325,22 @@ The request body: (? means optional property)
         }
     ] // array of user names  assign as leaders
 }
-```
+{% endhighlight %}
+
 
 ### Response
 A successful request will receive a a response:
-```JSON
+{% highlight JSON %}
 {
     "message": "Update 2 Users Permission"
 }
-```
+{% endhighlight %}
+
 
 ### Possible Errors
 A username you are trying to promote is not on the team
-```JSON
+{% highlight JSON %}
 {
     "message": "<username> Are not exist on this team, Please check the 'usersToBeLeaders' list that will contain only team members"
 }
-```
+{% endhighlight %}
