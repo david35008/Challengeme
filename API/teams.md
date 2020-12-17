@@ -5,6 +5,7 @@ parent: API Reference
 has_children: false
 nav_order: 6
 ---
+<link rel='stylesheet' src='teams.css'>
 # Managing Teams
 {: .no_toc}  
 You can use an http post request to Create and manage teams (eg. classes) on the ChallengeMe system.  
@@ -38,7 +39,8 @@ this is the data used for User registration (? denotes an optional property)
 Status : 401
 {% highlight JSON %} 
 {
-    "message": "you don't have permission for team <teamId>" // you may only access teams for which you have permissions
+    "message": "you don't have permission for team <teamId>" 
+    // you may only access teams for which you have permissions
 }
 {% endhighlight %}
 
