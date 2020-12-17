@@ -5,13 +5,7 @@ parent: API Reference
 has_children: false
 nav_order: 6
 ---
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
-<!-- and it's easy to individually load additional languages -->
-<script charset="UTF-8"
- src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/languages/go.min.js"></script>
-# Managing Teams
+# Managing the Teams
 {: .no_toc}  
 You can use an http post request to Create and manage teams (eg. classes) on the ChallengeMe system.  
 These teams have users defined as **teachers** that can add other users to the team.
@@ -192,7 +186,8 @@ These responses will have an
 
 
 Status: 207
-<pre> <code class='JSON' >
+<div class="code-example" markdown="1">
+```JSON
 {
     "message": "Create crm12 Team Success",
     "leaders": [
@@ -233,7 +228,8 @@ Status: 207
     "eventRegistrationMessage": "There is no such events"
 }
 
-</code></pre>
+```
+</div>
 
 ## Add Users to a Team
 
