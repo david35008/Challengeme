@@ -14,6 +14,16 @@ In order to receive updates on events in the ChallengeMe system you have to regi
 - TOC
 {:toc}
 
+
+
+
+## General Errors
+Status : 401
+```JSON 
+{
+    "message": "you don't have permission for team <teamId>" // you may only access teams for which you have permissions
+}
+```
 ## Get All Available Events 
 to get a list of all the events you can register to, send a `GET` request to:
 ```
@@ -47,8 +57,7 @@ A successful will be an array of objects:
         "authorizationToken": "1234567abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 
         "events": [
             "submittedChallenge",
-            "startedChallenge",
-            "finishRegistration"
+            "startedChallenge"
         ] // an array of events the webhook listens for
     }
 ]
@@ -72,13 +81,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" follo
 The request body:
 ```JSON
 {
-    "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", // team id on ChallengeMe
     "webhookUrl": "http://your_address.com/api/v1/webhook", // webhook address to send events to you on
-    "events": ["submittedChallenge", "startedChallenge"] // array of strings, event names to listen for
+    "events": ["submittedChallenge", "startedChallenge"],// array of strings, event names to listen for
     "authorizationToken": "1234567abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // the requesting team's Access token to ChallengeMe
 
 }
 ```
+
+### Response
+A successful request will receive a a response:
+Status:201  
+```JSON
+{
+    "message": "Events Registration Success"
+}
+
+```
+
 ## Update Authorization Token
 to update your auth token, send a `PATCH` request to:
 ```
@@ -99,6 +118,7 @@ The request body:
 
 ### Response
 A successful request will receive a a response:
+Status:200
 ```JSON
 {
     "message": "Update Authorization Token Success"
@@ -106,10 +126,10 @@ A successful request will receive a a response:
 
 ```
 ### Possible Error
-
+Status: 404
 ```JSON
 {
-    "message": "Update Authorization Token Fail, There is no webhook url 'http://localhost:8095/api/v1/webhook' fot this team"
+    "message": "Update Authorization Token Fail, There is no webhook url 'http://your_address.com/api/v1/webhook' fot this team"
 }
 ```
 
@@ -130,9 +150,9 @@ The request body:
 
 }
 ```
-
 ### Response
 A successful request will receive a a response:
+Status:200
 ```JSON
 {
     "message": "Update Url Success"
@@ -140,7 +160,7 @@ A successful request will receive a a response:
 
 ```
 ### Possible Error
-
+Status:404
 ```JSON
 {
     "message": "Update url Fail, There is no webhook url 'http://your_address.com/api/v1/webhook' fot this team"
@@ -151,7 +171,7 @@ A successful request will receive a a response:
 ## Logout a Webhook
 to logout a Webhook, send a `DELETE` request to:
 ```
-DELETE http://35.239.15.221:8080/api/v1/webhook/events/logout
+DELETE http://35.239.15.221:8080/api/v1/webhook/events/logout/:teamId
 ```
 With headers as such: 
 ```JavaScript
@@ -160,7 +180,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" follo
 The request body:
 ```JSON
 {
-    "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", // team id on ChallengeMe
     "webhookUrl": "http://your_address.com/api/v1/webhook", // webhook address used to send events to you on
     "events": ["submittedChallenge", "startedChallenge"] // array of strings, event names listened for
 }
@@ -168,16 +187,23 @@ The request body:
 
 ### Response
 A successful request will receive a a response:
+Status: 200
 ```JSON
 {
-  "message": "Logout from submittedChallenge,startedChallenge,finishRegistration Events Success"
-} // comma delimited list of events
+  "message": "Logout from submittedChallenge,startedChallenge Events Success"
+} // comma delimited list of events you successfully logged out from 
 
 ```
 ### Possible Error
-
+Status: 404
 ```JSON
 {
-    "message": "You are not register with this 'submittedChallenge,startedChallenge' events to this webhookUrl"
+    "message": "There is no such team with <wrongTeamId> team id"
+}
+```
+Status: 406
+```JSON
+{
+    "message": "You are not registered to these events: 'submittedChallenge,startedChallenge' with the specified webhookUrl" // comma delimited list of events you aren't registered to on the webhookUrl you ave in the request
 }
 ```

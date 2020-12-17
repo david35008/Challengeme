@@ -5,9 +5,9 @@ parent: API Reference
 has_children: false
 nav_order: 6
 ---
-# Registering Teams
+# Managing Teams
 {: .no_toc}  
-You can use an http post request to Create teams (eg. classes) on the ChallengeMe system.  
+You can use an http post request to Create and manage teams (eg. classes) on the ChallengeMe system.  
 These teams have users defined as **teachers** that can add other users to the team.
 
 ## Table Of Contents
@@ -33,6 +33,13 @@ this is the data used for User registration (? denotes an optional property)
 }
 ```
 
+## General Errors
+Status : 401
+```JSON 
+{
+    "message": "you don't have permission for team <teamId>" // you may only access teams for which you have permissions
+}
+```
 ## Create a Team
 
 To create a team on ChallengeMe send a `POST` request to:
@@ -90,6 +97,7 @@ A successful request will receive one of these responses:
         }
     ],
     "teamId": "23df158d-6b3d-4b91-9bff-62cf2cce4a2b",
+    "eventRegistrationStatus":201,
     "eventRegistrationMessage": "Events Registration Success"
 }
 // with new users
@@ -137,6 +145,7 @@ A successful request will receive one of these responses:
             "password": "A4Ci7BhZ"
         }
     ],
+    "eventRegistrationStatus":201,
     "eventRegistrationMessage": "Events Registration Success"
 }
 
@@ -152,16 +161,18 @@ Status : 409
         "yon"
     ]
 }
-```
+```  
+
+Status : 404
 ```JSON
 // bad teamId
 {
     "message": "There is no such team with 77d2ccb6-e6e2-4e85-92b2-73bf7c642ada team id"
 }
-// UserName not recognized
+// UserNames not recognized in the system
 {
-    "message": "romy Are not Exist In The System, Please Add Them Inside 'usersToCreate' Array "
-}
+    "message": "romy,billie,harry do not Exist In The System, Please Add Them Inside 'usersToCreate' Array "
+} // Comma delimited list of users not found on the system 
 // Request missing Leaders
 {
     "success": false,
@@ -169,7 +180,12 @@ Status : 409
 }
 ```
 These Next two responses have a catch:
-The **Team** was registered, but the events registration failed. in this case you will have to try and register these events on the the [events endpoints](webhooks.md)
+Note The 207 status- the **Team** was registered, but the events registration failed. in this case you will have to try and register these events on the the [events endpoints](webhooks.md).    
+These responses will have an
+    "eventRegistrationStatus":404,
+
+
+Status: 207
 ```JSON
 {
     "message": "Create crm12 Team Success",
@@ -182,6 +198,7 @@ The **Team** was registered, but the events registration failed. in this case yo
         }
     ],
     "teamId": "45e0eca8-0201-4a21-ae5e-c90a35e2cc61",
+    "eventRegistrationStatus":404,
     "eventRegistrationMessage": "There is no such events"
 }
 // With newUsers
@@ -206,6 +223,7 @@ The **Team** was registered, but the events registration failed. in this case yo
             "password": "buIUjWbD"
         }
     ],
+    "eventRegistrationStatus":404,
     "eventRegistrationMessage": "There is no such events"
 }
 
@@ -213,13 +231,11 @@ The **Team** was registered, but the events registration failed. in this case yo
 
 ## Add Users to a Team
 
-### Request
-
-To create a team on ChallengeMe send a `POST` request to:
+To add users to a team on ChallengeMe send a `POST` request to:
 ```
 POST http://35.239.15.221:8080/api/v1/webhooks/teams/add-users/:userId
 ```
-- userId on the requesting platform
+- teamId on the requesting platform
 With headers as such: 
 ```JavaScript
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" followed by your webhook token
@@ -228,24 +244,52 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp // the word "Bearer" follo
 The request body: (? means optional property)
 ```JSON
 {
-  "teamId": "77d2ccb6-e6e2-4e85-92b2-73bf7c642adb", // uuid of the team 
   "usersToCreate"?: user[] //array of users to create and enroll in the team
 }
 ```
 
 NOTE:
 - Used only to **create new users** and place them in the team
-- Users data as defined in the [create users](users.md) page.  
+- Users data as defined in the [create users](#user-data) page.  
 - Presently there is no way to use this endpoint to enroll existing students into the team, and trying to do so **will cause an error**
 
 ### Response
 A successful request will receive a a response:
+Status:201
 ```JSON
 {
+  "message":"Add 12 users to MyTeam team Success",
+  "leaders":["Wendy","Peter"], // array of leader users added
+  "newUsers":[
+    {
+    "userName":"wendy",
+    "password":"dasewad23"
+    },
+    {
+    "userName":"peter",
+    "password":"opmgaw32h"
+    },
+    {
+    "userName":"john",
+    "password":"w1wew1p9"
+    },
+    {
+    "userName":"michael",
+    "password":"adnw43a4"
+    }
+
+  ] // array of the new users and their temporary passwords (leaders included)
 
 }
 ```
 ### Errors
+Status : 404
+```JSON
+// some of the Users you are trying to create already exist in the system
+{
+    "message": "There is no such team with <wrongTeamId> team id"
+}
+```
 
 ## Edit Team Permissions
 
