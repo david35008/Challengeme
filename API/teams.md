@@ -5,7 +5,7 @@ parent: API Reference
 has_children: false
 nav_order: 6
 ---
-# Managing the Teams
+# Managing Teams
 {: .no_toc}  
 You can use an http post request to Create and manage teams (eg. classes) on the ChallengeMe system.  
 These teams have users defined as **teachers** that can add other users to the team.
@@ -186,7 +186,7 @@ These responses will have an
 
 
 Status: 207
-<div class="code-example" markdown="1">
+{% highlight JSON %}
 ```JSON
 {
     "message": "Create crm12 Team Success",
@@ -227,10 +227,8 @@ Status: 207
     "eventRegistrationStatus":404,
     "eventRegistrationMessage": "There is no such events"
 }
-
 ```
-</div>
-
+{% endhighlight JSON %}
 ## Add Users to a Team
 
 To add users to a team on ChallengeMe send a `POST` request to:
