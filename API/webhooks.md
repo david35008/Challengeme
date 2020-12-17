@@ -69,6 +69,7 @@ A successful will be an array of objects:
     "message": "This team are not registered on any event on our system"
 }
 ```
+
 ## Registering a Webhook
 to register a webhook you must send a `POST` request to:
 ```
