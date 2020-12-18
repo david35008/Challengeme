@@ -5,10 +5,10 @@ parent: API Reference
 has_children: false
 nav_order: 6
 ---
-<link rel='stylesheet' src='teams.css'>
+<link rel='stylesheet' href='teams.css'>
 # Managing Teams
 {: .no_toc}  
-You can use an http post request to Create and manage teams (eg. classes) on the ChallengeMe system.  
+You can use http requests to Create and manage teams (eg. classes) on the ChallengeMe system.  
 These teams have users defined as **teachers** that can add other users to the team.
 
 ## Table Of Contents
