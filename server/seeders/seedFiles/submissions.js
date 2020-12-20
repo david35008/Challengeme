@@ -14,6 +14,7 @@ module.exports = [
     user_id: 1,
     state: 'FAIL',
     solution_repository: 'OfirSimhi1612/Auth-Challenge',
+
     created_at: new Date(Date.now().valueOf() - (1 * 24 * 60 * 60 * 1000)),
     updated_at: new Date(Date.now().valueOf() - (1 * 24 * 60 * 60 * 1000)),
   },

@@ -8,6 +8,7 @@ const {
   Submission, Challenge, User, Team,
 } = require('../../../models');
 
+
 // returns the 5 users with the most successful submissions
 insightStudentRouter.get('/top-user/:teamId', checkTeamPermission, async (req, res) => {
   try {
