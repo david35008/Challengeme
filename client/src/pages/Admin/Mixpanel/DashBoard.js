@@ -10,9 +10,13 @@ import { events } from '../../../config/Events';
 import Alert from '../../../components/Buttons/Alert';
 import '../../../styles/MixpanelDashBoard.css';
 
-export default function MixPanelDashBoard() {
+function isObject(element) {
+  return Object.getPrototypeOf(element) === Object.getPrototypeOf(new Object());
+}
+
+export default function MixPanelDashBoard({ userName, headers }) {
   const [loading, setLoading] = useState(false);
-  const [event, setEvent] = useState('User On Forgot Password Page 2');
+  const [event, setEvent] = useState('App Launched');
   const [startDate, setStartDate] = useState(Date.now() - 1000 * 60 * 60 * 24 * 7);
   const [endDate, setEndDate] = useState(Date.now());
   const [limit, setLimit] = useState(5);
@@ -20,30 +24,92 @@ export default function MixPanelDashBoard() {
   const [alertType, setAlertType] = useState('error');
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Error Occurred');
+  const [limitValid, setLimitValid] = useState(true);
+  const [limitError, setLimitError] = useState('');
+
+  const editData = useCallback((data) => {
+    data.forEach(event => {
+      const object = event
+      for (const key in object) {
+        if (Object.hasOwnProperty.call(object, key)) {
+          const element = object[key];
+          if (element && isObject(element)) {
+            event[key] = JSON.stringify(element, null, 2)
+          }
+        }
+      }
+    })
+    return data
+    // eslint-disable-next-line
+  }, [])
+
+  const validateIsNumber = useCallback((input, callBack) => {
+    setLimitValid(true)
+    setLimitError('')
+    let hasError = false
+    if (!input.length) {
+      setLimitValid(false)
+      setLimitError('Limit must have at list 1 number')
+      hasError = true
+    }
+    const numbersRegex = new RegExp('^[0-9]*$')
+    if (!hasError && !numbersRegex.test(input)) {
+      setLimitValid(false)
+      setLimitError('Limit must be a number')
+      hasError = true
+    }
+    if (!hasError && (parseInt(input) < 2 || parseInt(input) > 100_000)) {
+      setLimitValid(false)
+      setLimitError('Limit must be between 2 - 100,000')
+      hasError = true
+    }
+    callBack(input)
+    // eslint-disable-next-line
+  }, [])
 
   const fetchEvents = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await network.get(`/api/v1/insights/mixpanel?from=${startDate}&to=${endDate}&event=${event}&limit=${limit}`);
-      setEventsData(data);
+      let url = `/api/v1/insights/mixpanel?from=${startDate}&to=${endDate}&event=${event}&limit=${limit}`
+      if (userName) {
+        url += `&userName=${userName}`
+      }
+      const { data } = await network.get(url);
+      const editedData = editData(data)
+      setEventsData(editedData);
       setLoading(false);
       setAlertType('success');
       setAlertMessage(`Fond ${data.length} Events`);
       setShowAlert(true);
     } catch (error) {
       setLoading(false);
-      setAlertMessage(error.response.data.message);
+      setAlertMessage(error.response ? error.response.data.message : error);
       setShowAlert(true);
     }
     // eslint-disable-next-line
-    }, [event, startDate, endDate, limit])
+  }, [event, startDate, endDate, limit])
 
-  const data = eventsData.length ? {
-    columns: Object.keys(eventsData[0]).map((event) => ({
+  const getAllKeys = useCallback((events) => {
+    const keysSet = new Set()
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      const eventKeys = Object.keys(event)
+      for (let j = 0; j < eventKeys.length; j++) {
+        keysSet.add(eventKeys[j])
+      }
+    }
+    const arrayKeys = headers || [...keysSet].sort().reverse()
+
+    return arrayKeys.map((event) => ({
       field: event,
       headerName: event,
       width: 150,
-    })),
+    }))
+    // eslint-disable-next-line
+  }, [])
+
+  const data = eventsData.length ? {
+    columns: getAllKeys(eventsData),
     rows: [...eventsData],
   } : [];
 
@@ -98,9 +164,16 @@ export default function MixPanelDashBoard() {
         </MuiPickersUtilsProvider>
         <div>
           <InputLabel htmlFor="limit">Limit</InputLabel>
-          <Input id="limit" placeholder="limit of events" value={limit} onChange={(event) => setLimit(event.target.value)} />
+          <TextField
+            id="limit"
+            placeholder="limit of events"
+            value={limit}
+            onChange={(event) => validateIsNumber(event.target.value, setLimit)}
+            error={!limitValid}
+            helperText={limitError}
+          />
         </div>
-        <Button onClick={fetchEvents}>Search</Button>
+        <Button disabled={!limitValid} onClick={fetchEvents}>Search</Button>
       </Grid>
       {!loading
         ? eventsData.length

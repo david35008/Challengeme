@@ -72,6 +72,14 @@ describe('Testing assignments routes', () => {
     expect(assignmentsForTeamAfterAdded.body)
       .toHaveLength(assignmentsMock.filter((assign) => assign.teamId === teamsMock[0].id).length + 2);
 
+    const assignmentsWhen0 = await request(app)
+      .get(`/api/v1/assignments/${teamsMock[3].id}`)
+      .set('authorization', `bearer ${generateToken(usersMock[2])}`);
+
+    expect(assignmentsWhen0.status).toBe(200);
+    expect(assignmentsWhen0.body).toHaveLength(1);
+    expect(assignmentsWhen0.body[0].Team.name).toBe(teamsMock[3].name);
+
     const unauthorized = await request(app)
       .post(`/api/v1/assignments/${teamsMock[1].id}`)
       .send({ challenges: [{ value: 5 }, { value: 6 }] })

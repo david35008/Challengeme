@@ -1,5 +1,6 @@
 module.exports = {
   events: [
+    'All Events',
     'App Launched',
     'User Finished Registertion',
     'User Logged In',

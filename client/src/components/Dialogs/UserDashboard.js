@@ -14,6 +14,7 @@ import DeleteUser from '../Buttons/DeleteUser';
 import Alert from '../Buttons/Alert';
 import SideBar from './SideBar';
 import UserInfo from '../../pages/Admin/UsersControl/UserInfo';
+import MixpanelDashBoard from '../../pages/Admin/Mixpanel/DashBoard'
 import '../../styles/EditUserModal.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const activityHeaders = ['event_name', 'time', '$os', '$current_url', '$city', '$browser', 'Team', 'Solution Repository', 'Remember Me', 'Rating', 'ChallengeId', 'mp_lib', 'mp_country_code']
 
 export default function FullScreenDialog({
   openDialog, setOpenDialog, selectedUser, getAllUsers,
@@ -45,7 +47,7 @@ export default function FullScreenDialog({
     setOpenDialog(false);
     getAllUsers();
     // eslint-disable-next-line
-    }, [])
+  }, [])
 
   const fetchUserInfo = useCallback(async () => {
     try {
@@ -58,7 +60,7 @@ export default function FullScreenDialog({
 
     }
     // eslint-disable-next-line
-    }, [selectedUser])
+  }, [selectedUser])
 
   const onSave = useCallback(async () => {
     try {
@@ -78,7 +80,7 @@ export default function FullScreenDialog({
       setSaveAlert(true);
     }
     // eslint-disable-next-line
-    }, [editedUserInfo, selectedUser])
+  }, [editedUserInfo, selectedUser])
 
   const onCancel = useCallback(() => {
     setEditedUserInfo(userInfo);
@@ -88,7 +90,7 @@ export default function FullScreenDialog({
   useEffect(() => {
     fetchUserInfo();
     // eslint-disable-next-line
-    }, [selectedUser]);
+  }, [selectedUser]);
 
   return (
     <Dialog fullScreen open={openDialog} onClose={handleClose} TransitionComponent={Transition}>
@@ -123,20 +125,23 @@ export default function FullScreenDialog({
       <SideBar items={['User Info', 'Activity']} setDrawerNum={setDrawerNum} />
       <div className="edit-user-container">
         {drawerNum === 0
-                    && (
-                      <UserInfo
-                        id={selectedUser}
-                        editMode={editMode}
-                        editedUserInfo={editedUserInfo}
-                        setEditedUserInfo={setEditedUserInfo}
-                        userInfo={userInfo}
-                        fetchUserInfo={fetchUserInfo}
-                        setUserInfo={setUserInfo}
-                        getAllUsers={getAllUsers}
-                      />
-                    )}
-        {/* TODO: add this section */}
-        {drawerNum === 1 && <h1>Activity</h1>}
+          && (
+            <UserInfo
+              id={selectedUser}
+              editMode={editMode}
+              editedUserInfo={editedUserInfo}
+              setEditedUserInfo={setEditedUserInfo}
+              userInfo={userInfo}
+              fetchUserInfo={fetchUserInfo}
+              setUserInfo={setUserInfo}
+              getAllUsers={getAllUsers}
+            />
+          )}
+        {drawerNum === 1 && <span>
+          <h1>User Activity</h1>
+          <MixpanelDashBoard userName={userInfo.userName} headers={activityHeaders} />
+        </span>
+        }
       </div>
       {saveAlert && (
         <Alert
