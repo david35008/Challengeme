@@ -11,7 +11,10 @@ export default function Index({ teamName }) {
 
   useEffect(() => {
     const user = Cookies.get('userName');
-    mixpanel.track('User On Team Submissions Teacher Area', { User: `${user}`, Team: teamName });
+    mixpanel.track('User On Team Submissions Teacher Area', {
+      User: `${user}`,
+      Team: teamName,
+    });
   }, [teamName]);
 
   return (
@@ -21,7 +24,9 @@ export default function Index({ teamName }) {
           {' '}
           Team:
           {' '}
-          <span className="student-info-title-page-name">{teamName}</span>
+          <span className="student-info-title-page-name">
+            {teamName}
+          </span>
           {' '}
         </h1>
         <Button
@@ -32,7 +37,11 @@ export default function Index({ teamName }) {
           {showByChallengeOrUser ? 'Show By User' : 'Show By Challenge'}
         </Button>
       </div>
-      {showByChallengeOrUser ? <SubmissionsByChallenges /> : <SubmissionsByUsers />}
+      {showByChallengeOrUser ? (
+        <SubmissionsByChallenges />
+      ) : (
+        <SubmissionsByUsers />
+      )}
       <div style={{ height: '50px' }} />
     </div>
   );

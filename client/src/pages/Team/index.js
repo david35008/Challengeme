@@ -1,25 +1,24 @@
-import React, { lazy, Suspense } from "react";
-import { Switch, Route } from "react-router-dom";
-import ErrorBoundary from "../../components/ErrorBoundary.js";
-import Loading from "../../components/Loading";
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import ErrorBoundary from '../../components/ErrorBoundary.js';
+import Loading from '../../components/Loading';
 
-const OneTeamPage = lazy(() => import("./OneTeam/TeamInfo"));
-const OneTeacherPage = lazy(() => import("./OneTeacher"));
-const MyTeams = lazy(() => import("./MyTeams"));
-const NotFound = lazy(() => import("../../pages/NotFound"));
-const TeamAssignments = lazy(() => import("./OneTeam/TeamAssignments"));
+const OneTeamPage = lazy(() => import('./OneTeam/TeamInfo'));
+const OneTeacherPage = lazy(() => import('./OneTeacher'));
+const MyTeams = lazy(() => import('./MyTeams'));
+const NotFound = lazy(() => import('../NotFound'));
+const TeamAssignments = lazy(() => import('./OneTeam/TeamAssignments'));
 
 function Index() {
-
   return (
     <div>
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <Switch>
-            <Route exact path="/teams/:id">
+          <Routes>
+            <Route path="/teams/:id">
               <OneTeamPage />
             </Route>
-            <Route exact path="/teams/tasks/:id">
+            <Route path="/teams/tasks/:id">
               <TeamAssignments />
             </Route>
             <Route path="/teams/teacher/:id">
@@ -31,7 +30,7 @@ function Index() {
             <Route path="*">
               <NotFound />
             </Route>
-          </Switch>
+          </Routes>
         </ErrorBoundary>
       </Suspense>
     </div>

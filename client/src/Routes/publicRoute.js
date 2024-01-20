@@ -1,19 +1,16 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 import { Logged } from '../context/LoggedInContext';
 
-const PublicRoute = ({ component: Component, exact, path }) => {
+export default function PublicRoute({ component: Component, path }) {
   const LoggedContext = useContext(Logged);
 
   return (
-    <Route exact={!!exact} path={path}>
-      { !LoggedContext.logged ? (
-        <Component />
-      ) : (
-        <Redirect to="/" />
-      )}
-    </Route>
+    <Route
+      path={path}
+      element={
+        !LoggedContext.logged ? <Component /> : <Navigate to="/" replace />
+      }
+    />
   );
-};
-
-export default PublicRoute;
+}

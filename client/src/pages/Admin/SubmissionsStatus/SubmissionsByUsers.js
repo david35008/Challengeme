@@ -51,7 +51,11 @@ function Row(props) {
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -64,7 +68,10 @@ function Row(props) {
         <StyledTableCell align="left">{row.email}</StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -74,7 +81,9 @@ function Row(props) {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Challenge Name</StyledTableCell>
-                    <StyledTableCell align="left">Solution Repository</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Solution Repository
+                    </StyledTableCell>
                     <StyledTableCell align="left">Status</StyledTableCell>
                     <StyledTableCell align="left">Created At</StyledTableCell>
                   </TableRow>
@@ -103,7 +112,9 @@ function Row(props) {
                           </div>
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {new Date(submission.createdAt).toString().substring(0, 24)}
+                          {new Date(submission.createdAt)
+                            .toString()
+                            .substring(0, 24)}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -122,19 +133,20 @@ const SubmissionsByUsers = () => {
   const [last, setLast] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const { data } = await network.get(`/api/v1/insights/admin/users-submissions?onlyLast=${last}`);
+    const { data } = await network.get(
+      `/api/v1/insights/admin/users-submissions?onlyLast=${last}`,
+    );
     setData(data);
     // eslint-disable-next-line
-  }, [last])
+  }, [last]);
 
   const filteredLast = useCallback(() => {
     setLast((prev) => !prev);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
   }, [last]);
 
   return (
@@ -159,7 +171,9 @@ const SubmissionsByUsers = () => {
           </TableHead>
           <TableBody>
             {data.length > 0 ? (
-              data.map((user) => <Row key={user.userName} color="secondary" row={user} />)
+              data.map((user) => (
+                <Row key={user.userName} color="secondary" row={user} />
+              ))
             ) : (
               <Loading />
             )}

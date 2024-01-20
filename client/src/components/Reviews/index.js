@@ -17,42 +17,62 @@ function ReviewsTab({ challengeId, setRatingCount }) {
       );
       setReviews(reviewsWithContent);
       setLoading(false);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [challengeId])
+  }, [challengeId]);
 
   useEffect(() => {
     setLoading(true);
     fetchReviews();
     const liveReviews = setInterval(fetchReviews, 5000);
     return () => clearInterval(liveReviews);
-    // eslint-disable-next-line
   }, [challengeId]);
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '80%', margin: 'auto',
-    }}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '80%',
+        margin: 'auto',
+      }}
     >
       <h1 className="Reviews-H1">Reviews:</h1>
       <ul className="Reviews-Container">
-        {!loading ? reviews.length > 0 ? reviews.map((review) => {
-          const {
-            id, createdAt, title, content, rating, User: { userName },
-          } = review;
-          return (
-            <Review
-              key={id}
-              reviewId={id}
-              author={userName}
-              createdAt={createdAt}
-              title={title}
-              content={content}
-              rating={rating}
-            />
-          );
-        }) : <div className="Review-Empty" style={{ paddingTop: '40px' }}><h1>This challenge has no reviews yet</h1></div> : <div className="Review" style={{ paddingTop: '40px' }}><h1>loading...</h1></div>}
+        {!loading ? (
+          reviews.length > 0 ? (
+            reviews.map((review) => {
+              const {
+                id,
+                createdAt,
+                title,
+                content,
+                rating,
+                User: { userName },
+              } = review;
+              return (
+                <Review
+                  key={id}
+                  reviewId={id}
+                  author={userName}
+                  createdAt={createdAt}
+                  title={title}
+                  content={content}
+                  rating={rating}
+                />
+              );
+            })
+          ) : (
+            <div className="Review-Empty" style={{ paddingTop: '40px' }}>
+              <h1>This challenge has no reviews yet</h1>
+            </div>
+          )
+        ) : (
+          <div className="Review" style={{ paddingTop: '40px' }}>
+            <h1>loading...</h1>
+          </div>
+        )}
       </ul>
     </div>
   );

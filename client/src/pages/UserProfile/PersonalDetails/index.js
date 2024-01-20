@@ -34,7 +34,9 @@ const generateName = (name) => {
   let changedName = '';
   if (name) {
     for (let i = 0; i < name.length; i++) {
-      i === 0 ? (changedName += name[i].toUpperCase()) : (changedName += name[i].toLowerCase());
+      i === 0
+        ? (changedName += name[i].toUpperCase())
+        : (changedName += name[i].toLowerCase());
     }
     return changedName;
   }
@@ -57,29 +59,29 @@ function UserInfo() {
       const { data: info } = await network.get('/api/v1/users/info');
       setUserInfo(info);
       setEditedUserInfo(info);
-    } catch (error) {
-
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     fetchUserInfo();
-    // eslint-disable-next-line
   }, []);
 
   const startEditInfo = useCallback(async () => {
     setIsReadOnly(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const editing = useCallback(async (event) => {
-    const key = event.target.name;
-    const { value } = event.target;
-    const edited = { ...editedUserInfo };
-    edited[key] = value;
-    setEditedUserInfo(edited);
-  }, [editedUserInfo]);
+  const editing = useCallback(
+    async (event) => {
+      const key = event.target.name;
+      const { value } = event.target;
+      const edited = { ...editedUserInfo };
+      edited[key] = value;
+      setEditedUserInfo(edited);
+    },
+    [editedUserInfo],
+  );
 
   const onSave = useCallback(async () => {
     try {
@@ -94,39 +96,37 @@ function UserInfo() {
       });
     }
     // eslint-disable-next-line
-  }, [editedUserInfo])
+  }, [editedUserInfo]);
 
   const onCancel = useCallback(() => {
     setEditedUserInfo(userInfo);
     setIsReadOnly(true);
     // eslint-disable-next-line
-  }, [userInfo])
+  }, [userInfo]);
 
   const changePassword = useCallback(async () => {
     setResetPasswordModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return userInfo.userName ? (
     <div className="generic-page">
       <div className="user-page">
         <div className="user-info-container">
           <h1>User Info</h1>
-          {resetPasswordModal
-            && (
-              <ResetPassword
-                open={resetPasswordModal}
-                setOpen={setResetPasswordModal}
-                path="/api/v1/users/change-password"
-              />
-            )}
-          <Button onClick={startEditInfo}><Edit /></Button>
-          {!isReadOnly
-            && (
-              <Button onClick={changePassword}>
-                Change Password
-              </Button>
-            )}
+          {resetPasswordModal && (
+            <ResetPassword
+              open={resetPasswordModal}
+              setOpen={setResetPasswordModal}
+              path="/api/v1/users/change-password"
+            />
+          )}
+          <Button onClick={startEditInfo}>
+            <Edit />
+          </Button>
+          {!isReadOnly && (
+            <Button onClick={changePassword}>Change Password</Button>
+          )}
           <TextField
             name="firstName"
             onChange={editing}
@@ -143,37 +143,35 @@ function UserInfo() {
             value={generateName(editedUserInfo.lastName)}
             InputProps={{ readOnly: isReadOnly }}
           />
-          {isReadOnly
-            ? (
-              <TextField
+          {isReadOnly ? (
+            <TextField
+              name="birthDate"
+              className={classes.info}
+              style={{ color: 'white' }}
+              label="Birth Date"
+              value={generateTime(editedUserInfo.birthDate)}
+              InputProps={{ readOnly: isReadOnly }}
+            />
+          ) : (
+            <>
+              <label
+                style={{
+                  marginRight: '130px',
+                  marginBottom: '5px',
+                  color: 'gray',
+                }}
+              >
+                Birth Date
+              </label>
+              <input
+                className={classes.birthDate}
                 name="birthDate"
-                className={classes.info}
-                style={{ color: 'white' }}
-                label="Birth Date"
+                type="date"
                 value={generateTime(editedUserInfo.birthDate)}
-                InputProps={{ readOnly: isReadOnly }}
+                onChange={editing}
               />
-            )
-            : (
-              <>
-                <label
-                  style={{
-                    marginRight: '130px',
-                    marginBottom: '5px',
-                    color: 'gray',
-                  }}
-                >
-                  Birth Date
-                </label>
-                <input
-                  className={classes.birthDate}
-                  name="birthDate"
-                  type="date"
-                  value={generateTime(editedUserInfo.birthDate)}
-                  onChange={editing}
-                />
-              </>
-            )}
+            </>
+          )}
           <TextField
             onChange={editing}
             name="country"
@@ -195,7 +193,9 @@ function UserInfo() {
             name="githubAccount"
             className={classes.info}
             label="Github"
-            value={editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''}
+            value={
+              editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''
+            }
             InputProps={{ readOnly: isReadOnly }}
           />
           <TextField
@@ -204,14 +204,12 @@ function UserInfo() {
             value={getUpdated(editedUserInfo.createdAt)}
             InputProps={{ readOnly: true }}
           />
-          {!isReadOnly
-            && (
-              <div style={{ display: 'flex' }}>
-                <Button onClick={onSave}>save</Button>
-                <Button onClick={onCancel}>cancel</Button>
-              </div>
-            )}
-
+          {!isReadOnly && (
+            <div style={{ display: 'flex' }}>
+              <Button onClick={onSave}>save</Button>
+              <Button onClick={onCancel}>cancel</Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

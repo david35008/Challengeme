@@ -6,7 +6,11 @@ import ChooseMembers from '../Choosers/ChooseMembers';
 import { getModalStyle, useModalStyles } from '../../utils';
 
 export default function AddTeamMembers({
-  open = false, setOpen, getAllTeams, teamNameForMember, isTeacher,
+  open = false,
+  setOpen,
+  getAllTeams,
+  teamNameForMember,
+  isTeacher,
 }) {
   const classes = useModalStyles();
 
@@ -17,20 +21,21 @@ export default function AddTeamMembers({
   const handleSubmitNewTeam = useCallback(async () => {
     try {
       const url = isTeacher ? 'add-users' : 'admin-add-users';
-      await network.post(`/api/v1/teams/${url}/${teamNameForMember}`, { newUsers: newTeamMembers });
+      await network.post(`/api/v1/teams/${url}/${teamNameForMember}`, {
+        newUsers: newTeamMembers,
+      });
       getAllTeams();
       setOpen(false);
       setNewTeamMembers([]);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [isTeacher, newTeamMembers, teamNameForMember])
+  }, [isTeacher, newTeamMembers, teamNameForMember]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     setNewTeamMembers([]);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -58,7 +63,6 @@ export default function AddTeamMembers({
           variant="contained"
           color="primary"
           onClick={handleSubmitNewTeam}
-
         >
           Add
         </Button>

@@ -27,14 +27,14 @@ export default function UpdateWebhookTeam({
       });
       getAllTeams();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [data, webhookUrl, authorizationToken])
+  }, [data, webhookUrl, authorizationToken]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

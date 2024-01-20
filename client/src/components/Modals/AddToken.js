@@ -23,15 +23,14 @@ export default function AddToken({ open = false, setOpen, getAllTokens }) {
       await network.post('/api/v1/git/', newTokenObj);
       getAllTokens();
       setOpen(false);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [newToken, newTokenGitAccount, newTokenActionsLimit])
+  }, [newToken, newTokenGitAccount, newTokenActionsLimit]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -43,13 +42,22 @@ export default function AddToken({ open = false, setOpen, getAllTokens }) {
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title">Text in a modal</h2>
         <div id="simple-modal-description">
-          <Input onChange={(event) => setNewToken(event.target.value)} placeholder="Insert Token..." />
+          <Input
+            onChange={(event) => setNewToken(event.target.value)}
+            placeholder="Insert Token..."
+          />
           <br />
           <br />
-          <Input onChange={(event) => setNewTokeGitAccount(event.target.value)} placeholder="Insert Github Account..." />
+          <Input
+            onChange={(event) => setNewTokeGitAccount(event.target.value)}
+            placeholder="Insert Github Account..."
+          />
           <br />
           <br />
-          <Input onChange={(event) => setNewTokeActionsLimit(event.target.value)} placeholder="Insert Action Limit..." />
+          <Input
+            onChange={(event) => setNewTokeActionsLimit(event.target.value)}
+            placeholder="Insert Action Limit..."
+          />
           <br />
           <br />
         </div>

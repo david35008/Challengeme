@@ -27,14 +27,14 @@ export default function UpdateAccessKey({
       });
       getAllAccessKeys();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [data, newEmail, newEntityName, updateKey])
+  }, [data, newEmail, newEntityName, updateKey]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

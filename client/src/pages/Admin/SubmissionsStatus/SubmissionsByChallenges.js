@@ -52,22 +52,27 @@ function Row(props) {
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </>
         <StyledTableCell component="th" scope="row">
           {row.name}
         </StyledTableCell>
-        <StyledTableCell align="left">
-          {row.Submissions.length}
-        </StyledTableCell>
+        <StyledTableCell align="left">{row.Submissions.length}</StyledTableCell>
         <StyledTableCell align="left">
           {new Date(row.createdAt).toString().substring(0, 24)}
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -78,7 +83,9 @@ function Row(props) {
                   <TableRow>
                     <StyledTableCell>Submission Id</StyledTableCell>
                     <StyledTableCell align="left">User Name</StyledTableCell>
-                    <StyledTableCell align="left">Solution Repository</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Solution Repository
+                    </StyledTableCell>
                     <StyledTableCell align="left">Created At</StyledTableCell>
                     <StyledTableCell align="left">State</StyledTableCell>
                   </TableRow>
@@ -92,7 +99,8 @@ function Row(props) {
                         </StyledTableCell>
                         <StyledTableCell>
                           {' '}
-                          {userBySubmission.User && userBySubmission.User.userName}
+                          {userBySubmission.User
+                            && userBySubmission.User.userName}
                           {' '}
                         </StyledTableCell>
                         <StyledTableCell>
@@ -101,7 +109,9 @@ function Row(props) {
                           {' '}
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {new Date(userBySubmission.createdAt).toString().substring(0, 24)}
+                          {new Date(userBySubmission.createdAt)
+                            .toString()
+                            .substring(0, 24)}
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           <div
@@ -138,17 +148,16 @@ const SubmissionsByChallenges = () => {
     );
     setDataPresent(challengesSubmissionsFromServer);
     // eslint-disable-next-line
-  }, [last])
+  }, [last]);
 
   useEffect(() => {
     getChallengesSubmissions();
-    // eslint-disable-next-line
   }, [last]);
 
   const filteredLast = useCallback(() => {
     setLast((prev) => !prev);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>

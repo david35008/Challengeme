@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {
   Typography,
@@ -40,7 +40,7 @@ const generateAlert = (title, message) => (
 );
 
 export default function NewChallengeForm() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [optionsTypes, setOptionstypes] = useState([]);
   const [labels, setLabels] = useState([]);
   const [repoName, setRepoName] = useState('');
@@ -61,12 +61,12 @@ export default function NewChallengeForm() {
         label: labelData.name,
       }));
       setChooseLabels(optionsForSelector);
-      const newFilter = optionsForSelector.filter((label) => (
-        label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null)
-      ));
+      const newFilter = optionsForSelector.filter(
+        (label) => label.value
+          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+      );
       setLabels(newFilter);
-    } catch (error) { }
+    } catch (error) {}
   }, [filteredLabels]);
 
   /* pull challenge's type options from .github/workflows folder */
@@ -80,23 +80,25 @@ export default function NewChallengeForm() {
           </MenuItem>
         )),
       );
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getTypes();
     getLabels();
     const user = Cookies.get('userName');
     mixpanel.track('User On Add New Challenge Page', { User: `${user}` });
-    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newBadInput = [];
-    if (repoName.length < 1 || repoName.match(spaces) || repoName.match(hebrew)) {
+    if (
+      repoName.length < 1
+      || repoName.match(spaces)
+      || repoName.match(hebrew)
+    ) {
       newBadInput.push(
         generateAlert(
           "Repository's name is too short",
@@ -108,8 +110,14 @@ export default function NewChallengeForm() {
       newBadInput.push(generateAlert('Repository links must be diffrent', ''));
     } else {
       try {
-        if (repoLink.length > 2 && !repoLink.match(spaces) && !repoLink.match(hebrew)) {
-          await network.get(`/api/v1/services/public-repo?repo_name=${repoLink}`);
+        if (
+          repoLink.length > 2
+          && !repoLink.match(spaces)
+          && !repoLink.match(hebrew)
+        ) {
+          await network.get(
+            `/api/v1/services/public-repo?repo_name=${repoLink}`,
+          );
         } else {
           throw new Error();
         }
@@ -127,7 +135,9 @@ export default function NewChallengeForm() {
           && !repoBoiler.match(spaces)
           && !repoBoiler.match(hebrew)
         ) {
-          await network.get(`/api/v1/services/public-repo?repo_name=${repoBoiler}`);
+          await network.get(
+            `/api/v1/services/public-repo?repo_name=${repoBoiler}`,
+          );
         } else {
           throw new Error();
         }
@@ -179,7 +189,10 @@ export default function NewChallengeForm() {
       };
       /* post newRepo to challenge table */
       try {
-        const { data: postedRepo } = await network.post('/api/v1/challenges', newRepo);
+        const { data: postedRepo } = await network.post(
+          '/api/v1/challenges',
+          newRepo,
+        );
         await network.post('/api/v1/images', {
           challengeId: postedRepo.id,
           img: file.result,
@@ -193,7 +206,7 @@ export default function NewChallengeForm() {
           showConfirmButton: false,
           timer: 3000,
         });
-        history.push('/');
+        navigate('/');
       } catch (error) {
         if (error.response.status === 400) {
           Swal.fire({
@@ -237,7 +250,7 @@ export default function NewChallengeForm() {
       setFile({});
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   /* 'clear values' button */
   const handleReset = useCallback(() => {
@@ -249,12 +262,16 @@ export default function NewChallengeForm() {
     setBadInput([]);
     setChooseLabels([]);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div className="newChallenge">
       <form className="newChallengeForm">
-        <Typography variant="h5" gutterBottom className="newChallengeFormheader">
+        <Typography
+          variant="h5"
+          gutterBottom
+          className="newChallengeFormheader"
+        >
           New Challenge
         </Typography>
         <TextField
@@ -296,9 +313,7 @@ export default function NewChallengeForm() {
         <br />
         <AddImg file={file} handleChange={handleFile} />
         <br />
-        <div
-          style={{ minWidth: '150px', width: 'fit-content' }}
-        >
+        <div style={{ minWidth: '150px', width: 'fit-content' }}>
           <ChooseLabels
             labels={labels}
             setLabels={setLabels}

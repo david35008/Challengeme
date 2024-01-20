@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResetPassword({
-  open = false, setOpen, path, notAdmin = true,
+  open = false,
+  setOpen,
+  path,
+  notAdmin = true,
 }) {
   const classes = useStyles();
 
@@ -45,39 +48,48 @@ export default function ResetPassword({
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const resetPassword = useCallback((passwordForReset, confirmPasswordForReset, oldPasswordForReset) => {
-    if (oldPasswordForReset && oldPasswordForReset.length < 8 && notAdmin) {
-      setError('old password should be at least 8 characters');
-      return false;
-    }
-    if (passwordForReset.length < 8) {
-      setError('password should be at least 8 characters');
-      return false;
-    }
-    if (passwordForReset !== confirmPasswordForReset) {
-      setError('passwords do not match');
-      return false;
-    }
-    if (passwordForReset === oldPasswordForReset && notAdmin) {
-      setError('You should choose new password');
-      return false;
-    }
-    return true;
-    // eslint-disable-next-line
-  }, [])
+  const resetPassword = useCallback(
+    (passwordForReset, confirmPasswordForReset, oldPasswordForReset) => {
+      if (oldPasswordForReset && oldPasswordForReset.length < 8 && notAdmin) {
+        setError('old password should be at least 8 characters');
+        return false;
+      }
+      if (passwordForReset.length < 8) {
+        setError('password should be at least 8 characters');
+        return false;
+      }
+      if (passwordForReset !== confirmPasswordForReset) {
+        setError('passwords do not match');
+        return false;
+      }
+      if (passwordForReset === oldPasswordForReset && notAdmin) {
+        setError('You should choose new password');
+        return false;
+      }
+      return true;
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
   const handleSubmitNewWebhookTeam = useCallback(async () => {
     try {
-      const passAllChecks = resetPassword(newPassword, confirmNewPassword, oldPassword);
+      const passAllChecks = resetPassword(
+        newPassword,
+        confirmNewPassword,
+        oldPassword,
+      );
       if (passAllChecks) {
-        const { data: response } = await network.patch(path, { oldPassword, newPassword });
+        const { data: response } = await network.patch(path, {
+          oldPassword,
+          newPassword,
+        });
         Swal.fire({
           icon: 'success',
           text: response.message,
           timer: 3000,
         });
         setOpen(false);
-        return;
       }
     } catch (error) {
       const response = error.response.data;
@@ -89,29 +101,32 @@ export default function ResetPassword({
       });
     }
     // eslint-disable-next-line
-  }, [newPassword, confirmNewPassword, oldPassword])
+  }, [newPassword, confirmNewPassword, oldPassword]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const handleChange = useCallback((field) => (e) => {
-    switch (field) {
-      case 'oldP':
-        setOldPassword(e.target.value);
-        break;
-      case 'newP':
-        setNewPassword(e.target.value);
-        break;
-      case 'confirmP':
-        setConfirmNewPassword(e.target.value);
-        break;
-      default:
-        break;
-    }
-    // eslint-disable-next-line
-  }, [])
+  const handleChange = useCallback(
+    (field) => (e) => {
+      switch (field) {
+        case 'oldP':
+          setOldPassword(e.target.value);
+          break;
+        case 'newP':
+          setNewPassword(e.target.value);
+          break;
+        case 'confirmP':
+          setConfirmNewPassword(e.target.value);
+          break;
+        default:
+          break;
+      }
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
   return (
     <Modal
@@ -123,16 +138,17 @@ export default function ResetPassword({
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title">Change Your Password</h2>
         {error !== '' && (
-          <motion.div style={{
-            position: 'absolute',
-            height: '40px',
-            borderRadius: '5px',
-            width: '400px',
-            color: 'white',
-            backgroundColor: 'rgba(255, 0, 0, 0.616)',
-            display: 'flex',
-            alignItems: 'center',
-          }}
+          <motion.div
+            style={{
+              position: 'absolute',
+              height: '40px',
+              borderRadius: '5px',
+              width: '400px',
+              color: 'white',
+              backgroundColor: 'rgba(255, 0, 0, 0.616)',
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
             <ErrorIcon
               style={{
@@ -140,11 +156,12 @@ export default function ResetPassword({
                 marginLeft: '4px',
               }}
             />
-            <div style={{
-              height: 'auto',
-              margin: 'auto',
-              color: 'white',
-            }}
+            <div
+              style={{
+                height: 'auto',
+                margin: 'auto',
+                color: 'white',
+              }}
             >
               {error}
             </div>
@@ -152,7 +169,11 @@ export default function ResetPassword({
         )}
         <div id="simple-modal-description">
           <Change
-            data={{ oldPassword, password: newPassword, confirmPassword: confirmNewPassword }}
+            data={{
+              oldPassword,
+              password: newPassword,
+              confirmPassword: confirmNewPassword,
+            }}
             handleChange={handleChange}
             changePassword={notAdmin}
             notAdmin={notAdmin}

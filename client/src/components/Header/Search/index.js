@@ -25,7 +25,7 @@ const Search = () => {
   const search = useCallback((e) => {
     setSearchValue(e.target.value);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (debouncedSearchValue.length === 0) {
@@ -36,20 +36,22 @@ const Search = () => {
     try {
       const filteredChallenges = [];
       for (let i = 0; i < allChallenges.length; i++) {
-        if (allChallenges[i].name.toLowerCase().includes(debouncedSearchValue.toLowerCase())) {
+        if (
+          allChallenges[i].name
+            .toLowerCase()
+            .includes(debouncedSearchValue.toLowerCase())
+        ) {
           filteredChallenges.push(allChallenges[i]);
         }
       }
       setResults(filteredChallenges);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [debouncedSearchValue])
+  }, [debouncedSearchValue]);
 
   const closeSearch = useCallback(() => {
     setSearchValue('');
     setResults([]);
-    // eslint-disable-next-line
   }, [debouncedSearchValue]);
 
   const onSearchLoseFocus = useCallback(() => {
@@ -58,11 +60,13 @@ const Search = () => {
       setSearchValue('');
     }, 200);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const resultsList = results && results.length > 0 && results.map((result) => (
-    <SearchTicket ticket={result} key={result.id} closeSearch={closeSearch} />
-  ));
+  const resultsList = results
+    && results.length > 0
+    && results.map((result) => (
+      <SearchTicket ticket={result} key={result.id} closeSearch={closeSearch} />
+    ));
 
   return (
     <>
@@ -88,7 +92,10 @@ const Search = () => {
           />
         </div>
       </div>
-      <div id="searchResults" className={results.length !== 0 ? 'open' : 'closed'}>
+      <div
+        id="searchResults"
+        className={results.length !== 0 ? 'open' : 'closed'}
+      >
         <div className="display">
           <div className="background-black-to-search" />
           {resultsList}

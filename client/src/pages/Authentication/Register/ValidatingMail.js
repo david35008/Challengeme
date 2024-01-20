@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import Swal from 'sweetalert2';
 import { Logged } from '../../../context/LoggedInContext';
 import network from '../../../services/network';
 
 function ValidatingMail() {
-  const location = useHistory();
+  const navigate = useNavigate();
   const url = useLocation();
   const LoggedContext = useContext(Logged);
 
@@ -19,8 +19,11 @@ function ValidatingMail() {
         .then((data) => {
           LoggedContext.setLogged(true);
           LoggedContext.setIsAdmin(data.isAdmin);
-          mixpanel.track('User Logged In', { User: `${data.userName}`, firstLogin: true });
-          location.push('/');
+          mixpanel.track('User Logged In', {
+            User: `${data.userName}`,
+            firstLogin: true,
+          });
+          navigate('/');
           Swal.fire({
             icon: 'success',
             title: 'Registration Completed',
@@ -33,13 +36,11 @@ function ValidatingMail() {
             title: 'Sorry',
             text: 'Email Confirmation Failed, Please try again later.',
           }).then(() => {
-            location.push('/login');
+            navigate('/login');
           });
         });
-    } catch (error) {
-    }
-    // eslint-disable-next-line
-  }, [location, token]);
+    } catch (error) {}
+  }, [navigate, token]);
 
   return <div />;
 }

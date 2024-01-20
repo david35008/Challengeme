@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 export default function Forgot() {
   const classes = useStyles();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
@@ -39,28 +39,35 @@ export default function Forgot() {
     mixpanel.track('User On Forgot Password Page');
   }, []);
 
-  const handleChange = useCallback((field) => (e) => {
-    switch (field) {
-      case 'userName':
-        setUserName(e.target.value);
-        break;
-      case 'answer':
-        setSecAnswer(e.target.value);
-        break;
-      case 'newP':
-        setPassword(e.target.value);
-        break;
-      case 'confirmP':
-        setConfirmPassword(e.target.value);
-        break;
-      default:
-        break;
-    }
-    // eslint-disable-next-line
-  }, [])
+  const handleChange = useCallback(
+    (field) => (e) => {
+      switch (field) {
+        case 'userName':
+          setUserName(e.target.value);
+          break;
+        case 'answer':
+          setSecAnswer(e.target.value);
+          break;
+        case 'newP':
+          setPassword(e.target.value);
+          break;
+        case 'confirmP':
+          setConfirmPassword(e.target.value);
+          break;
+        default:
+          break;
+      }
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
   const getQuestion = useCallback(async (userNameForQuestion) => {
-    if (userNameForQuestion.length < 1 || userNameForQuestion.length > 32 || /\W/.test(userNameForQuestion)) {
+    if (
+      userNameForQuestion.length < 1
+      || userNameForQuestion.length > 32
+      || /\W/.test(userNameForQuestion)
+    ) {
       setError('Please enter a valid username');
       return;
     }
@@ -77,65 +84,71 @@ export default function Forgot() {
       setError(e.response.data.message);
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const validateAnswer = useCallback(async (userNameForValidateAnswer, securityAnswer) => {
-    if (!securityAnswer) {
-      setError('Please type your anwer');
-      return;
-    }
-    if (securityAnswer.length < 8) {
-      setError('Answer should be longer');
-      return;
-    }
-    if (securityAnswer.match(/[^a-zA-Z\d\s]/)) {
-      setError('Answer can not contain special characters');
-      return;
-    }
-    try {
-      const { data: response } = await network.post(
-        '/api/v1/auth/validate-answer',
-        {
-          userName: userNameForValidateAnswer,
-          securityAnswer,
-        },
-      );
-      setResetToken(response.resetToken);
-      setStep(3);
-    } catch (e) {
-      setError(e.response.data.message);
-    }
-    // eslint-disable-next-line
-  }, [])
+  const validateAnswer = useCallback(
+    async (userNameForValidateAnswer, securityAnswer) => {
+      if (!securityAnswer) {
+        setError('Please type your anwer');
+        return;
+      }
+      if (securityAnswer.length < 8) {
+        setError('Answer should be longer');
+        return;
+      }
+      if (securityAnswer.match(/[^a-zA-Z\d\s]/)) {
+        setError('Answer can not contain special characters');
+        return;
+      }
+      try {
+        const { data: response } = await network.post(
+          '/api/v1/auth/validate-answer',
+          {
+            userName: userNameForValidateAnswer,
+            securityAnswer,
+          },
+        );
+        setResetToken(response.resetToken);
+        setStep(3);
+      } catch (e) {
+        setError(e.response.data.message);
+      }
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
-  const resetPassword = useCallback(async (passwordForReset, confirmPasswordForReset, resetTokenForReset) => {
-    if (passwordForReset.length < 8) {
-      setError('password should be at least 8 characters');
-      return;
-    }
-    if (passwordForReset !== confirmPasswordForReset) {
-      setError('passwords do not match');
-      return;
-    }
-    try {
-      const { data: response } = await network.patch(
-        '/api/v1/auth/password-update',
-        {
-          password: passwordForReset,
-          resetToken: resetTokenForReset,
-        },
-      );
-      Swal.fire({
-        icon: 'success',
-        text: response.message,
-      }).then(() => {
-        history.push('/login');
-      });
-    } catch (e) {
-      setError(e.response.data.message);
-    }
-    // eslint-disable-next-line
-  }, [])
+  const resetPassword = useCallback(
+    async (passwordForReset, confirmPasswordForReset, resetTokenForReset) => {
+      if (passwordForReset.length < 8) {
+        setError('password should be at least 8 characters');
+        return;
+      }
+      if (passwordForReset !== confirmPasswordForReset) {
+        setError('passwords do not match');
+        return;
+      }
+      try {
+        const { data: response } = await network.patch(
+          '/api/v1/auth/password-update',
+          {
+            password: passwordForReset,
+            resetToken: resetTokenForReset,
+          },
+        );
+        Swal.fire({
+          icon: 'success',
+          text: response.message,
+        }).then(() => {
+          navigate('/login');
+        });
+      } catch (e) {
+        setError(e.response.data.message);
+      }
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
   const nextStep = useCallback(() => {
     setError('');
@@ -153,14 +166,17 @@ export default function Forgot() {
         break;
     }
     // eslint-disable-next-line
-  }, [step, userName, password, confirmPassword, secAnswer])
+  }, [step, userName, password, confirmPassword, secAnswer]);
 
   const multiForm = useCallback(() => {
     switch (step) {
       case 1:
         return <Identify data={{ userName }} handleChange={handleChange} />;
       case 2:
-        mixpanel.track('User On Forgot Password Page 2', { User: `${userName}`, Description: 'user tried to get Security Question' });
+        mixpanel.track('User On Forgot Password Page 2', {
+          User: `${userName}`,
+          Description: 'user tried to get Security Question',
+        });
         return (
           <Security
             data={{ secQuestion, secAnswer }}
@@ -168,7 +184,10 @@ export default function Forgot() {
           />
         );
       case 3:
-        mixpanel.track('User On Forgot Password Page 3', { User: `${userName}`, Description: 'user tried to Submit Security Answer' });
+        mixpanel.track('User On Forgot Password Page 3', {
+          User: `${userName}`,
+          Description: 'user tried to Submit Security Answer',
+        });
         return (
           <Change
             data={{ password, confirmPassword }}
@@ -179,7 +198,7 @@ export default function Forgot() {
         return <></>;
     }
     // eslint-disable-next-line
-  }, [step, userName, password, confirmPassword, secQuestion, secAnswer])
+  }, [step, userName, password, confirmPassword, secQuestion, secAnswer]);
 
   return (
     <>

@@ -11,23 +11,28 @@ export default function SingleRowSelectionGrid() {
   const [selectedUser, setSelectedUser] = useState();
 
   const getAllUsers = useCallback(async () => {
-    const { data: allUsersFromServer } = await network.get('/api/v1/users/admin');
+    const { data: allUsersFromServer } = await network.get(
+      '/api/v1/users/admin',
+    );
     setAllUsers(allUsersFromServer);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   useEffect(() => {
     getAllUsers();
     // eslint-disable-next-line
-    }, []);
+  }, []);
 
   const data = {
-    columns: [{
-      field: '',
-      headerName: '',
-      width: 65,
-      valueGetter: () => 'Edit',
-    }, ...columns],
+    columns: [
+      {
+        field: '',
+        headerName: '',
+        width: 65,
+        valueGetter: () => 'Edit',
+      },
+      ...columns,
+    ],
     rows: [...allUsers],
   };
 
@@ -48,15 +53,14 @@ export default function SingleRowSelectionGrid() {
           }
         }}
       />
-      {openDialog
-                && (
-                  <EditUserDialog
-                    getAllUsers={getAllUsers}
-                    selectedUser={selectedUser}
-                    openDialog={openDialog}
-                    setOpenDialog={setOpenDialog}
-                  />
-                )}
+      {openDialog && (
+        <EditUserDialog
+          getAllUsers={getAllUsers}
+          selectedUser={selectedUser}
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+        />
+      )}
     </div>
   );
 }

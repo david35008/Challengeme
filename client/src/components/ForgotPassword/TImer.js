@@ -10,10 +10,7 @@ export default function Timer({ limit, unit }) {
   }, []);
   return (
     <span>
-      {`${Math.floor(time / 60)}:${(`${time % 60}`).padStart(
-        2,
-        '0',
-      )} minutes`}
+      {`${Math.floor(time / 60)}:${`${time % 60}`.padStart(2, '0')} minutes`}
     </span>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Cookies from 'js-cookie';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -32,7 +32,7 @@ import network from '../../../services/network';
 
 export default function NarrowNav() {
   const classes = useStyles();
-  const location = useHistory();
+  const navigate = useNavigate();
   const LoggedContext = useContext(Logged);
   const [openNavBar, setOpenNavBar] = useState(false);
   const currentLocation = useLocation();
@@ -57,9 +57,8 @@ export default function NarrowNav() {
       Cookies.remove('userName');
       LoggedContext.setLogged(false);
       LoggedContext.setIsAdmin(false);
-      location.push('/login');
-    } catch (error) {
-    }
+      navigate('/login');
+    } catch (error) {}
   };
   const headerStyle = {
     backgroundColor: 'transfer',
@@ -70,7 +69,11 @@ export default function NarrowNav() {
   const dividerColor = {};
   return (
     <>
-      <AppBar position="fixed" className={clsx(classes.appBar, {})} style={headerStyle}>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {})}
+        style={headerStyle}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -85,67 +88,71 @@ export default function NarrowNav() {
             {currentLocation.pathname.includes('/challenges') ? (
               <Search />
             ) : null}
-            {currentLocation.pathname === '/'
-              && (
-                <>
-                  <Typography variant="h6" className={classes.title}>
-                    <Link to="/challenges" className="link-rout">
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginRight: '10px',
-                        }}
-                      >
-                        <AppsIcon style={letterColor} />
-                &nbsp;
-                        <span style={letterColor} className="header-link-title">
-                          Challenges
-                        </span>
-                      </div>
-                    </Link>
-                  </Typography>
-                  <Typography variant="h6" className={classes.title}>
-                    <Link to={LoggedContext.logged ? '/teams' : currentLocation.pathname} className="link-rout">
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginRight: '10px',
-                        }}
-                      >
-                        <GroupIcon style={letterColor} />
-                &nbsp;
-                        <span style={letterColor} className="header-link-title">
-                          Teams
-                        </span>
-                      </div>
-                    </Link>
-                  </Typography>
-                  <Typography variant="h6" className={classes.title}>
-                    <a
-                      href="https://suvelocity.github.io/challengeme/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link-rout"
+            {currentLocation.pathname === '/' && (
+              <>
+                <Typography variant="h6" className={classes.title}>
+                  <Link to="/challenges" className="link-rout">
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginRight: '10px',
+                      }}
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginRight: '10px',
-                        }}
-                      >
-                        <DescriptionIcon style={letterColor} />
-                &nbsp;
-                        <span style={letterColor} className="header-link-title">
-                          Docs
-                        </span>
-                      </div>
-                    </a>
-                  </Typography>
-                </>
-              )}
+                      <AppsIcon style={letterColor} />
+                      &nbsp;
+                      <span style={letterColor} className="header-link-title">
+                        Challenges
+                      </span>
+                    </div>
+                  </Link>
+                </Typography>
+                <Typography variant="h6" className={classes.title}>
+                  <Link
+                    to={
+                      LoggedContext.logged ? '/teams' : currentLocation.pathname
+                    }
+                    className="link-rout"
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginRight: '10px',
+                      }}
+                    >
+                      <GroupIcon style={letterColor} />
+                      &nbsp;
+                      <span style={letterColor} className="header-link-title">
+                        Teams
+                      </span>
+                    </div>
+                  </Link>
+                </Typography>
+                <Typography variant="h6" className={classes.title}>
+                  <a
+                    href="https://suvelocity.github.io/challengeme/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-rout"
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginRight: '10px',
+                      }}
+                    >
+                      <DescriptionIcon style={letterColor} />
+                      &nbsp;
+                      <span style={letterColor} className="header-link-title">
+                        Docs
+                      </span>
+                    </div>
+                  </a>
+                </Typography>
+              </>
+            )}
           </div>
         </Toolbar>
       </AppBar>
@@ -157,26 +164,27 @@ export default function NarrowNav() {
       >
         <div className={classes.generalDrawerHeader}>
           <div className={classes.avatarUserInfo}>
-            {LoggedContext.logged && Cookies.get('userName')
-              ? (
-                <Tooltip title={Cookies.get('userName')}>
-                  <Avatar
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    color="inherit"
-                    style={{
-                      cursor: 'pointer',
-                      backgroundColor: '#7BACB4',
-                    }}
-                  >
-                    {Cookies.get('userName').slice(0, 2)}
-                  </Avatar>
-                </Tooltip>
-              ) : null}
+            {LoggedContext.logged && Cookies.get('userName') ? (
+              <Tooltip title={Cookies.get('userName')}>
+                <Avatar
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  style={{
+                    cursor: 'pointer',
+                    backgroundColor: '#7BACB4',
+                  }}
+                >
+                  {Cookies.get('userName').slice(0, 2)}
+                </Avatar>
+              </Tooltip>
+            ) : null}
             <div className={classes.heyName} style={letterColor}>
               <b>
-                {Cookies.get('userName') ? (`Hey ${Cookies.get('userName')}`) : 'Welcome to ChallengeMe'}
+                {Cookies.get('userName')
+                  ? `Hey ${Cookies.get('userName')}`
+                  : 'Welcome to ChallengeMe'}
               </b>
             </div>
           </div>
@@ -218,7 +226,11 @@ export default function NarrowNav() {
             <>
               <Divider style={dividerColor} />
               <Link to="/admin/DashBoard" className="link-rout">
-                <ListItem button onClick={handleDrawerClose} style={letterColor}>
+                <ListItem
+                  button
+                  onClick={handleDrawerClose}
+                  style={letterColor}
+                >
                   <ListItemIcon>
                     <LockIcon style={letterColor} />
                   </ListItemIcon>
@@ -238,40 +250,45 @@ export default function NarrowNav() {
           </Link>
           <Divider style={dividerColor} />
           <ListItem className={classes.logOut} onClick={handleDrawerClose}>
-            <IconButton
-              aria-label="delete"
-            >
+            <IconButton aria-label="delete">
               <Brightness4Icon style={letterColor} />
             </IconButton>
           </ListItem>
           <Divider style={dividerColor} />
-          {LoggedContext.logged
-            ? (
-              <ListItem className={classes.logOut} onClick={handleDrawerClose}>
-                <Button
-                  className={classes.logOutButton}
-                  onClick={logOut}
-                  style={{ minWidth: 150 }}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Log Out
+          {LoggedContext.logged ? (
+            <ListItem className={classes.logOut} onClick={handleDrawerClose}>
+              <Button
+                className={classes.logOutButton}
+                onClick={logOut}
+                style={{ minWidth: 150 }}
+                variant="contained"
+                color="secondary"
+              >
+                Log Out
+              </Button>
+            </ListItem>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="link-rout"
+                onClick={handleDrawerClose}
+              >
+                <Button variant="contained" className={classes.authButton}>
+                  Login
                 </Button>
-              </ListItem>
-            ) : (
-              <>
-                <Link to="/login" className="link-rout" onClick={handleDrawerClose}>
-                  <Button variant="contained" className={classes.authButton}>
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register" className="link-rout" onClick={handleDrawerClose}>
-                  <Button variant="contained" className={classes.authButton}>
-                    Register
-                  </Button>
-                </Link>
-              </>
-            )}
+              </Link>
+              <Link
+                to="/register"
+                className="link-rout"
+                onClick={handleDrawerClose}
+              >
+                <Button variant="contained" className={classes.authButton}>
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
           <Divider style={dividerColor} />
         </List>
       </Drawer>

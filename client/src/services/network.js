@@ -5,12 +5,10 @@ const network = axios.create({});
 
 const getToken = () => Cookies.get('accessToken');
 
-network.interceptors.request.use(
-  (config) => {
-    config.headers.authorization = `bearer ${getToken()}`;
-    return config;
-  },
-);
+network.interceptors.request.use((config) => {
+  config.headers.authorization = `bearer ${getToken()}`;
+  return config;
+});
 
 network.interceptors.response.use(
   (response) => response,
@@ -19,16 +17,13 @@ network.interceptors.response.use(
     const originalRequest = error.config;
 
     if (status === 408) {
-      try {
-        await network.post('/api/v1/auth/token', { token: Cookies.get('refreshToken') });
-        const data = await network(originalRequest);
-        return data;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      throw error;
+      await network.post('/api/v1/auth/token', {
+        token: Cookies.get('refreshToken'),
+      });
+      const data = await network(originalRequest);
+      return data;
     }
+    throw error;
   },
 );
 

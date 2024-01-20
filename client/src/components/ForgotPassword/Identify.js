@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
     marginBottom: '10px',
     width: '320px',
   },
-
 }));
 export default function Identify(props) {
   const classes = useStyles();
@@ -35,10 +34,7 @@ export default function Identify(props) {
           required
           onChange={handleChange('userName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <AccountCircleIcon />
             </InputAdornment>
           )}

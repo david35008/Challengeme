@@ -38,12 +38,12 @@ function Security({ values, handleChange }) {
   const handleClickShowPassword = useCallback(() => {
     setShowPassword((prev) => !prev);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const handleClickShowConfirmPassword = useCallback(() => {
     setShowConfirmPassword((prev) => !prev);
     // eslint-disable-next-line
-  }, [])
+  }, []);
   return (
     <div className="containerSecurity">
       <FormControl className={classes.password}>
@@ -67,11 +67,7 @@ function Security({ values, handleChange }) {
                 onMouseDown={handleClickShowPassword}
                 onMouseUp={handleClickShowPassword}
               >
-                {showPassword ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
+                {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
               <LockIcon style={{ opacity: '0.7' }} />
             </InputAdornment>
@@ -99,11 +95,7 @@ function Security({ values, handleChange }) {
                 onMouseDown={handleClickShowConfirmPassword}
                 onMouseUp={handleClickShowConfirmPassword}
               >
-                {showConfirmPassword ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
+                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
               <LockIcon style={{ opacity: '0.7' }} />
             </InputAdornment>
@@ -111,7 +103,9 @@ function Security({ values, handleChange }) {
         />
       </FormControl>
       <FormControl className={classes.question}>
-        <InputLabel id="demo-mutiple-checkbox-label">Security Question</InputLabel>
+        <InputLabel id="demo-mutiple-checkbox-label">
+          Security Question
+        </InputLabel>
         <Select
           id="securityQuestion"
           autoWidth
@@ -119,8 +113,7 @@ function Security({ values, handleChange }) {
           onChange={handleChange('securityQuestion')}
         >
           <MenuItem value="When you were young, what did you want to be when you grew up?">
-            When you were young, what did you want to be when you
-            grew up?
+            When you were young, what did you want to be when you grew up?
           </MenuItem>
           <MenuItem value="Who was your childhood hero?">
             Who was your childhood hero?
@@ -137,9 +130,7 @@ function Security({ values, handleChange }) {
         </Select>
       </FormControl>
       <FormControl className={classes.answer}>
-        <InputLabel style={{ color: 'grey' }}>
-          Enter your answer
-        </InputLabel>
+        <InputLabel style={{ color: 'grey' }}>Enter your answer</InputLabel>
         <Input
           id="securityAnswer"
           type="text"
@@ -147,10 +138,7 @@ function Security({ values, handleChange }) {
           required
           onChange={handleChange('securityAnswer')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <QuestionAnswerIcon />
             </InputAdornment>
           )}

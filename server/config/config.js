@@ -2,12 +2,12 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME || 'root',
+    username: process.env.DB_USERNAME || '',
     password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_NAME || 'challenge',
+    database: process.env.DB_NAME || 'challengeme',
     host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT || 3306,
-    dialect: 'mysql',
+    port: process.env.DB_PORT || 5432,
+    dialect: 'postgres',
     define: {
       underscored: true,
       paranoid: true,

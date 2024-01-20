@@ -4,9 +4,19 @@ import React, {
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import {
-  Input, Button, Dialog, DialogActions, DialogContent,
-  DialogContentText, DialogTitle, useMediaQuery, CircularProgress,
-  FormControl, FormControlLabel, InputLabel, Switch,
+  Input,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  useMediaQuery,
+  CircularProgress,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Switch,
 } from '@material-ui/core';
 import network from '../../services/network';
 
@@ -49,7 +59,9 @@ export default function ResponsiveDialog({
 
   const handleDelete = useCallback(async () => {
     try {
-      const { data: response } = await network.delete(`/api/v1/users/${selectedUser}?hardDelete=${hardDelete}`);
+      const { data: response } = await network.delete(
+        `/api/v1/users/${selectedUser}?hardDelete=${hardDelete}`,
+      );
       setAlertType('success');
       setAlertMessage(response.message);
       setSaveAlert(true);
@@ -71,7 +83,7 @@ export default function ResponsiveDialog({
       setHardDelete(false);
     }
     // eslint-disable-next-line
-    }, [selectedUser, hardDelete])
+  }, [selectedUser, hardDelete]);
 
   const finishEdit = () => {
     if (success) {
@@ -98,9 +110,12 @@ export default function ResponsiveDialog({
     setOpenDeleteDialog(false);
   };
 
-  useEffect(() => () => {
-    clearTimeout(timer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      clearTimeout(timer.current);
+    },
+    [],
+  );
 
   return (
     <Dialog
@@ -121,35 +136,44 @@ export default function ResponsiveDialog({
             {' '}
             Delete
           </InputLabel>
-          {!userInfo.deletedAt
-                        && (
-                          <FormControlLabel
-                            control={(
-                              <Switch
-                                checked={hardDelete}
-                                onChange={() => setHardDelete((state) => !state)}
-                              />
-                            )}
-                          />
-                        )}
-          {hardDelete
-                        && (
-                          <FormControl className={classes.formControl}>
-                            <label className={classes.marginTop}>type username for confirmation.</label>
-                            <Input onChange={(user) => setUSerNameToDelete(user.target.value)} />
-                          </FormControl>
-                        )}
+          {!userInfo.deletedAt && (
+            <FormControlLabel
+              control={(
+                <Switch
+                  checked={hardDelete}
+                  onChange={() => setHardDelete((state) => !state)}
+                />
+              )}
+            />
+          )}
+          {hardDelete && (
+            <FormControl className={classes.formControl}>
+              <label className={classes.marginTop}>
+                type username for confirmation.
+              </label>
+              <Input
+                onChange={(user) => setUSerNameToDelete(user.target.value)}
+              />
+            </FormControl>
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={closeModal} color="primary">
           Cancel
         </Button>
-        <Button disabled={hardDelete ? userNameToDelete !== userInfo.userName : false} onClick={deleteUser} color="Secondary" autoFocus>
+        <Button
+          disabled={hardDelete ? userNameToDelete !== userInfo.userName : false}
+          onClick={deleteUser}
+          color="Secondary"
+          autoFocus
+        >
           Yes, I'm Sure
         </Button>
       </DialogActions>
-      {loading && <CircularProgress size={68} className={classes.fabProgress} />}
+      {loading && (
+        <CircularProgress size={68} className={classes.fabProgress} />
+      )}
     </Dialog>
   );
 }

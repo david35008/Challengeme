@@ -18,9 +18,14 @@ export default function Challenges() {
 
   const allChallenges = useContext(AllChallenges).challenges;
   const filteredLabels = useContext(FilteredLabels);
-  const allChallengesWithImgState = allChallenges.map((challenge) => ({ ...challenge, img: false }));
+  const allChallengesWithImgState = allChallenges.map((challenge) => ({
+    ...challenge,
+    img: false,
+  }));
 
-  const [challengesFiltered, setChallengesFiltered] = useState(allChallengesWithImgState);
+  const [challengesFiltered, setChallengesFiltered] = useState(
+    allChallengesWithImgState,
+  );
   const [labels, setLabels] = useState([]);
   const [chooseLabels, setChooseLabels] = useState([]);
 
@@ -32,12 +37,12 @@ export default function Challenges() {
         label: labelData.name,
       }));
       setChooseLabels(optionsForSelector);
-      const newFilter = optionsForSelector.filter((label) => (
-        label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null)
-      ));
+      const newFilter = optionsForSelector.filter(
+        (label) => label.value
+          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+      );
       setLabels(newFilter);
-    } catch (error) { }
+    } catch (error) {}
   }, [filteredLabels]);
 
   const setNewImg = useCallback((id, newImg) => {
@@ -56,7 +61,6 @@ export default function Challenges() {
     const user = Cookies.get('userName');
     mixpanel.track('User On Home Page', { User: `${user}` });
     return () => filteredLabels.setFilteredLabels([]);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -65,7 +69,6 @@ export default function Challenges() {
     } else {
       getLabels();
     }
-    // eslint-disable-next-line
   }, [currentLocation]);
 
   const filterLabels = useCallback(() => {
@@ -87,12 +90,11 @@ export default function Challenges() {
       } else {
         setChallengesFiltered(allChallenges);
       }
-    } catch (error) { }
+    } catch (error) {}
   }, [filteredLabels, allChallenges]);
 
   useEffect(() => {
     filterLabels();
-    // eslint-disable-next-line
   }, [filteredLabels]);
 
   return (
@@ -103,7 +105,10 @@ export default function Challenges() {
         </div>
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
-        <div className="All-Challenge-Choose-Labels" style={{ minWidth: '150px', width: 'fit-content' }}>
+        <div
+          className="All-Challenge-Choose-Labels"
+          style={{ minWidth: '150px', width: 'fit-content' }}
+        >
           <ChooseLabels
             labels={labels}
             chooseLabels={chooseLabels}

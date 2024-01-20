@@ -9,9 +9,9 @@ const ipAddress = process.env.IP_ADDRESS.substr(0, spliceIpAddress + 1);
 const env = process.env.NODE_ENV || 'development';
 const establishNgrokConnection = require('./helpers/ngrokConnection');
 
-if (env === 'development') {
-  establishNgrokConnection();
-}
+// if (env === 'development') {
+//   establishNgrokConnection();
+// }
 
 if (env !== 'development') {
   const options = {

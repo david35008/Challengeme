@@ -6,7 +6,10 @@ import ChooseChallenges from '../Choosers/ChooseChallenges';
 import { getModalStyle, useModalStyles } from '../../utils';
 
 export default function AddAssignment({
-  open = false, setOpen, getAllAssignments, teamId,
+  open = false,
+  setOpen,
+  getAllAssignments,
+  teamId,
 }) {
   const classes = useModalStyles();
 
@@ -16,20 +19,21 @@ export default function AddAssignment({
 
   const addNewAssignment = useCallback(async () => {
     try {
-      await network.post(`/api/v1/assignments/${teamId}`, { challenges: newAssignmentsChosen });
+      await network.post(`/api/v1/assignments/${teamId}`, {
+        challenges: newAssignmentsChosen,
+      });
       getAllAssignments();
       setOpen(false);
       setNewAssignmentsChosen([]);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [teamId, newAssignmentsChosen])
+  }, [teamId, newAssignmentsChosen]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     setNewAssignmentsChosen([]);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -41,7 +45,6 @@ export default function AddAssignment({
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title">
           Add New Assignments To Team
-          {' '}
           {teamId}
         </h2>
         <div id="simple-modal-description">
@@ -53,11 +56,7 @@ export default function AddAssignment({
             setChallengesOptions={setAssignmentsOptions}
           />
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={addNewAssignment}
-        >
+        <Button variant="contained" color="primary" onClick={addNewAssignment}>
           Add
         </Button>
         <AddAssignment />

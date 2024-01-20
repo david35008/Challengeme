@@ -36,7 +36,14 @@ const toCapitalCase = (string) => {
 const getUpdated = (date) => moment(date).fromNow();
 
 export default function UserInfo({
-  userInfo, fetchUserInfo, setUserInfo, editMode, id, editedUserInfo, setEditedUserInfo, getAllUsers,
+  userInfo,
+  fetchUserInfo,
+  setUserInfo,
+  editMode,
+  id,
+  editedUserInfo,
+  setEditedUserInfo,
+  getAllUsers,
 }) {
   const [resetPasswordModal, setResetPasswordModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -46,12 +53,17 @@ export default function UserInfo({
 
   const changePermission = useCallback(async () => {
     try {
-      const isUpdateOk = window.confirm(`Are you sure you want to change permission for ${userInfo.userName}?`);
+      const isUpdateOk = window.confirm(
+        `Are you sure you want to change permission for ${userInfo.userName}?`,
+      );
       if (isUpdateOk != null) {
         const newPermission = userInfo.permission === 'user' ? 'admin' : 'user';
-        const { data: response } = await network.patch(`/api/v1/users/permission/${id}`, {
-          permission: newPermission,
-        });
+        const { data: response } = await network.patch(
+          `/api/v1/users/permission/${id}`,
+          {
+            permission: newPermission,
+          },
+        );
         setAlertType('success');
         setAlertMessage(response.message);
         setShowAlert(true);
@@ -65,28 +77,32 @@ export default function UserInfo({
       setShowAlert(true);
     }
     // eslint-disable-next-line
-    }, [id, userInfo])
+  }, [id, userInfo]);
 
-  const editing = useCallback(async (event) => {
-    const key = event.target.name;
-    const { value } = event.target;
-    const edited = { ...editedUserInfo };
-    edited[key] = value;
-    setEditedUserInfo(edited);
-    // eslint-disable-next-line
-    }, [editedUserInfo]);
+  const editing = useCallback(
+    async (event) => {
+      const key = event.target.name;
+      const { value } = event.target;
+      const edited = { ...editedUserInfo };
+      edited[key] = value;
+      setEditedUserInfo(edited);
+      // eslint-disable-next-line
+    },
+    [editedUserInfo],
+  );
 
   const changePassword = useCallback(async () => {
     setResetPasswordModal(true);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   return userInfo.userName ? (
     <div className="generic-page-admin">
       <div className="user-data-header">
         <h1>User Info</h1>
-        {userInfo.deletedAt
-                    && <Chip label="Deleted User" color="secondary" variant="outlined" />}
+        {userInfo.deletedAt && (
+          <Chip label="Deleted User" color="secondary" variant="outlined" />
+        )}
         <div className="user-data-permission">
           <h2>
             Permission:
@@ -96,18 +112,15 @@ export default function UserInfo({
         </div>
       </div>
       <div className="change-password-admin">
-        {resetPasswordModal
-                    && (
-                      <ResetPassword
-                        open={resetPasswordModal}
-                        setOpen={setResetPasswordModal}
-                        notAdmin={false}
-                        path={`/api/v1/users/admin-password/${id}`}
-                      />
-                    )}
-        <Button onClick={changePassword}>
-          Change Password
-        </Button>
+        {resetPasswordModal && (
+          <ResetPassword
+            open={resetPasswordModal}
+            setOpen={setResetPasswordModal}
+            notAdmin={false}
+            path={`/api/v1/users/admin-password/${id}`}
+          />
+        )}
+        <Button onClick={changePassword}>Change Password</Button>
       </div>
       <div className="user-page-admin">
         <div className="user-info-container-admin">
@@ -165,7 +178,9 @@ export default function UserInfo({
               name="phoneNumber"
               className={classes.info}
               label="Phone Number"
-              value={editedUserInfo.phoneNumber ? editedUserInfo.phoneNumber : ''}
+              value={
+                editedUserInfo.phoneNumber ? editedUserInfo.phoneNumber : ''
+              }
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
@@ -174,50 +189,56 @@ export default function UserInfo({
             name="reasonOfRegistration"
             className={classes.info}
             label="Reason Of Registration"
-            value={editedUserInfo.reasonOfRegistration ? editedUserInfo.reasonOfRegistration : ''}
+            value={
+              editedUserInfo.reasonOfRegistration
+                ? editedUserInfo.reasonOfRegistration
+                : ''
+            }
             InputProps={{ readOnly: true }}
           />
           <TextField
             name="securityQuestion"
             className={classes.info}
             label="Security Question"
-            value={editedUserInfo.securityQuestion ? editedUserInfo.securityQuestion : ''}
+            value={
+              editedUserInfo.securityQuestion
+                ? editedUserInfo.securityQuestion
+                : ''
+            }
             InputProps={{ readOnly: true }}
           />
-          {!editMode
-            ? (
-              <TextField
-                name="birthDate"
-                className={classes.info}
-                style={{ color: 'white' }}
-                label="Birth Date"
-                value={generateTime(editedUserInfo.birthDate)}
-                InputProps={{ readOnly: !editMode }}
-              />
-            )
-            : (
-              <>
-                <label
-                  style={{
-                    marginRight: '130px',
-                    marginBottom: '5px',
-                    color: 'gray',
-                  }}
-                >
-                  Birth Date
-                </label>
-                <div className={editMode && 'edit-mode-container'}>
-                  <input
-                    className={classes.birthDate}
-                    name="birthDate"
-                    type="date"
-                    value={generateTime(editedUserInfo.birthDate)}
-                    onChange={editing}
-                  />
-                  {editMode && <Edit className="edit-icon" />}
-                </div>
-              </>
-            )}
+          {!editMode ? (
+            <TextField
+              name="birthDate"
+              className={classes.info}
+              style={{ color: 'white' }}
+              label="Birth Date"
+              value={generateTime(editedUserInfo.birthDate)}
+              InputProps={{ readOnly: !editMode }}
+            />
+          ) : (
+            <>
+              <label
+                style={{
+                  marginRight: '130px',
+                  marginBottom: '5px',
+                  color: 'gray',
+                }}
+              >
+                Birth Date
+              </label>
+              <div className={editMode && 'edit-mode-container'}>
+                <input
+                  className={classes.birthDate}
+                  name="birthDate"
+                  type="date"
+                  value={generateTime(editedUserInfo.birthDate)}
+                  onChange={editing}
+                />
+                {editMode && <Edit className="edit-icon" />}
+              </div>
+            </>
+          )}
           <div className={editMode && 'edit-mode-container'}>
             <TextField
               onChange={editing}
@@ -246,7 +267,9 @@ export default function UserInfo({
               name="githubAccount"
               className={classes.info}
               label="Github"
-              value={editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''}
+              value={
+                editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''
+              }
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
@@ -263,19 +286,24 @@ export default function UserInfo({
             value={getUpdated(editedUserInfo.updatedAt)}
             InputProps={{ readOnly: true }}
           />
-          {editedUserInfo.deletedAt
-                        && (
-                          <TextField
-                            className={classes.info}
-                            label="Account Deleted"
-                            value={getUpdated(editedUserInfo.deletedAt)}
-                            InputProps={{ readOnly: true }}
-                          />
-                        )}
+          {editedUserInfo.deletedAt && (
+            <TextField
+              className={classes.info}
+              label="Account Deleted"
+              value={getUpdated(editedUserInfo.deletedAt)}
+              InputProps={{ readOnly: true }}
+            />
+          )}
         </div>
       </div>
-      {showAlert
-                && <Alert type={alertType} open={showAlert} setOpen={setShowAlert} text={alertMessage} />}
+      {showAlert && (
+        <Alert
+          type={alertType}
+          open={showAlert}
+          setOpen={setShowAlert}
+          text={alertMessage}
+        />
+      )}
     </div>
   ) : (
     <div />

@@ -30,7 +30,7 @@ export default function CustomizedSnackbars({
     }
     setOpen(false);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -57,11 +57,13 @@ export default function CircularIntegration({
   const deleteClick = useCallback(() => {
     setOpenDeleteDialog(true);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   const handleRestore = useCallback(async () => {
     try {
-      const { data: response } = await network.put(`/api/v1/users/restore/${selectedUser}`);
+      const { data: response } = await network.put(
+        `/api/v1/users/restore/${selectedUser}`,
+      );
       setAlertType('success');
       setAlertMessage(response.message);
       setSaveAlert(true);
@@ -74,10 +76,12 @@ export default function CircularIntegration({
       setSaveAlert(true);
     }
     // eslint-disable-next-line
-    }, [selectedUser])
+  }, [selectedUser]);
 
   const restoreClick = useCallback(async () => {
-    const restoreOk = window.confirm(`Are you sure you want to restore ${userInfo.userName}?`);
+    const restoreOk = window.confirm(
+      `Are you sure you want to restore ${userInfo.userName}?`,
+    );
     if (restoreOk) {
       if (!loading) {
         setLoading(true);
@@ -91,11 +95,14 @@ export default function CircularIntegration({
       }
     }
     // eslint-disable-next-line
-    }, [userInfo, loading])
+  }, [userInfo, loading]);
 
-  useEffect(() => () => {
-    clearTimeout(timer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      clearTimeout(timer.current);
+    },
+    [],
+  );
 
   return (
     <div className={classes.root}>
@@ -122,20 +129,21 @@ export default function CircularIntegration({
           <Delete />
         </Fab>
       </div>
-      {userInfo.deletedAt
-                && (
-                  <div className={classes.wrapper}>
-                    <Fab
-                      aria-label="restore"
-                      color="primary"
-                      className={classes.restoreButton}
-                      onClick={restoreClick}
-                    >
-                      <Loop />
-                    </Fab>
-                    {loading && <CircularProgress size={68} className={classes.fabProgress} />}
-                  </div>
-                )}
+      {userInfo.deletedAt && (
+        <div className={classes.wrapper}>
+          <Fab
+            aria-label="restore"
+            color="primary"
+            className={classes.restoreButton}
+            onClick={restoreClick}
+          >
+            <Loop />
+          </Fab>
+          {loading && (
+            <CircularProgress size={68} className={classes.fabProgress} />
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -40,7 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CircularIntegration({
-  handleSave, onCancel, editMode, setEditMode, success, setSaveAlert,
+  handleSave,
+  onCancel,
+  editMode,
+  setEditMode,
+  success,
+  setSaveAlert,
 }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
@@ -55,7 +60,7 @@ export default function CircularIntegration({
       setEditMode(false);
     }
     // eslint-disable-next-line
-    }, [success])
+  }, [success]);
 
   const handleButtonClick = useCallback(() => {
     if (editMode) {
@@ -76,11 +81,14 @@ export default function CircularIntegration({
       setEditMode(true);
     }
     // eslint-disable-next-line
-    }, [editMode, loading])
+  }, [editMode, loading]);
 
-  useEffect(() => () => {
-    clearTimeout(timer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      clearTimeout(timer.current);
+    },
+    [],
+  );
 
   return (
     <div className={classes.root}>
@@ -91,16 +99,28 @@ export default function CircularIntegration({
           className={success ? buttonSuccess : buttonFail}
           onClick={handleButtonClick}
         >
-          {editMode
-            ? finish
-              ? success
-                ? <Check />
-                : <HighlightOff />
-              : <span>Save</span>
-            : <Edit />}
+          {editMode ? (
+            finish ? (
+              success ? (
+                <Check />
+              ) : (
+                <HighlightOff />
+              )
+            ) : (
+              <span>Save</span>
+            )
+          ) : (
+            <Edit />
+          )}
         </Fab>
-        {editMode && !finish && <Fab onClick={onCancel}><span>cancel</span></Fab>}
-        {loading && <CircularProgress size={68} className={classes.fabProgress} />}
+        {editMode && !finish && (
+          <Fab onClick={onCancel}>
+            <span>cancel</span>
+          </Fab>
+        )}
+        {loading && (
+          <CircularProgress size={68} className={classes.fabProgress} />
+        )}
       </div>
     </div>
   );

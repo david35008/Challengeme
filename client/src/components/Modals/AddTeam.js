@@ -15,14 +15,14 @@ export default function AddTeam({ open = false, setOpen, getAllTeams }) {
       await network.post('/api/v1/teams/create-team', { name: newTeamName });
       getAllTeams();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [newTeamName])
+  }, [newTeamName]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -39,7 +39,11 @@ export default function AddTeam({ open = false, setOpen, getAllTeams }) {
             placeholder="Insert Team Name..."
           />
         </div>
-        <Button variant="contained" color="primary" onClick={handleSubmitNewTeam}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmitNewTeam}
+        >
           Add New Team
         </Button>
       </div>

@@ -45,7 +45,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '20px',
     margin: '20px',
     width: '150px',
-    background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.54) 30%, white 90%)',
+    background:
+      'linear-gradient(45deg, rgba(255, 255, 255, 0.54) 30%, white 90%)',
     color: 'black',
   },
   buttonsHomePage: {
@@ -82,10 +83,18 @@ export default function Landing() {
           </div>
         </div>
         <div className={classes.buttonsHomePage}>
-          <Button className={classes.loginHomePage} component={Link} to="/login">
+          <Button
+            className={classes.loginHomePage}
+            component={Link}
+            to="/login"
+          >
             Log in
           </Button>
-          <Button className={classes.registerHomePage} component={Link} to="/register">
+          <Button
+            className={classes.registerHomePage}
+            component={Link}
+            to="/register"
+          >
             register
           </Button>
         </div>

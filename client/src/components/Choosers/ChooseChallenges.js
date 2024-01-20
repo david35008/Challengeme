@@ -12,35 +12,46 @@ const ChooseChallenges = ({
 }) => {
   const fetchAssignmentsData = useCallback(async () => {
     try {
-      const { data: challengesAlreadyAssign } = await network.get(`/api/v1/assignments/${teamId}`);
-      const { data: allChallengesFromServer } = await network.get('/api/v1/challenges/');
-      setChallengesOptions(allChallengesFromServer.map((challenge) => {
-        let challengesForOptions;
-        if (challengesAlreadyAssign[0].Challenge) {
-          if (challengesAlreadyAssign.some((alreadyChallenge) => alreadyChallenge.Challenge.id === challenge.id)) {
-            return null;
-          }
-        }
-        challengesForOptions = {
-          value: challenge.id,
-          label: challenge.name,
-        };
+      const { data: challengesAlreadyAssign } = await network.get(
+        `/api/v1/assignments/${teamId}`,
+      );
+      const { data: allChallengesFromServer } = await network.get(
+        '/api/v1/challenges/',
+      );
+      setChallengesOptions(
+        allChallengesFromServer
+          .map((challenge) => {
+            let challengesForOptions;
+            if (challengesAlreadyAssign[0].Challenge) {
+              if (
+                challengesAlreadyAssign.some(
+                  (alreadyChallenge) => alreadyChallenge.Challenge.id === challenge.id,
+                )
+              ) {
+                return null;
+              }
+            }
+            challengesForOptions = {
+              value: challenge.id,
+              label: challenge.name,
+            };
 
-        return challengesForOptions;
-      }).filter((option) => !(!option)));
-    } catch (error) { }
+            return challengesForOptions;
+          })
+          .filter((option) => !!option),
+      );
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [teamId])
+  }, [teamId]);
 
   useEffect(() => {
     fetchAssignmentsData();
-    // eslint-disable-next-line
   }, [teamId]);
 
   const selectionChange = useCallback((chosen) => {
     setChooseChallenges(chosen);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>

@@ -43,14 +43,14 @@ export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
       });
       getAllTeams();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [teamId, webhookUrl, authorizationToken, events])
+  }, [teamId, webhookUrl, authorizationToken, events]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

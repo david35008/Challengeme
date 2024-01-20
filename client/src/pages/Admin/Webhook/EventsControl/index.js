@@ -49,9 +49,9 @@ function Row(props) {
         await network.delete(`/api/v1/webhooks/admin/events/${event}`);
         getAllEvents();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
@@ -93,18 +93,17 @@ function EventsControl() {
         '/api/v1/webhooks/admin/events',
       );
       setAllEvents(allEventsFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const addNewEvents = useCallback(() => {
     setOpenNewEventsModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllEvents();
-    // eslint-disable-next-line
   }, []);
 
   return (

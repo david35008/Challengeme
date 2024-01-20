@@ -65,9 +65,9 @@ function Row(props) {
         await network.delete(`/api/v1/webhooks/admin/errors/${error}`);
         getAllErrors();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
@@ -86,8 +86,14 @@ function Row(props) {
           {row.id}
         </StyledTableCell>
         <StyledTableCell align="left">{row.webhookId}</StyledTableCell>
-        <StyledTableCell align="left">{row.WebhookTeam ? row.WebhookTeam.Team.name : 'admin'}</StyledTableCell>
-        <StyledTableCell align="left">{row.WebhookTeam ? row.WebhookTeam.Team.WebhookAccessKey.entityName : 'admin'}</StyledTableCell>
+        <StyledTableCell align="left">
+          {row.WebhookTeam ? row.WebhookTeam.Team.name : 'admin'}
+        </StyledTableCell>
+        <StyledTableCell align="left">
+          {row.WebhookTeam
+            ? row.WebhookTeam.Team.WebhookAccessKey.entityName
+            : 'admin'}
+        </StyledTableCell>
         <StyledTableCell align="left">{row.statusCode}</StyledTableCell>
         <StyledTableCell align="left">{row.message}</StyledTableCell>
         <StyledTableCell align="left">
@@ -97,9 +103,7 @@ function Row(props) {
           {new Date(row.updatedAt).toDateString()}
         </StyledTableCell>
         <StyledTableCell align="left">
-          <Button onClick={() => deleteError(row.id)}>
-            Delete error
-          </Button>
+          <Button onClick={() => deleteError(row.id)}>Delete error</Button>
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
@@ -118,7 +122,9 @@ function Row(props) {
                 <TableBody>
                   <StyledTableRow>
                     <StyledTableCellKey component="th" scope="row">
-                      {process.env.NODE_ENV === 'development' ? JSON.stringify(row.data, null, 2) : JSON.stringify(JSON.parse(row.data), null, 2)}
+                      {process.env.NODE_ENV === 'development'
+                        ? JSON.stringify(row.data, null, 2)
+                        : JSON.stringify(JSON.parse(row.data), null, 2)}
                     </StyledTableCellKey>
                   </StyledTableRow>
                 </TableBody>
@@ -139,13 +145,12 @@ function ErrorControl() {
         '/api/v1/webhooks/admin/errors',
       );
       setAllErrors(allErrorsFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllErrors();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -171,11 +176,7 @@ function ErrorControl() {
           <TableBody>
             {allErrors
               && allErrors.map((error) => (
-                <Row
-                  key={error.id}
-                  row={error}
-                  getAllErrors={getAllErrors}
-                />
+                <Row key={error.id} row={error} getAllErrors={getAllErrors} />
               ))}
           </TableBody>
         </Table>

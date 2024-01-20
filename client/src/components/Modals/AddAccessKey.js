@@ -33,12 +33,12 @@ export default function AddAccessKey({
       });
     }
     // eslint-disable-next-line
-  }, [newEmail, newEntityName])
+  }, [newEmail, newEntityName]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

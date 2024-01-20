@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from 'recharts';
 import Loading from '../Loading';
 import network from '../../services/network';
@@ -15,32 +21,45 @@ function SimpleLineChart({
     try {
       const { data } = await network.get(path);
       setData(data.reverse());
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
-  const CustomizedLabel = useCallback(({
-    x, y, stroke, value,
-  }) => (
-    <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
-      {value}
-    </text>
-  ), []);
-
-  const CustomizedAxisTick = useCallback(({
-    x, y, stroke, payload,
-  }) => (
-    <g transform={`translate(${x},${y})`}>
-      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
-        {payload.value}
+  const CustomizedLabel = useCallback(
+    ({
+      x, y, stroke, value,
+    }) => (
+      <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
+        {value}
       </text>
-    </g>
-  ), []);
+    ),
+    [],
+  );
+
+  const CustomizedAxisTick = useCallback(
+    ({
+      x, y, stroke, payload,
+    }) => (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill="#666"
+          transform="rotate(-35)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    ),
+    [],
+  );
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-    }, []);
+  }, []);
 
   return data ? (
     <div className="Simple-Line-Chart">

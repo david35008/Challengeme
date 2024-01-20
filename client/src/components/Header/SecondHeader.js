@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexDirection: 'row',
     height: '50px',
-    background: 'linear-gradient(171.52deg, #1E3D5B 4.43%, rgba(30, 61, 91, 0) 149.79%)',
+    background:
+      'linear-gradient(171.52deg, #1E3D5B 4.43%, rgba(30, 61, 91, 0) 149.79%)',
   },
   rootDark: {
     flexDirection: 'row',

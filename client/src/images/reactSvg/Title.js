@@ -33,15 +33,8 @@ function Icon() {
           <feOffset dy="4" />
           <feGaussianBlur stdDeviation="2" />
           <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-          <feBlend
-            in2="BackgroundImageFix"
-            result="effect1_dropShadow"
-          />
-          <feBlend
-            in="SourceGraphic"
-            in2="effect1_dropShadow"
-            result="shape"
-          />
+          <feBlend in2="BackgroundImageFix" result="effect1_dropShadow" />
+          <feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
         </filter>
       </defs>
     </svg>

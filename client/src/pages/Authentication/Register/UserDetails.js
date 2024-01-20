@@ -41,10 +41,7 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('firstName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PersonIcon />
             </InputAdornment>
           )}
@@ -59,10 +56,7 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('lastName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PeopleIcon />
             </InputAdornment>
           )}
@@ -77,10 +71,7 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('userName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <AccountCircleIcon />
             </InputAdornment>
           )}
@@ -95,10 +86,7 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('email')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <Email />
             </InputAdornment>
           )}

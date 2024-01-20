@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import IconButton from '@material-ui/core/IconButton';
 import FormControl from '@material-ui/core/FormControl';
@@ -27,7 +27,7 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const location = useHistory();
+  const navigate = useNavigate();
 
   const LoggedContext = useContext(Logged);
 
@@ -68,8 +68,11 @@ export default function Login() {
       });
       LoggedContext.setLogged(true);
       LoggedContext.setIsAdmin(data.isAdmin);
-      mixpanel.track('User Logged In', { User: `${data.userName}`, 'Remember Me': `${rememberMe}` });
-      location.push('/');
+      mixpanel.track('User Logged In', {
+        User: `${data.userName}`,
+        'Remember Me': `${rememberMe}`,
+      });
+      navigate('/');
     } catch (error) {
       setError({ message: error.response.data.message });
     }
@@ -78,7 +81,9 @@ export default function Login() {
   const authGithub = async () => {
     try {
       const { data } = await network.get('/api/v1/auth/client-id-github');
-      window.location.assign(`https://github.com/login/oauth/authorize?client_id=${data.clientId}`);
+      window.location.assign(
+        `https://github.com/login/oauth/authorize?client_id=${data.clientId}`,
+      );
     } catch (error) {
       setError({ message: error.message });
     }
@@ -95,7 +100,9 @@ export default function Login() {
         response_type: 'token',
         redirect_uri: `http://${window.location.host}/google-auth`,
       };
-      window.location.assign(`${url}?${new URLSearchParams(params).toString()}`);
+      window.location.assign(
+        `${url}?${new URLSearchParams(params).toString()}`,
+      );
     } catch (error) {
       setError({ message: error.message });
     }
@@ -209,9 +216,7 @@ export default function Login() {
                   <GitHubIcon className="or-login-with-icon" />
                 </Button>
                 <Button onClick={googleAuth} variant="outlined">
-                  <div>
-                    Login with Google
-                  </div>
+                  <div>Login with Google</div>
                   <div className="or-login-with-icon">
                     <GoogleIcon />
                   </div>

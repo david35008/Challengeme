@@ -68,9 +68,9 @@ function Row(props) {
         await network.delete(`/api/v1/webhooks/admin/access-key/${accessKey}`);
         getAllAccessKeys();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
@@ -151,18 +151,17 @@ function AccessKeyControl() {
         '/api/v1/webhooks/admin/access-key',
       );
       setAllAccessKeys(allAccessKeysFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const addNewAccessKey = useCallback(() => {
     setOpenNewAccessKeyModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllAccessKeys();
-    // eslint-disable-next-line
   }, []);
 
   return (

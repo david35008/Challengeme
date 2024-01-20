@@ -19,13 +19,13 @@ const ColorlibConnector = withStyles({
   active: {
     '& $line': {
       backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
     },
   },
   completed: {
     '& $line': {
       backgroundImage:
-                'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
     },
   },
   line: {
@@ -50,12 +50,12 @@ const useColorlibStepIconStyles = makeStyles({
   },
   active: {
     backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   },
   completed: {
     backgroundImage:
-            'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
   },
 });
 
@@ -85,16 +85,16 @@ function ColorlibStepIcon(props) {
 
 ColorlibStepIcon.propTypes = {
   /**
-     * Whether this step is active.
-     */
+   * Whether this step is active.
+   */
   active: PropTypes.bool,
   /**
-     * Mark the step as completed. Is passed to child components.
-     */
+   * Mark the step as completed. Is passed to child components.
+   */
   completed: PropTypes.bool,
   /**
-     * The label displayed in the step icon.
-     */
+   * The label displayed in the step icon.
+   */
   icon: PropTypes.node,
 };
 
@@ -126,9 +126,7 @@ export default function CustomizedSteppers({ activeStep }) {
       >
         {steps.map((label) => (
           <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>
-              {label}
-            </StepLabel>
+            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>

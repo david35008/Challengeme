@@ -56,9 +56,9 @@ function Row(props) {
         await network.delete(`/api/v1/webhooks/admin/teams/${team}`);
         getAllTeams();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
@@ -150,18 +150,17 @@ function TeamsControl() {
         '/api/v1/webhooks/admin/teams',
       );
       setAllWebhookTeams(allTeamsFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const addNewWebhookTeam = useCallback(() => {
     setOpenNewWebhookTeamModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllWebhookTeams();
-    // eslint-disable-next-line
   }, []);
 
   return (

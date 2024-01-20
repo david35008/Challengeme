@@ -32,7 +32,10 @@ const footerLabels = [
 
 export default function Footer({ color = 'white' }) {
   return (
-    <section className="Landing-page-Footer" style={{ color, borderTop: `1px solid ${color}` }}>
+    <section
+      className="Landing-page-Footer"
+      style={{ color, borderTop: `1px solid ${color}` }}
+    >
       <div className="Landing-page-Footer-Labels" style={{ color }}>
         {footerLabels.map((label, index) => {
           if (label.name !== '|') {

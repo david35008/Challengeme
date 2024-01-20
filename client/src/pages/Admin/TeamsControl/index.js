@@ -49,31 +49,39 @@ function Row(props) {
   const { row, getAllTeams, handleAddMemberModal } = props;
   const [open, setOpen] = useState(false);
 
-  const removeUserFromTeam = useCallback(async (user) => {
-    try {
-      const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        await network.delete(`/api/v1/teams/remove-user/${row.id}?userId=${user}`);
-        getAllTeams();
-      }
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [row])
+  const removeUserFromTeam = useCallback(
+    async (user) => {
+      try {
+        const isDeleteOk = prompt("What's your favorite cocktail drink?");
+        if (isDeleteOk != null) {
+          await network.delete(
+            `/api/v1/teams/remove-user/${row.id}?userId=${user}`,
+          );
+          getAllTeams();
+        }
+      } catch (error) {}
+      // eslint-disable-next-line
+    },
+    [row],
+  );
 
-  const changeUserPermissionOnTeam = useCallback(async (user, permission) => {
-    try {
-      const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        const newPermission = permission === 'student' ? 'teacher' : 'student';
-        await network.patch(`/api/v1/teams/permission/${row.id}`, {
-          userId: user,
-          permission: newPermission,
-        });
-        getAllTeams();
-      }
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [row])
+  const changeUserPermissionOnTeam = useCallback(
+    async (user, permission) => {
+      try {
+        const isDeleteOk = prompt("What's your favorite cocktail drink?");
+        if (isDeleteOk != null) {
+          const newPermission = permission === 'student' ? 'teacher' : 'student';
+          await network.patch(`/api/v1/teams/permission/${row.id}`, {
+            userId: user,
+            permission: newPermission,
+          });
+          getAllTeams();
+        }
+      } catch (error) {}
+      // eslint-disable-next-line
+    },
+    [row],
+  );
 
   const deleteTeam = useCallback(async (team) => {
     try {
@@ -82,16 +90,20 @@ function Row(props) {
         await network.delete(`/api/v1/teams/remove-team/${team}`);
         getAllTeams();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -107,11 +119,16 @@ function Row(props) {
           <Button onClick={() => deleteTeam(row.id)}>Delete Team</Button>
         </StyledTableCell>
         <StyledTableCell align="left">
-          <Button onClick={() => handleAddMemberModal(row.id)}>Add Team Members</Button>
+          <Button onClick={() => handleAddMemberModal(row.id)}>
+            Add Team Members
+          </Button>
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -141,7 +158,10 @@ function Row(props) {
                       </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
                         <Button
-                          onClick={() => changeUserPermissionOnTeam(user.id, user.UserTeam.permission)}
+                          onClick={() => changeUserPermissionOnTeam(
+                            user.id,
+                            user.UserTeam.permission,
+                          )}
                         >
                           Change User Permission On Team
                         </Button>
@@ -170,32 +190,37 @@ function TeamsControl() {
 
   const getAllTeams = useCallback(async () => {
     try {
-      const { data: allTeamsFromServer } = await network.get('/api/v1/teams/all-teams');
+      const { data: allTeamsFromServer } = await network.get(
+        '/api/v1/teams/all-teams',
+      );
       setAllTeams(allTeamsFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const addNewTeam = useCallback(() => {
     setOpenNewTeamModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const handleAddMemberModal = useCallback((team) => {
     setTeamNameForMember(team);
     setOpenAddMemberModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllTeams();
-    // eslint-disable-next-line
   }, []);
 
   return (
     <div className="generic-page" style={{ textAlign: 'center' }}>
       <h1 className="team-control-title">Teams Management Area</h1>
-      <AddTeam open={openNewTeamModal} setOpen={setOpenNewTeamModal} getAllTeams={getAllTeams} />
+      <AddTeam
+        open={openNewTeamModal}
+        setOpen={setOpenNewTeamModal}
+        getAllTeams={getAllTeams}
+      />
       <AddTeamMembers
         open={openAddMemberModal}
         setOpen={setOpenAddMemberModal}

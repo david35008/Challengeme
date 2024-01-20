@@ -23,14 +23,14 @@ export default function UpdateWebhookEvent({
       });
       getAllEvents();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [data, newName])
+  }, [data, newName]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

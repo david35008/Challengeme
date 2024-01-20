@@ -13,18 +13,13 @@ function Header() {
       setNavOrMenu(false);
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  useMemo(() => window.addEventListener('resize', displayWindowSize), [displayWindowSize]);
-  return (
-    <>
-      {!navOrMenu ? (
-        <WideNav />
-      ) : (
-        <NarrowNav />
-      )}
-    </>
+  useMemo(
+    () => window.addEventListener('resize', displayWindowSize),
+    [displayWindowSize],
   );
+  return <>{!navOrMenu ? <WideNav /> : <NarrowNav />}</>;
 }
 
 export default Header;

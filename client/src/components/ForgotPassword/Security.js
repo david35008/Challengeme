@@ -17,29 +17,21 @@ const useStyles = makeStyles(() => ({
     width: '320px',
   },
 }));
-function Security({
-  data,
-  handleChange,
-}) {
+function Security({ data, handleChange }) {
   const classes = useStyles();
 
   return (
     <div className={classes.securityQTitle}>
       <span>{data.secQuestion}</span>
       <FormControl className={classes.answerForgotPass}>
-        <InputLabel style={{ color: 'grey' }}>
-          Enter your answer
-        </InputLabel>
+        <InputLabel style={{ color: 'grey' }}>Enter your answer</InputLabel>
         <Input
           type="text"
           value={data.secAnswer}
           required
           onChange={handleChange('answer')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <QuestionAnswerIcon />
             </InputAdornment>
           )}

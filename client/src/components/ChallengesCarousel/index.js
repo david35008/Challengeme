@@ -35,43 +35,54 @@ function ChallengesCarousel({
         setOrderedChallenges(challenges);
       }
       setLoadingPage(false);
-    }
-    )();
+    })();
   }, [random, challenges]);
 
-  const items = orderedChallenges.length > 0 ? orderedChallenges.map((challenge) => (
-    <ChallengeToCarousel
-      key={challenge.id + challenge.name}
-      id={challenge.id}
-      name={challenge.name}
-      author={challenge.Author.userName}
-      submissionsCount={challenge.submissionsCount}
-      img={challenge.img}
-      setNewImg={setNewImg}
-      main={main}
-    />
-  )) : [<h1>Not Found</h1>];
+  const items = orderedChallenges.length > 0
+    ? orderedChallenges.map((challenge) => (
+      <ChallengeToCarousel
+        key={challenge.id + challenge.name}
+        id={challenge.id}
+        name={challenge.name}
+        author={challenge.Author.userName}
+        submissionsCount={challenge.submissionsCount}
+        img={challenge.img}
+        setNewImg={setNewImg}
+        main={main}
+      />
+    ))
+    : [<h1>Not Found</h1>];
 
-  const renderPrevButton = ({ isDisabled }) => (!isDisabled ? <button className="Carousel-Prev-Button"><ArrowBackIosIcon fontSize="large" /></button> : <div />);
+  const renderPrevButton = ({ isDisabled }) => (!isDisabled ? (
+    <button className="Carousel-Prev-Button">
+      <ArrowBackIosIcon fontSize="large" />
+    </button>
+  ) : (
+    <div />
+  ));
 
-  const renderNextButton = ({ isDisabled }) => (!isDisabled ? <button className="Carousel-Next-Button"><ArrowForwardIosIcon fontSize="large" /></button> : <div />);
+  const renderNextButton = ({ isDisabled }) => (!isDisabled ? (
+    <button className="Carousel-Next-Button">
+      <ArrowForwardIosIcon fontSize="large" />
+    </button>
+  ) : (
+    <div />
+  ));
 
-  return (
-    !loadingPage
-      ? (
-        <div className="Carousel-Container">
-          <AliceCarousel
-            disableDotsControls
-            // infinite
-            mouseTracking
-            items={items}
-            responsive={responsive}
-            renderPrevButton={renderPrevButton}
-            renderNextButton={renderNextButton}
-          />
-        </div>
-      )
-      : <Loading />
+  return !loadingPage ? (
+    <div className="Carousel-Container">
+      <AliceCarousel
+        disableDotsControls
+        // infinite
+        mouseTracking
+        items={items}
+        responsive={responsive}
+        renderPrevButton={renderPrevButton}
+        renderNextButton={renderNextButton}
+      />
+    </div>
+  ) : (
+    <Loading />
   );
 }
 

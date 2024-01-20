@@ -55,9 +55,9 @@ function Row(props) {
         await network.delete(`/api/v1/git/${token}`);
         getAllTokens();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const updateToken = useCallback(async (token, status) => {
     try {
@@ -67,16 +67,20 @@ function Row(props) {
         await network.patch('/api/v1/git/', { token, status: newStatus });
         getAllTokens();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const classes = useRowStyles();
   return (
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -86,7 +90,11 @@ function Row(props) {
         <StyledTableCell align="left">{row.token}</StyledTableCell>
         <StyledTableCell align="left">{row.status}</StyledTableCell>
         <StyledTableCell align="left">
-          <div style={row.active ? { color: 'green' } : { color: 'red' }}>{`${row.active}`}</div>
+          <div
+            style={row.active ? { color: 'green' } : { color: 'red' }}
+          >
+            {`${row.active}`}
+          </div>
         </StyledTableCell>
         <StyledTableCell align="left">{row.gitAccount}</StyledTableCell>
         <StyledTableCell align="left">{row.actionsLimit}</StyledTableCell>
@@ -98,7 +106,10 @@ function Row(props) {
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -108,12 +119,16 @@ function Row(props) {
                 <TableBody>
                   <StyledTableRow key={row.userName}>
                     <StyledTableCell component="th" scope="row">
-                      <Button onClick={() => updateToken(row.token, row.status)}>
+                      <Button
+                        onClick={() => updateToken(row.token, row.status)}
+                      >
                         Change Status
                       </Button>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row">
-                      <Button onClick={() => deleteToken(row.token)}>Delete Token</Button>
+                      <Button onClick={() => deleteToken(row.token)}>
+                        Delete Token
+                      </Button>
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row">
                       Remaining:
@@ -138,18 +153,17 @@ function GithubTokens() {
     try {
       const { data: allTokensFromServer } = await network.get('/api/v1/git/');
       setAllTokens(allTokensFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const addNewToken = useCallback(() => {
     setOpen(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllTokens();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -182,7 +196,11 @@ function GithubTokens() {
           <TableBody>
             {allTokens
               && allTokens.map((token) => (
-                <Row key={token.token} row={token} getAllTokens={getAllTokens} />
+                <Row
+                  key={token.token}
+                  row={token}
+                  getAllTokens={getAllTokens}
+                />
               ))}
           </TableBody>
         </Table>

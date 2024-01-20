@@ -1,32 +1,31 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Logged } from "../context/LoggedInContext";
-import AllChallenges from "../context/AllChallengesContext";
-import FilteredLabels from "../context/FilteredLabelsContext";
-import Register from "./Authentication/Register";
-import Login from "./Authentication/Login";
-import Cookies from "js-cookie";
-import Forgot from "../components/ForgotPassword";
-import ValidatingMail from "./Authentication/Register/ValidatingMail";
-import GithubAuth from "./Authentication/GithubAuth";
-import GoogleAuth from "../services/GoogleAuth";
-import network from "../services/network";
-import Header from "../components/Header";
-import ErrorBoundary from "../components/ErrorBoundary";
-import Loading from "../components/Loading";
-import NewChallengeForm from "./NewChallenge";
-import UserProfile from "./UserProfile";
-import Admin from "./Admin";
-import Team from "./Team";
-import PrivateRoute from '../Routes/privateRoute'
-import PublicRoute from '../Routes/publicRoute'
-import '../styles/Admin.css'
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { Logged } from '../context/LoggedInContext';
+import AllChallenges from '../context/AllChallengesContext';
+import FilteredLabels from '../context/FilteredLabelsContext';
+import Register from './Authentication/Register';
+import Login from './Authentication/Login';
+import Forgot from '../components/ForgotPassword';
+import ValidatingMail from './Authentication/Register/ValidatingMail';
+import GithubAuth from './Authentication/GithubAuth';
+import GoogleAuth from '../services/GoogleAuth';
+import network from '../services/network';
+import Header from '../components/Header';
+import ErrorBoundary from '../components/ErrorBoundary';
+import Loading from '../components/Loading';
+import NewChallengeForm from './NewChallenge';
+import UserProfile from './UserProfile';
+import Admin from './Admin';
+import Team from './Team';
+import PrivateRoute from '../Routes/privateRoute';
+import PublicRoute from '../Routes/publicRoute';
+import '../styles/Admin.css';
 
-
-const NotFound = lazy(() => import("../pages/NotFound"));
-const Challenges = lazy(() => import("./Challenges"));
-const LandingPage = lazy(() => import("./LandingPage"));
-const ChallengePage = lazy(() => import("./OneChallenge"));
+const NotFound = lazy(() => import('./NotFound'));
+const ChallengesPage = lazy(() => import('./Challenges'));
+const LandingPage = lazy(() => import('./LandingPage'));
+const ChallengePage = lazy(() => import('./OneChallenge'));
 
 export default function Router() {
   const [logged, setLogged] = useState(false);
@@ -38,9 +37,10 @@ export default function Router() {
   useEffect(() => {
     (async () => {
       try {
-        const { data: challengesFromServer } = await network.get("/api/v1/challenges");
-        typeof challengesFromServer === "object" && setChallenges(challengesFromServer);
-      } catch { }
+        const { data: challengesFromServer } =
+          await network.get('/api/v1/challenges');
+        setChallenges(challengesFromServer);
+      } catch {}
     })();
   }, [logged]);
 
@@ -48,13 +48,15 @@ export default function Router() {
     // auth
     (async () => {
       try {
-        if (Cookies.get("accessToken")) {
-          const { data } = await network.get("/api/v1/auth/validate-token");
+        if (Cookies.get('accessToken')) {
+          const { data } = await network.get('/api/v1/auth/validate-token');
           setLogged(data);
-          setIsAdmin(data.isAdmin)
+          setIsAdmin(data.isAdmin);
           setLoading(false);
-        } else if (Cookies.get("refreshToken")) {
-          await network.post('/api/v1/auth/token', { token: Cookies.get('refreshToken') });
+        } else if (Cookies.get('refreshToken')) {
+          await network.post('/api/v1/auth/token', {
+            token: Cookies.get('refreshToken'),
+          });
           setLoading(false);
         } else {
           setLoading(false);
@@ -70,29 +72,64 @@ export default function Router() {
       {!loading ? (
         <Logged.Provider value={{ logged, isAdmin, setLogged, setIsAdmin }}>
           <AllChallenges.Provider value={{ challenges, setChallenges }}>
-            <FilteredLabels.Provider value={{ filteredLabels, setFilteredLabels }}>
+            <FilteredLabels.Provider
+              value={{ filteredLabels, setFilteredLabels }}
+            >
               <Header />
-              <div className={ "light"}>
+              <div className="light">
                 <Suspense fallback={<Loading />}>
                   <ErrorBoundary>
-                    <Switch>
-                      <Route exact={true} path="/" component={LandingPage} />
-                      <Route exact={true} path="/challenges" component={Challenges} />
-                      <Route exact={true} path="/challenges/:id" render={() => <ChallengePage  />} />
-                      <PublicRoute exact={true} path="/register" component={Register} />
-                      <PublicRoute exact={true} path="/login" component={Login} />
-                      <PublicRoute exact={true} path="/forgot" component={Forgot} />
-                      <PublicRoute exact={true} path="/auth" component={ValidatingMail} />
-                      <PublicRoute exact={true} path="/github-auth" component={GithubAuth} />
-                      <PublicRoute exact={true} path="/google-auth" component={GoogleAuth} />
-                      <PrivateRoute exact={true} path="/addnewchallenge" component={NewChallengeForm}  />
-                      <PrivateRoute path="/profile" component={UserProfile} />
-                      <PrivateRoute path="/teams" component={Team}  />
+                    <Routes>
+                      <Route path="/" element={<LandingPage />} />
+                      <Route path="/challenges" element={<ChallengesPage />} />
+                      <Route
+                        path="/challenges/:id"
+                        element={<ChallengePage />}
+                      />
+                      <Route
+                        path="/register"
+                        element={<PublicRoute component={Register} />}
+                      />
+                      <Route
+                        path="/login"
+                        element={<PublicRoute component={Login} />}
+                      />
+                      <Route
+                        path="/forgot"
+                        element={<PublicRoute component={Forgot} />}
+                      />
+                      <Route
+                        path="/auth"
+                        element={<PublicRoute component={ValidatingMail} />}
+                      />
+                      <Route
+                        path="/github-auth"
+                        element={<PublicRoute component={GithubAuth} />}
+                      />
+                      <Route
+                        path="/google-auth"
+                        element={<PublicRoute component={GoogleAuth} />}
+                      />
+                      <Route
+                        path="/addnewchallenge"
+                        element={<PrivateRoute component={NewChallengeForm} />}
+                      />
+                      <Route
+                        path="/profile"
+                        element={<PrivateRoute component={UserProfile} />}
+                      />
+                      <Route
+                        path="/teams"
+                        element={<PrivateRoute component={Team} />}
+                      />
                       {isAdmin && (
-                        <PrivateRoute path="/admin" component={Admin} />
+                        <Route
+                          path="/admin"
+                          element={<PrivateRoute component={Admin} />}
+                        />
                       )}
-                      <Route path="*" component={NotFound} />
-                    </Switch>
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
                   </ErrorBoundary>
                 </Suspense>
               </div>
@@ -100,8 +137,8 @@ export default function Router() {
           </AllChallenges.Provider>
         </Logged.Provider>
       ) : (
-          <Loading firstLoading={true} />
-        )}
+        <Loading firstLoading />
+      )}
     </BrowserRouter>
   );
 }

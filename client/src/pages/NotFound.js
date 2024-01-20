@@ -30,8 +30,12 @@ const NotFound = () => {
   return (
     <div className={classes.container}>
       <h3 className={classes.h3}>404 page not found</h3>
-      <p className={classes.p}>We are sorry but the page you are looking for does not exist.</p>
-      <Link to="/"><div className={classes.goHome}>Go Home</div></Link>
+      <p className={classes.p}>
+        We are sorry but the page you are looking for does not exist.
+      </p>
+      <Link to="/">
+        <div className={classes.goHome}>Go Home</div>
+      </Link>
       <img src={pageNotFound} alt=" " />
     </div>
   );

@@ -27,7 +27,9 @@ describe('Client Tests', () => {
     const button = await page.$('#loginButton');
     button.click();
     await timeout(1000);
-    const textContent = await page.evaluate(() => document.querySelector('.errorInput').textContent);
+    const textContent = await page.evaluate(
+      () => document.querySelector('.errorInput').textContent,
+    );
     expect(textContent).toBe('invalid userName');
     await usernameInput.click({ clickCount: 3 });
     await usernameInput.type('abcdefghjklmnoqrstuvwxyz12345678987654321');
@@ -35,7 +37,9 @@ describe('Client Tests', () => {
     await passwordInput.type('Test12345');
     button.click();
     await timeout(1000);
-    const textContent2 = await page.evaluate(() => document.querySelector('.errorInput').textContent);
+    const textContent2 = await page.evaluate(
+      () => document.querySelector('.errorInput').textContent,
+    );
     expect(textContent2).toBe('userName must be 1-32 characters long');
     await usernameInput.click({ clickCount: 3 });
     await usernameInput.type('Test123');
@@ -43,7 +47,9 @@ describe('Client Tests', () => {
     await passwordInput.type('Test');
     button.click();
     await timeout(1000);
-    const textContent3 = await page.evaluate(() => document.querySelector('.errorInput').textContent);
+    const textContent3 = await page.evaluate(
+      () => document.querySelector('.errorInput').textContent,
+    );
     expect(textContent3).toBe('password must be at least 8 characters long');
     done();
   }, 30000);

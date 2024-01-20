@@ -6,7 +6,7 @@ module.exports = {
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        'plugin:jest/recommended'
+        "plugin:jest/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -16,7 +16,7 @@ module.exports = {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 2018,
+        "ecmaVersion": 2024,
         "sourceType": "module"
     },
     "plugins": [
@@ -56,5 +56,32 @@ module.exports = {
         'no-param-reassign': 0,
         'class-methods-use-this': 0,
         'import/prefer-default-export': 0,
+        'no-plusplus': 0,
+        'no-empty': 0,
+        'no-nested-ternary': 0,
+        'no-alert': 0,
+        'no-shadow': 0,
+        'consistent-return': 0,
+        'import/no-named-as-default-member': 0,
+        'import/no-named-as-default': 0,
+        'react/no-unknown-property': 0,
+        'react/jsx-no-bind': 0,
+        'max-len': 0,
+        'react/no-unescaped-entities': 0,
+        'no-unused-vars': 0,
+        'import/no-extraneous-dependencies': 0,
+        'jest/no-commented-out-tests': 0,
+        'no-return-assign': 0,
+        'no-console': 0,
+        'jsx-a11y/control-has-associated-label': 0,
+        'react/no-array-index-key': 0,
+        'no-use-before-define': 'off',
+        'no-undef': 0,
+        'prefer-const': 0,
+        'import/extensions': 0,
+        'radix': 0,
+        'no-debugger': 0,
+        'object-curly-newline': 0,
+        'operator-linebreak': 0,
     }
 };

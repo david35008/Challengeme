@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Logged } from '../../context/LoggedInContext';
 import network from '../../services/network';
@@ -11,7 +11,7 @@ import '../../styles/Review.css';
 function Review({
   author, createdAt, title, content, rating, reviewId,
 }) {
-  const location = useHistory();
+  const navigate = useNavigate();
 
   const LoggedContext = useContext(Logged);
 
@@ -26,10 +26,10 @@ function Review({
       Cookies.remove('accessToken');
       Cookies.remove('userName');
       LoggedContext.setLogged(false);
-      location.push('/');
+      navigate('/');
     }
     // eslint-disable-next-line
-  }, [reviewId, location])
+  }, [reviewId, navigate]);
 
   return (
     <div className="Review">
@@ -42,10 +42,11 @@ function Review({
         </div>
       </div>
       <div className="Review-Middle">
-        <div className="Review-Title" cy-test="review-title">{title}</div>
+        <div className="Review-Title" cy-test="review-title">
+          {title}
+        </div>
         <div className="Review-CreatedAt">{moment(createdAt).fromNow()}</div>
         <div className="Review-Content">{content}</div>
-
       </div>
       <div className="Review-Right">
         <div className="flex-row">

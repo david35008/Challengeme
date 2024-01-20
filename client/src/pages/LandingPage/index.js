@@ -97,8 +97,7 @@ export default function LandingPage() {
       github: 'DorKachlon',
     },
     {
-      icon:
-        'https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg',
+      icon: 'https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg',
       name: 'Alon Bruk',
       github: 'AlonBru',
     },
@@ -187,7 +186,10 @@ export default function LandingPage() {
       </section>
       <section className="Landing-page-Project-Leaders">
         <h2 className="Landing-page-Project-Leaders-H2">Project Leaders</h2>
-        <div id="Landing-page-Project-Leaders" className="Landing-page-Project-Leaders-Cards">
+        <div
+          id="Landing-page-Project-Leaders"
+          className="Landing-page-Project-Leaders-Cards"
+        >
           {projectLeaders.map((elem) => (
             <ProjectLeader
               key={elem.content}

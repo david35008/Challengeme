@@ -47,10 +47,7 @@ function PersonalDetails({ values, handleChange }) {
           required
           onChange={handleChange('country')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PublicIcon />
             </InputAdornment>
           )}
@@ -65,10 +62,7 @@ function PersonalDetails({ values, handleChange }) {
           required
           onChange={handleChange('city')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <LocationCityIcon />
             </InputAdornment>
           )}
@@ -100,10 +94,7 @@ function PersonalDetails({ values, handleChange }) {
           required
           onChange={handleChange('phoneNumber')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PhoneIcon />
             </InputAdornment>
           )}

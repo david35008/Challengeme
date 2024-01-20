@@ -59,15 +59,19 @@ function Row(props) {
         });
         props.getAllUsers();
       }
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [row, props])
+  }, [row, props]);
 
   return (
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
@@ -94,7 +98,10 @@ function Row(props) {
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -109,8 +116,12 @@ function Row(props) {
                     <StyledTableCell align="left">Country</StyledTableCell>
                     <StyledTableCell align="left">City</StyledTableCell>
                     <StyledTableCell align="left">Birth Date</StyledTableCell>
-                    <StyledTableCell align="left">Security Question</StyledTableCell>
-                    <StyledTableCell align="left">Reason Of Registration</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Security Question
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      Reason Of Registration
+                    </StyledTableCell>
                     <StyledTableCell align="left">Created At</StyledTableCell>
                     <StyledTableCell align="left">Updated At</StyledTableCell>
                   </StyledTableRow>
@@ -125,12 +136,16 @@ function Row(props) {
                       {row.phoneNumber}
                       {' '}
                     </StyledTableCell>
-                    <StyledTableCell align="left">{row.country}</StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.country}
+                    </StyledTableCell>
                     <StyledTableCell align="left">{row.city}</StyledTableCell>
                     <StyledTableCell align="left">
                       {new Date(row.birthDate).toDateString()}
                     </StyledTableCell>
-                    <StyledTableCell align="left">{row.securityQuestion}</StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.securityQuestion}
+                    </StyledTableCell>
                     <StyledTableCell align="left">
                       {' '}
                       {row.reasonOfRegistration}
@@ -156,14 +171,15 @@ function UsersControl() {
   const [allUsers, setAllUsers] = useState([]);
 
   const getAllUsers = useCallback(async () => {
-    const { data: allUsersFromServer } = await network.get('/api/v1/users/admin');
+    const { data: allUsersFromServer } = await network.get(
+      '/api/v1/users/admin',
+    );
     setAllUsers(allUsersFromServer);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllUsers();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -185,7 +201,11 @@ function UsersControl() {
             <TableBody>
               {allUsers
                 && allUsers.map((user) => (
-                  <Row key={user.userName + user.id} row={user} getAllUsers={getAllUsers} />
+                  <Row
+                    key={user.userName + user.id}
+                    row={user}
+                    getAllUsers={getAllUsers}
+                  />
                 ))}
             </TableBody>
           </Table>

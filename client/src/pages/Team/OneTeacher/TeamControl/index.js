@@ -53,51 +53,72 @@ function Row(props) {
   } = props;
   const [open, setOpen] = useState(false);
 
-  const removeUserFromTeam = useCallback(async (user) => {
-    try {
-      const isChangeOk = window.confirm(`Are you sure you want to remove ${row.userName} from ${teamName} team ?`);
-      if (isChangeOk) {
-        await network.delete(`/api/v1/teams/remove-user/${teamId}?userId=${user}`);
-        getAllTeams();
-      }
-    } catch (error) {
-    }
-    // eslint-disable-next-line
-  }, [row, teamName, teamId])
+  const removeUserFromTeam = useCallback(
+    async (user) => {
+      try {
+        const isChangeOk = window.confirm(
+          `Are you sure you want to remove ${row.userName} from ${teamName} team ?`,
+        );
+        if (isChangeOk) {
+          await network.delete(
+            `/api/v1/teams/remove-user/${teamId}?userId=${user}`,
+          );
+          getAllTeams();
+        }
+      } catch (error) {}
+      // eslint-disable-next-line
+    },
+    [row, teamName, teamId],
+  );
 
-  const changeUserPermissionToBeTeacher = useCallback(async (user) => {
-    try {
-      const isChangeOk = window.confirm(`Are you sure you want to give ${row.userName}, teacher permissions on ${teamName} team?`);
-      if (isChangeOk) {
-        await network.patch(`/api/v1/teams/teacher-permission/${teamId}`, {
-          userId: user,
-        });
-        getAllTeams();
-      }
-    } catch (error) {
-    }
-    // eslint-disable-next-line
-  }, [row, teamId, teamName])
+  const changeUserPermissionToBeTeacher = useCallback(
+    async (user) => {
+      try {
+        const isChangeOk = window.confirm(
+          `Are you sure you want to give ${row.userName}, teacher permissions on ${teamName} team?`,
+        );
+        if (isChangeOk) {
+          await network.patch(`/api/v1/teams/teacher-permission/${teamId}`, {
+            userId: user,
+          });
+          getAllTeams();
+        }
+      } catch (error) {}
+      // eslint-disable-next-line
+    },
+    [row, teamId, teamName],
+  );
 
   const classes = useRowStyles();
   return (
     <React.Fragment>
       <StyledTableRow className={classes.root}>
         <StyledTableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </StyledTableCell>
         <StyledTableCell component="th" scope="row">
           {row.id}
         </StyledTableCell>
-        <StyledTableCell align="left">{row.firstName + row.lastName}</StyledTableCell>
+        <StyledTableCell align="left">
+          {row.firstName + row.lastName}
+        </StyledTableCell>
         <StyledTableCell align="left">{row.userName}</StyledTableCell>
-        <StyledTableCell align="left">{row.UserTeam.permission}</StyledTableCell>
+        <StyledTableCell align="left">
+          {row.UserTeam.permission}
+        </StyledTableCell>
         <StyledTableCell align="left">{row.phoneNumber}</StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -106,8 +127,9 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    {row.UserTeam.permission === 'student'
-                      && <StyledTableCell>Give Teacher Permission</StyledTableCell>}
+                    {row.UserTeam.permission === 'student' && (
+                      <StyledTableCell>Give Teacher Permission</StyledTableCell>
+                    )}
                     <StyledTableCell align="left">
                       Remove
                       {row.UserTeam.permission}
@@ -126,7 +148,9 @@ function Row(props) {
                       </StyledTableCell>
                     )}
                     <StyledTableCell component="th" scope="row">
-                      <Button onClick={() => removeUserFromTeam(row.id)}>Click</Button>
+                      <Button onClick={() => removeUserFromTeam(row.id)}>
+                        Click
+                      </Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>
@@ -147,24 +171,27 @@ function TeamsControl({ teamName }) {
 
   const getAllTeamMembers = useCallback(async () => {
     try {
-      const { data: allTeamsFromServer } = await network.get(`/api/v1/teams/teacher-area/${id}`);
+      const { data: allTeamsFromServer } = await network.get(
+        `/api/v1/teams/teacher-area/${id}`,
+      );
       setAllMembers(allTeamsFromServer.Users);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [id])
+  }, [id]);
 
   const handleAddMemberModal = useCallback((team) => {
     setTeamNameForMember(team);
     setOpenAddMemberModal(true);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllTeamMembers();
     const user = Cookies.get('userName');
-    mixpanel.track('User On Team Control Teacher Area', { User: `${user}`, Team: id });
-    // eslint-disable-next-line
+    mixpanel.track('User On Team Control Teacher Area', {
+      User: `${user}`,
+      Team: id,
+    });
   }, [id]);
 
   return (
@@ -183,10 +210,7 @@ function TeamsControl({ teamName }) {
         isTeacher
       />
       <div className="team-control-add-members">
-        <Button
-          variant="outlined"
-          onClick={() => handleAddMemberModal(id)}
-        >
+        <Button variant="outlined" onClick={() => handleAddMemberModal(id)}>
           Add Team Members
         </Button>
       </div>

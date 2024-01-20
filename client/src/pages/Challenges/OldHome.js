@@ -17,7 +17,11 @@ export default function Home() {
         if (filteredLabels.filteredLabels.length > 0) {
           const filteredByLabelChallenges = [];
           allChallenges.forEach((challenge) => {
-            if (filteredLabels.filteredLabels.every((labelChallenge) => challenge.Labels.map((label) => label.id).includes(labelChallenge))) {
+            if (
+              filteredLabels.filteredLabels.every((labelChallenge) => challenge.Labels.map((label) => label.id).includes(
+                labelChallenge,
+              ))
+            ) {
               if (!filteredByLabelChallenges.includes(challenge)) {
                 filteredByLabelChallenges.push(challenge);
               }
@@ -27,10 +31,8 @@ export default function Home() {
         } else {
           setChallengesFiltered(allChallenges);
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     })();
-    // eslint-disable-next-line
   }, [filteredLabels]);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function Home() {
     mixpanel.track('User On Home Page', { User: `${user}` });
     return () => filteredLabels.setFilteredLabels([]);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -58,7 +60,10 @@ export default function Home() {
                 createdAt={challenge.createdAt}
                 authorName={challenge.Author.userName}
               />
-            ))) : <h1>Not Found</h1>}
+            ))
+          ) : (
+            <h1>Not Found</h1>
+          )}
         </div>
       </div>
     </div>

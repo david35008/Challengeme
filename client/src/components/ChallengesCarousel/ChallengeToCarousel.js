@@ -4,7 +4,13 @@ import network from '../../services/network';
 import '../../styles/ChallengesCarousel.css';
 
 function ChallengeToCarousel({
-  id, name, author, submissionsCount, img, setNewImg, main,
+  id,
+  name,
+  author,
+  submissionsCount,
+  img,
+  setNewImg,
+  main,
 }) {
   const [challengeImage, setChallengeImage] = useState('');
 
@@ -12,11 +18,12 @@ function ChallengeToCarousel({
     if (main) {
       if (img === false) {
         try {
-          const { data: imgData } = await network.get(`/api/v1/images?id=${id}`);
+          const { data: imgData } = await network.get(
+            `/api/v1/images?id=${id}`,
+          );
           setChallengeImage(imgData ? imgData.img : '');
           setNewImg(id, imgData.img);
-        } catch (error) {
-        }
+        } catch (error) {}
       } else {
         setChallengeImage(img);
       }
@@ -24,12 +31,12 @@ function ChallengeToCarousel({
       setChallengeImage(img);
     }
     // eslint-disable-next-line
-  }, [main, img, id])
+  }, [main, img, id]);
 
   useEffect(() => {
     fetchChallengeImage();
     // eslint-disable-next-line
-  }, [img])
+  }, [img]);
   return (
     <Link className="Challenge-To-Carousel-Link" to={`/challenges/${id}`}>
       <div
@@ -42,7 +49,6 @@ function ChallengeToCarousel({
           <div className="Challenge-To-Carousel-Header">{name}</div>
           <div className="Challenge-To-Carousel-Author">
             By
-            {' '}
             {author}
           </div>
           <div className="Challenge-To-Carousel-Submission">
@@ -51,7 +57,6 @@ function ChallengeToCarousel({
             submissions
           </div>
         </div>
-
       </div>
     </Link>
   );

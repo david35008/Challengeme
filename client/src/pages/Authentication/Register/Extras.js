@@ -34,9 +34,7 @@ function Extras({ values, handleChange }) {
           onChange={handleChange('signUpReason')}
         >
           <MenuItem value="Student">Student</MenuItem>
-          <MenuItem value="Challenge Myself">
-            Challenge Myself
-          </MenuItem>
+          <MenuItem value="Challenge Myself">Challenge Myself</MenuItem>
           <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>
@@ -51,10 +49,7 @@ function Extras({ values, handleChange }) {
           required
           onChange={handleChange('gitHub')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <GitHubIcon />
             </InputAdornment>
           )}

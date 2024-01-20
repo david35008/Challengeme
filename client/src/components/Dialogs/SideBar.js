@@ -2,7 +2,14 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
-  AppBar, CssBaseline, Divider, Drawer, Hidden, List, ListItem, ListItemText,
+  AppBar,
+  CssBaseline,
+  Divider,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 
 const drawerWidth = 240;
@@ -51,12 +58,12 @@ function ResponsiveDrawer({ window, items = ['None'], setDrawerNum }) {
   const handleDrawerToggle = useCallback(() => {
     setMobileOpen((state) => !state);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   const ItemCLicked = useCallback((text, index) => {
     setDrawerNum(index);
     // eslint-disable-next-line
-    }, [])
+  }, []);
 
   const drawer = (
     <div>
@@ -65,7 +72,11 @@ function ResponsiveDrawer({ window, items = ['None'], setDrawerNum }) {
       <List>
         {items.map((text, index) => (
           <>
-            <ListItem button onClick={() => ItemCLicked(text, index)} key={text}>
+            <ListItem
+              button
+              onClick={() => ItemCLicked(text, index)}
+              key={text}
+            >
               <ListItemText primary={text} />
             </ListItem>
             <hr />
