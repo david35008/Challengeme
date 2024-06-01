@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Dialog,
   AppBar,
@@ -11,8 +11,8 @@ import {
   IconButton,
   Typography,
   Slide,
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 import network from '../../services/network';
 import SaveChanges from '../Buttons/SaveChanges';
 import DeleteUser from '../Buttons/DeleteUser';

@@ -4,7 +4,7 @@ import React, {
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import AllChallenges from '../../context/AllChallengesContext';
 import FilteredLabels from '../../context/FilteredLabelsContext';
 import network from '../../services/network';

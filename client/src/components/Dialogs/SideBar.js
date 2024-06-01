@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import {
   AppBar,
   CssBaseline,
@@ -10,7 +10,7 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const drawerWidth = 240;
 

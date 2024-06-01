@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+// import { DataGrid } from '@material-ui/data-grid';
 import network from '../../services/network';
 import { columns } from '../../config/UsersControl';
 import EditUserDialog from '../Dialogs/UserDashboard';
@@ -38,21 +38,22 @@ export default function SingleRowSelectionGrid() {
 
   return (
     <div className="Multiple-Row-Selection-data-grid">
-      <DataGrid
-        {...data}
-        loading={data.rows.length === 0}
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        onCellHover={(data) => {
-          if (data.value !== 'Edit') return;
-          data.element.style.cursor = 'pointer';
-        }}
-        onCellClick={(data) => {
-          if (data.value === 'Edit') {
-            setSelectedUser(data.row.id);
-            setOpenDialog(true);
-          }
-        }}
-      />
+      <div>should be a table of users</div>
+      {/* <DataGrid */}
+      {/*  {...data} */}
+      {/*  loading={data.rows.length === 0} */}
+      {/*  rowsPerPageOptions={[5, 10, 25, 50, 100]} */}
+      {/*  onCellHover={(data) => { */}
+      {/*    if (data.value !== 'Edit') return; */}
+      {/*    data.element.style.cursor = 'pointer'; */}
+      {/*  }} */}
+      {/*  onCellClick={(data) => { */}
+      {/*    if (data.value === 'Edit') { */}
+      {/*      setSelectedUser(data.row.id); */}
+      {/*      setOpenDialog(true); */}
+      {/*    } */}
+      {/*  }} */}
+      {/* /> */}
       {openDialog && (
         <EditUserDialog
           getAllUsers={getAllUsers}

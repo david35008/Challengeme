@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   FormControl,
   InputLabel,
   Input,
   InputAdornment,
   IconButton,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff, Lock } from '@material-ui/icons';
+} from '@mui/material';
+import { Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import Timer from './TImer';
 

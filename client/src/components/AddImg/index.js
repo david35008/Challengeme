@@ -2,7 +2,7 @@ import React from 'react';
 import './AddImg.css';
 import DropNCrop from '@synapsestudios/react-drop-n-crop';
 import '@synapsestudios/react-drop-n-crop/lib/react-drop-n-crop.min.css';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 function AddImg({ file, handleChange }) {
   return (

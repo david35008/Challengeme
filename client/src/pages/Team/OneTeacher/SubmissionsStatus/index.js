@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import SubmissionsByChallenges from './SubmissionsByChallenges';
 import SubmissionsByUsers from './SubmissionsByUsers';
 import './style.css';

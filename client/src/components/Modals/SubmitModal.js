@@ -2,13 +2,12 @@ import React, { useState, useCallback } from 'react';
 import mixpanel from 'mixpanel-browser';
 import {
   Modal, TextField, Button, Typography,
-} from '@material-ui/core';
-import { Rating, Alert, AlertTitle } from '@material-ui/lab';
+  Rating, Alert, AlertTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import Cookies from 'js-cookie';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import network from '../../services/network';
 import { useModalStyles } from '../../utils';
@@ -111,7 +110,7 @@ function SubmitModal({
       <div style={modalStyle} className={classes.paper}>
         <div style={{ marginLeft: '95%' }}>
           <IconButton onClick={() => handleClose()}>
-            <CloseIcon />
+            {/* <CloseIcon /> */}
           </IconButton>
         </div>
         <form

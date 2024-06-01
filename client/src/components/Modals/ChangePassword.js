@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
-import { makeStyles } from '@material-ui/core/styles';
-import { Modal, Button } from '@material-ui/core';
-import ErrorIcon from '@material-ui/icons/Error';
+import { makeStyles } from '@mui/styles';
+import { Modal, Button } from '@mui/material';
+import ErrorIcon from '@mui/icons-material/Error';
 import network from '../../services/network';
 import Change from '../ForgotPassword/Change';
 

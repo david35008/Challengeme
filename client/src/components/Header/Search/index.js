@@ -1,10 +1,10 @@
 import React, {
   useState, useEffect, useContext, useCallback,
 } from 'react';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 import './Search.css';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 import AllChallenges from '../../../context/AllChallengesContext';
 import SearchTicket from './SearchTicket';
 import useStyles from './SearchStyle';

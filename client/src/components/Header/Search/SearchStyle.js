@@ -1,5 +1,5 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import { fade, makeStyles } from '@mui/styles';
+import { red } from '@mui/material/colors';
 
 export default makeStyles((theme) => ({
   root: {

@@ -1,10 +1,10 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import FormControl from '@mui/material/FormControl';
+import { makeStyles } from '@mui/styles';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 const useStyles = makeStyles(() => ({
   securityQTitle: {

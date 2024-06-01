@@ -14,12 +14,13 @@ import {
   TextField,
   TextareaAutosize,
   Button,
-} from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
+  Alert,
+  AlertTitle 
+} from '@mui/material';
 import FilteredLabels from '../../context/FilteredLabelsContext';
 import ChooseLabels from '../../components/Choosers/ChooseLabels';
 import network from '../../services/network';
-import AddImg from '../../components/AddImg';
+// import AddImg from '../../components/AddImg';
 import './NewChallengeForm.css';
 
 const textFieldStyle = { minWidth: '200px' };
@@ -311,7 +312,8 @@ export default function NewChallengeForm() {
           style={{ minWidth: 200, width: '40vw' }}
         />
         <br />
-        <AddImg file={file} handleChange={handleFile} />
+        <div>should be an upload image</div>
+        {/* <AddImg file={file} handleChange={handleFile} /> */}
         <br />
         <div style={{ minWidth: '150px', width: 'fit-content' }}>
           <ChooseLabels

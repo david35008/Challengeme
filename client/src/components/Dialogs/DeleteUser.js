@@ -1,8 +1,8 @@
 import React, {
   useEffect, useState, useCallback, useRef,
 } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import { makeStyles, useTheme } from '@mui/styles';
+import { red } from '@mui/material/colors';
 import {
   Input,
   Button,
@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   InputLabel,
   Switch,
-} from '@material-ui/core';
+} from '@mui/material';
 import network from '../../services/network';
 
 const useStyles = makeStyles((theme) => ({

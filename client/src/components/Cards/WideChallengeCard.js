@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import Rating from '@material-ui/lab/Rating';
+// import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
 import network from '../../services/network';
 import '../../styles/WideChallengeCard.css';

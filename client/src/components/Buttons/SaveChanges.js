@@ -2,10 +2,10 @@ import React, {
   useState, useRef, useEffect, useCallback,
 } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { green, red } from '@material-ui/core/colors';
-import { CircularProgress, Fab } from '@material-ui/core';
-import { HighlightOff, Check, Edit } from '@material-ui/icons';
+import { makeStyles } from '@mui/styles';
+import { green, red } from '@mui/material/colors';
+import { CircularProgress, Fab } from '@mui/material';
+import { HighlightOff, Check, Edit } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   root: {

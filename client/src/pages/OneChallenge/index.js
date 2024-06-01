@@ -1,16 +1,11 @@
-import React, {
-  useState, useEffect, useContext, useCallback,
-} from 'react';
-import {
-  useParams, Link, useLocation, useNavigate,
-} from 'react-router-dom';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
-import { Button } from '@material-ui/core';
-import Rating from '@material-ui/lab/Rating';
-// import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { Button } from '@mui/material';
+import Rating from '@mui/material/Rating';
+// import LinearProgress from '@mui/material/LinearProgress';
 import ReviewsTab from '../../components/Reviews';
 import SubmitModal from '../../components/Modals/SubmitModal';
 import network from '../../services/network';
@@ -144,16 +139,13 @@ function ChallengePage() {
 
   const setNewImg = useCallback(
     (id, newImg) => {
-      setChallengesFiltered((prev) => {
-        const currentChallenges = prev.map((challenge) => {
-          if (challenge.id === id) {
-            challenge.img = newImg;
-            return challenge;
-          }
+      setChallengesFiltered((prev) => prev.map((challenge) => {
+        if (challenge.id === id) {
+          challenge.img = newImg;
           return challenge;
-        });
-        return currentChallenges;
-      });
+        }
+        return challenge;
+      }));
     },
     [setChallengesFiltered],
   );
@@ -176,7 +168,8 @@ function ChallengePage() {
         );
       }
       if (submissionStatus.state === 'PENDING') {
-        return <LinearProgress className="Circular-Progress" />;
+        <div>should be a liner</div>;
+        // return <LinearProgress className="Circular-Progress" />;
       }
       if (submissionStatus.state === 'SUCCESS') {
         return (
@@ -309,7 +302,8 @@ function ChallengePage() {
                 </div>
               ) : (
                 <div style={{ textAlign: 'center' }}>
-                  <LinearProgress className="Circular-Progress" />
+                  <div>should be a liner</div>
+                  {/* <LinearProgress className="Circular-Progress" /> */}
                 </div>
               )
             ) : (

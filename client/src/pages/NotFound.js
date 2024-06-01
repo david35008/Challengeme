@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import pageNotFound from '../images/pageNotFound.png';
 
 const useStyles = makeStyles(() => ({

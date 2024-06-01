@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import ErrorIcon from '@material-ui/icons/Error';
-import { CircularProgress } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import ErrorIcon from '@mui/icons-material/Error';
+import { CircularProgress } from '@mui/material';
 import { motion } from 'framer-motion';
 import UserDetails from './UserDetails';
 import PersonalDetails from './PersonalDetails';

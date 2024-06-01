@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import ErrorIcon from '@material-ui/icons/Error';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import ErrorIcon from '@mui/icons-material/Error';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 import Background from '../../pages/Background';

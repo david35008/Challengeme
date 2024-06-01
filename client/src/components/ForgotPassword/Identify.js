@@ -1,10 +1,10 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import FormControl from '@mui/material/FormControl';
+import { makeStyles } from '@mui/styles';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const useStyles = makeStyles(() => ({
   titleUserNameForgotPass: {

@@ -1,13 +1,13 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import PeopleIcon from '@material-ui/icons/People';
-import Email from '@material-ui/icons/Email';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonIcon from '@material-ui/icons/Person';
+import FormControl from '@mui/material/FormControl';
+import { makeStyles } from '@mui/styles';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import PeopleIcon from '@mui/icons-material/People';
+import Email from '@mui/icons-material/Email';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
 
 const useStyles = makeStyles(() => ({
   firstName: {

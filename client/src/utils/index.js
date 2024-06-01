@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import useDebounceHook from './debounceHook';
 import shuffleArrayFunc from './ShuffleArray';
 

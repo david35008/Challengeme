@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
+import { makeStyles } from '@mui/styles';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
 import network from '../../services/network';
 import ChooseEvents from '../Choosers/ChooseEvents';
 import { getModalStyle } from '../../utils';

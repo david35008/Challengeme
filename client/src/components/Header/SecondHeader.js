@@ -1,8 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@mui/styles';
+import AppBar from '@mui/material/AppBar';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({

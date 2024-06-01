@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { XGrid } from '@material-ui/x-grid';
+// import { XGrid } from '@material-ui/x-grid';
 import {
   Button,
   Input,
@@ -8,12 +8,12 @@ import {
   MenuItem,
   Grid,
   CircularProgress,
-} from '@material-ui/core';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+} from '@mui/material';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardDatePicker,
+// } from '@material-ui/pickers';
+// import DateFnsUtils from '@date-io/date-fns';
 import network from '../../../services/network';
 import { events } from '../../../config/Events';
 import Alert from '../../../components/Buttons/Alert';
@@ -143,34 +143,36 @@ export default function MixPanelDashBoard({ userName, headers }) {
             </MenuItem>
           ))}
         </TextField>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="from-picker-dialog"
-            label="From Date"
-            format="MM/dd/yyyy"
-            value={parseInt(startDate)}
-            minDate={946677600000}
-            maxDate={endDate}
-            onChange={(event) => setStartDate(event.getTime())}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-          <KeyboardDatePicker
-            margin="normal"
-            id="to-picker-dialog"
-            label="To Date"
-            format="MM/dd/yyyy"
-            minDate={startDate}
-            maxDate={Date.now()}
-            value={parseInt(endDate)}
-            onChange={(event) => setEndDate(event.getTime())}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>
+        <div>should be a date picker</div>
+        {/* https://mui.com/material-ui/guides/pickers-migration/#muipickersutilsprovider */}
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
+        {/*  <KeyboardDatePicker */}
+        {/*    margin="normal" */}
+        {/*    id="from-picker-dialog" */}
+        {/*    label="From Date" */}
+        {/*    format="MM/dd/yyyy" */}
+        {/*    value={parseInt(startDate)} */}
+        {/*    minDate={946677600000} */}
+        {/*    maxDate={endDate} */}
+        {/*    onChange={(event) => setStartDate(event.getTime())} */}
+        {/*    KeyboardButtonProps={{ */}
+        {/*      'aria-label': 'change date', */}
+        {/*    }} */}
+        {/*  /> */}
+        {/*  <KeyboardDatePicker */}
+        {/*    margin="normal" */}
+        {/*    id="to-picker-dialog" */}
+        {/*    label="To Date" */}
+        {/*    format="MM/dd/yyyy" */}
+        {/*    minDate={startDate} */}
+        {/*    maxDate={Date.now()} */}
+        {/*    value={parseInt(endDate)} */}
+        {/*    onChange={(event) => setEndDate(event.getTime())} */}
+        {/*    KeyboardButtonProps={{ */}
+        {/*      'aria-label': 'change date', */}
+        {/*    }} */}
+        {/*  /> */}
+        {/* </MuiPickersUtilsProvider> */}
         <div>
           <InputLabel htmlFor="limit">Limit</InputLabel>
           <TextField
@@ -188,11 +190,12 @@ export default function MixPanelDashBoard({ userName, headers }) {
       </Grid>
       {!loading ? (
         eventsData.length ? (
-          <XGrid
-            {...data}
-            loading={!data.rows.length}
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          />
+          <div>should be a table</div>
+          // <XGrid
+          //   {...data}
+          //   loading={!data.rows.length}
+          //   rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          // />
         ) : (
           <h1 className="not-found">
             There Is No Events On The Requested Parameters

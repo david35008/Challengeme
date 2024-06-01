@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
 import { useParams } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import network from '../../../../services/network';
 import ChallengeCard from '../../../../components/Cards/SmallChallengeCard';
 import AddAssignment from '../../../../components/Modals/AddAssignment';

@@ -1,10 +1,10 @@
 import React, {
   useState, useRef, useEffect, useCallback,
 } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { green, red } from '@material-ui/core/colors';
-import { Fab, CircularProgress } from '@material-ui/core';
-import { Delete, Loop } from '@material-ui/icons';
+import { makeStyles } from '@mui/styles';
+import { green, red } from '@mui/material/colors';
+import { Fab, CircularProgress } from '@mui/material';
+import { Delete, Loop } from '@mui/icons-material';
 import network from '../../services/network';
 import DeleteUserDialog from '../Dialogs/DeleteUser';
 

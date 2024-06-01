@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from 'react';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Logged } from '../../context/LoggedInContext';
 import network from '../../services/network';
 import AvatarProfile from './AvatarProfile';

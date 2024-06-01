@@ -1,5 +1,5 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect, lazy, Suspense, useContext } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { Logged } from '../context/LoggedInContext';
 import AllChallenges from '../context/AllChallengesContext';
@@ -18,10 +18,9 @@ import NewChallengeForm from './NewChallenge';
 import UserProfile from './UserProfile';
 import Admin from './Admin';
 import Team from './Team';
-import PrivateRoute from '../Routes/privateRoute';
-import PublicRoute from '../Routes/publicRoute';
 import '../styles/Admin.css';
 
+// Lazy loaded components
 const NotFound = lazy(() => import('./NotFound'));
 const ChallengesPage = lazy(() => import('./Challenges'));
 const LandingPage = lazy(() => import('./LandingPage'));
@@ -45,12 +44,11 @@ export default function Router() {
   }, [logged]);
 
   useEffect(() => {
-    // auth
     (async () => {
       try {
         if (Cookies.get('accessToken')) {
           const { data } = await network.get('/api/v1/auth/validate-token');
-          setLogged(data);
+          setLogged(data.logged); // Assuming data.logged is a boolean
           setIsAdmin(data.isAdmin);
           setLoading(false);
         } else if (Cookies.get('refreshToken')) {
@@ -82,51 +80,18 @@ export default function Router() {
                     <Routes>
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/challenges" element={<ChallengesPage />} />
-                      <Route
-                        path="/challenges/:id"
-                        element={<ChallengePage />}
-                      />
-                      <Route
-                        path="/register"
-                        element={<PublicRoute component={Register} />}
-                      />
-                      <Route
-                        path="/login"
-                        element={<PublicRoute component={Login} />}
-                      />
-                      <Route
-                        path="/forgot"
-                        element={<PublicRoute component={Forgot} />}
-                      />
-                      <Route
-                        path="/auth"
-                        element={<PublicRoute component={ValidatingMail} />}
-                      />
-                      <Route
-                        path="/github-auth"
-                        element={<PublicRoute component={GithubAuth} />}
-                      />
-                      <Route
-                        path="/google-auth"
-                        element={<PublicRoute component={GoogleAuth} />}
-                      />
-                      <Route
-                        path="/addnewchallenge"
-                        element={<PrivateRoute component={NewChallengeForm} />}
-                      />
-                      <Route
-                        path="/profile"
-                        element={<PrivateRoute component={UserProfile} />}
-                      />
-                      <Route
-                        path="/teams"
-                        element={<PrivateRoute component={Team} />}
-                      />
+                      <Route path="/challenges/:id" element={<ChallengePage />} />
+                      <Route path="/register" element={!logged ? <Register /> : <Navigate to="/" />} />
+                      <Route path="/login" element={!logged ? <Login /> : <Navigate to="/" />} />
+                      <Route path="/forgot" element={!logged ? <Forgot /> : <Navigate to="/" />} />
+                      <Route path="/auth" element={!logged ? <ValidatingMail /> : <Navigate to="/" />} />
+                      <Route path="/github-auth" element={!logged ? <GithubAuth /> : <Navigate to="/" />} />
+                      <Route path="/google-auth" element={!logged ? <GoogleAuth /> : <Navigate to="/" />} />
+                      <Route path="/addnewchallenge" element={logged ? <NewChallengeForm /> : <Navigate to="/login" />} />
+                      <Route path="/profile" element={logged ? <UserProfile /> : <Navigate to="/login" />} />
+                      <Route path="/teams" element={logged ? <Team /> : <Navigate to="/login" />} />
                       {isAdmin && (
-                        <Route
-                          path="/admin"
-                          element={<PrivateRoute component={Admin} />}
-                        />
+                        <Route path="/admin" element={<Admin />} />
                       )}
                       <Route path="*" element={<NotFound />} />
                     </Routes>

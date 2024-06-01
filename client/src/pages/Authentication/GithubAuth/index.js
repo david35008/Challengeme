@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import network from '../../../services/network';
 import { Logged } from '../../../context/LoggedInContext';
 import '../../../styles/githubAuth.css';

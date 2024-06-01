@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@mui/styles';
 import clsx from 'clsx';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepConnector from '@material-ui/core/StepConnector';
-import PersonIcon from '@material-ui/icons/Person';
-import SecurityIcon from '@material-ui/icons/Security';
-import ContactlessIcon from '@material-ui/icons/Contactless';
-import CodeIcon from '@material-ui/icons/Code';
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepConnector from '@mui/material/StepConnector';
+import PersonIcon from '@mui/icons-material/Person';
+import SecurityIcon from '@mui/icons-material/Security';
+import ContactlessIcon from '@mui/icons-material/Contactless';
+import CodeIcon from '@mui/icons-material/Code';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import moment from 'moment';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Chip } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { makeStyles } from '@mui/styles';
+import { TextField, Button, Chip } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 import network from '../../../services/network';
 import { generateTime } from '../../../utils';
 import Alert from '../../../components/Buttons/Alert';
