@@ -11,10 +11,11 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import Cookies from 'js-cookie';
-import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
+import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
 import network from '../../services/network';
 import { useModalStyles } from '../../utils';
 
@@ -34,7 +35,7 @@ function SubmitModal({
   submissionStatus,
   updateSubmissionStatus,
 }) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [userRating, setUserRating] = useState('0');
   const classes = useModalStyles();
   const [modalStyle] = useState(getModalStyle);
@@ -42,14 +43,12 @@ function SubmitModal({
   const spaces = new RegExp(/^(\s{1,})$/);
   const hebrew = new RegExp(/^.*([\u0590-\u05FF]{1,}).*$/);
 
-  /* function to generate alerts for bad or missing inputs */
   const generateAlert = useCallback(
     (title, message) => (
       <Alert severity="error">
         <AlertTitle>{title}</AlertTitle>
         {message}
       </Alert>
-      // eslint-disable-next-line
     ),
     [],
   );
@@ -85,7 +84,7 @@ function SubmitModal({
             data,
           );
           const user = Cookies.get('userName');
-          mixpanel.track('User Submited Challenge', {
+          mixpanel.track('User Submitted Challenge', {
             User: `${user}`,
             ChallengeId: `${challengeParamId}`,
             'Solution Repository': `${data.repository}`,
@@ -96,9 +95,8 @@ function SubmitModal({
         handleClose();
         setUserRating('0');
       }
-      // eslint-disable-next-line
     },
-    [challengeParamId, hebrew, spaces],
+    [challengeParamId, hebrew, spaces, generateAlert, handleClose, updateSubmissionStatus],
   );
 
   return (
@@ -115,8 +113,8 @@ function SubmitModal({
     >
       <div style={modalStyle} className={classes.paper}>
         <div style={{ marginLeft: '95%' }}>
-          <IconButton onClick={() => handleClose()}>
-            {/* <CloseIcon /> */}
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
           </IconButton>
         </div>
         <form
@@ -135,13 +133,12 @@ function SubmitModal({
             label="Solution repository Url"
             type="text"
             id="repoInput"
-            name="repository"
             placeholder="GitHub-UserName/GitHub-Repository-Name"
-            style={{ marginTop: 8 }}
-            inputRef={register({
+            {...register('repository', {
               required: true,
               pattern: /^([^ ]+\/[^ ]+)$/,
             })}
+            style={{ marginTop: 8 }}
           />
           <Typography color="error" className="newChallengeFormDisplayErrors">
             {badInput}
@@ -174,16 +171,16 @@ function SubmitModal({
           >
             <Typography variant="subtitle1">Rate this challenge</Typography>
             <Rating
-              cy-test="submit-rating-input"
               name="rating"
-              onChange={(_, value) => setUserRating(value)}
+              value={parseInt(userRating, 10)}
+              onChange={(_, value) => setUserRating(value.toString())}
             />
           </div>
           <input
             name="rating"
             type="number"
             value={userRating}
-            ref={register({ required: true, min: '1' })}
+            {...register('rating', { required: true, min: 1 })}
             hidden
             readOnly
           />
@@ -206,8 +203,7 @@ function SubmitModal({
             type="text"
             id="commentTitleInput"
             placeholder="Comment Title"
-            name="commentTitle"
-            inputRef={register({ maxLength: 100 })}
+            {...register('commentTitle', { maxLength: 100 })}
             variant="outlined"
           />
           {errors.commentTitle?.type === 'maxLength' && (
@@ -225,8 +221,7 @@ function SubmitModal({
             multiline
             rows={4}
             placeholder="Leave your message here"
-            name="commentContent"
-            inputRef={register({ maxLength: 255 })}
+            {...register('commentContent', { maxLength: 255 })}
             variant="outlined"
             style={{ marginTop: 8 }}
           />
@@ -235,7 +230,7 @@ function SubmitModal({
               variant="caption"
               className={classes.formValidationError}
             >
-              Your message should be less than 100 characters
+              Your message should be less than 255 characters
             </Typography>
           )}
           {!submissionStatus ? (
@@ -277,13 +272,7 @@ function SubmitModal({
                   textAlign: 'center',
                 }}
               >
-                You solved this challenge
-                {' '}
-                {moment(submissionStatus.createdAt).fromNow()}
-                ,
-                <br />
-                {' '}
-                well...
+                You solved this challenge {moment(submissionStatus.createdAt).fromNow()}, well...
                 you made it look easy you better try another challenge
               </div>
               <Button
@@ -323,12 +312,8 @@ function SubmitModal({
                   textAlign: 'center',
                 }}
               >
-                You tried to solved this challenge
-                {' '}
-                {moment(submissionStatus.createdAt).fromNow()}
-                {' '}
-                You can try to
-                submit again
+                You tried to solve this challenge {moment(submissionStatus.createdAt).fromNow()}.
+                You can try to submit again
               </div>
               <Button
                 variant="contained"
@@ -352,5 +337,13 @@ function SubmitModal({
     </Modal>
   );
 }
+
+SubmitModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  challengeParamId: PropTypes.string.isRequired,
+  submissionStatus: PropTypes.object,
+  updateSubmissionStatus: PropTypes.func.isRequired,
+};
 
 export default SubmitModal;

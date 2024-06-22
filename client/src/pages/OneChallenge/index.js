@@ -60,7 +60,7 @@ function ChallengePage() {
       });
       getBoilerPlate();
     }
-  }, [challengeId]);
+  }, [challengeId, LoggedContext.logged, getBoilerPlate]);
 
   const getLastSubmissions = useCallback(async () => {
     try {
@@ -78,7 +78,10 @@ function ChallengePage() {
       setSubmissionStatus(null);
       setLoadingReq(true);
       return false;
-    } catch (error) {}
+    } catch (error) {
+      setLoadingReq(true);
+      return false;
+    }
   }, [challengeId]);
 
   const fetchChallenge = useCallback(async () => {
@@ -135,7 +138,7 @@ function ChallengePage() {
       setLoadingReq(true);
     }
     return () => clearInterval(getSubmissionInterval);
-  }, [challengeId]);
+  }, [challengeId, LoggedContext.logged, fetchChallenge, getSubmissionInterval, getLastSubmissions, setImg]);
 
   const setNewImg = useCallback(
     (id, newImg) => {
@@ -168,7 +171,7 @@ function ChallengePage() {
         );
       }
       if (submissionStatus.state === 'PENDING') {
-        <div>should be a liner</div>;
+        return <div>should be a liner</div>;
         // return <LinearProgress className="Circular-Progress" />;
       }
       if (submissionStatus.state === 'SUCCESS') {
@@ -192,7 +195,6 @@ function ChallengePage() {
         </Button>
       );
     },
-    // eslint-disable-next-line
     [submissionStatus],
   );
 
@@ -211,9 +213,7 @@ function ChallengePage() {
             <span>{challenge.Author.userName}</span>
             <span>{generateTime(challenge.createdAt)}</span>
             <span>
-              {ratingCount}
-              {' '}
-              submissions
+              {ratingCount} submissions
             </span>
           </h2>
           <p>{challenge.description}</p>
@@ -242,9 +242,7 @@ function ChallengePage() {
                 size="large"
               />
               <div className="One-Challenge-Page-Control-Panel-Rating-Text">
-                {ratingCount}
-                {' '}
-                rates
+                {ratingCount} rates
               </div>
             </div>
           </div>

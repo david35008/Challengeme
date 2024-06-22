@@ -11,7 +11,7 @@ import ValidatingMail from './Authentication/Register/ValidatingMail';
 import GithubAuth from './Authentication/GithubAuth';
 import GoogleAuth from '../services/GoogleAuth';
 import network from '../services/network';
-import Header from '../components/Header';
+import Header from '../components/Header'; // Ensure Header is using WideNav component correctly
 import ErrorBoundary from '../components/ErrorBoundary';
 import Loading from '../components/Loading';
 import NewChallengeForm from './NewChallenge';
@@ -36,10 +36,11 @@ export default function Router() {
   useEffect(() => {
     (async () => {
       try {
-        const { data: challengesFromServer } =
-          await network.get('/api/v1/challenges');
+        const { data: challengesFromServer } = await network.get('/api/v1/challenges');
         setChallenges(challengesFromServer);
-      } catch {}
+      } catch (error) {
+        console.error(error);
+      }
     })();
   }, [logged]);
 
@@ -52,14 +53,13 @@ export default function Router() {
           setIsAdmin(data.isAdmin);
           setLoading(false);
         } else if (Cookies.get('refreshToken')) {
-          await network.post('/api/v1/auth/token', {
-            token: Cookies.get('refreshToken'),
-          });
+          await network.post('/api/v1/auth/token', { token: Cookies.get('refreshToken') });
           setLoading(false);
         } else {
           setLoading(false);
         }
       } catch (error) {
+        console.error(error);
         setLoading(false);
       }
     })();
@@ -70,9 +70,7 @@ export default function Router() {
       {!loading ? (
         <Logged.Provider value={{ logged, isAdmin, setLogged, setIsAdmin }}>
           <AllChallenges.Provider value={{ challenges, setChallenges }}>
-            <FilteredLabels.Provider
-              value={{ filteredLabels, setFilteredLabels }}
-            >
+            <FilteredLabels.Provider value={{ filteredLabels, setFilteredLabels }}>
               <Header />
               <div className="light">
                 <Suspense fallback={<Loading />}>
@@ -80,56 +78,16 @@ export default function Router() {
                     <Routes>
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/challenges" element={<ChallengesPage />} />
-                      <Route
-                        path="/challenges/:id"
-                        element={<ChallengePage />}
-                      />
-                      <Route
-                        path="/register"
-                        element={!logged ? <Register /> : <Navigate to="/" />}
-                      />
-                      <Route
-                        path="/login"
-                        element={!logged ? <Login /> : <Navigate to="/" />}
-                      />
-                      <Route
-                        path="/forgot"
-                        element={!logged ? <Forgot /> : <Navigate to="/" />}
-                      />
-                      <Route
-                        path="/auth"
-                        element={
-                          !logged ? <ValidatingMail /> : <Navigate to="/" />
-                        }
-                      />
-                      <Route
-                        path="/github-auth"
-                        element={!logged ? <GithubAuth /> : <Navigate to="/" />}
-                      />
-                      <Route
-                        path="/google-auth"
-                        element={!logged ? <GoogleAuth /> : <Navigate to="/" />}
-                      />
-                      <Route
-                        path="/addnewchallenge"
-                        element={
-                          logged ? (
-                            <NewChallengeForm />
-                          ) : (
-                            <Navigate to="/login" />
-                          )
-                        }
-                      />
-                      <Route
-                        path="/profile"
-                        element={
-                          logged ? <UserProfile /> : <Navigate to="/login" />
-                        }
-                      />
-                      <Route
-                        path="/teams"
-                        element={logged ? <Team /> : <Navigate to="/login" />}
-                      />
+                      <Route path="/challenges/:id" element={<ChallengePage />} />
+                      <Route path="/register" element={!logged ? <Register /> : <Navigate to="/" />} />
+                      <Route path="/login" element={!logged ? <Login /> : <Navigate to="/" />} />
+                      <Route path="/forgot" element={!logged ? <Forgot /> : <Navigate to="/" />} />
+                      <Route path="/auth" element={!logged ? <ValidatingMail /> : <Navigate to="/" />} />
+                      <Route path="/github-auth" element={!logged ? <GithubAuth /> : <Navigate to="/" />} />
+                      <Route path="/google-auth" element={!logged ? <GoogleAuth /> : <Navigate to="/" />} />
+                      <Route path="/addnewchallenge" element={logged ? <NewChallengeForm /> : <Navigate to="/login" />} />
+                      <Route path="/profile" element={logged ? <UserProfile /> : <Navigate to="/login" />} />
+                      <Route path="/teams" element={logged ? <Team /> : <Navigate to="/login" />} />
                       {isAdmin && <Route path="/admin" element={<Admin />} />}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
