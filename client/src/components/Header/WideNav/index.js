@@ -29,6 +29,7 @@ import Cube from '../../../images/reactSvg/Cube';
 import network from '../../../services/network';
 import { Logged } from '../../../context/LoggedInContext';
 import Search from '../Search';
+import './WideNav.css';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   paper: {
@@ -36,66 +37,7 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
   },
 }));
 
-const letterColor = {
-  color: 'white',
-};
-const drawerColor = {
-  color: 'black',
-};
-const dividerColor = {};
-
-const useStyles = styled({
-  appBarRegular: {
-    backgroundColor: 'transparent',
-  },
-  flexContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  startFlex: {
-    alignItems: 'center',
-  },
-  iconFlex: {
-    alignItems: 'center',
-  },
-  middleFlex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
-  },
-  endFlex: {
-    alignItems: 'center',
-  },
-  title: {
-    marginLeft: '40px',
-  },
-  flexRow: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  list: {
-    width: '250px',
-  },
-  menu: {
-    marginTop: '45px',
-  },
-  drawerHeader: {
-    padding: '10px',
-  },
-  filterButton: {
-    backgroundColor: 'white',
-    color: 'black',
-    padding: '10px 20px',
-    borderRadius: '20px',
-  },
-});
-
 export default function WideNav() {
-  const classes = useStyles();
   const navigate = useNavigate();
   const LoggedContext = useContext(Logged);
   const currentLocation = useLocation();
@@ -130,101 +72,52 @@ export default function WideNav() {
 
   return (
     <>
-      <AppBar position="fixed" className={clsx(classes.appBarRegular)}>
-        <Toolbar className={classes.flexContainer}>
-          <Typography variant="h6" className={classes.startFlex}>
+      <AppBar position="fixed" className={clsx('wide-nav-appBarRegular')}>
+        <Toolbar className="wide-nav-flexContainer">
+          <Typography variant="h6" className="wide-nav-startFlex">
             <NavLink to="/">
-              <div className={classes.iconFlex}>
-                <Cube style={letterColor} />
+              <div className="wide-nav-iconFlex">
+                <Cube className="wide-nav-letterColor" />
                 <ChallengeMeSmallTitle />
               </div>
             </NavLink>
           </Typography>
-          <div style={classes.middleFlex}>
+          <div className="wide-nav-middleFlex">
             {currentLocation.pathname === '/' && (
               <>
-                <Typography variant="h6" className={classes.title}>
-                  <Link to="/challenges" className="link-rout">
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginRight: '10px',
-                        marginLeft: '40px',
-                      }}
-                    >
-                      <AppsIcon style={letterColor} />
+                <Typography variant="h6" className="wide-nav-title">
+                  <Link to="/challenges" className="wide-nav-linkRout">
+                    <div className="wide-nav-iconFlex" style={{ marginRight: '10px', marginLeft: '40px' }}>
+                      <AppsIcon className="wide-nav-letterColor" />
                       &nbsp;
-                      <span style={letterColor} className="header-link-title">
-                        Challenges
-                      </span>
+                      <span className="wide-nav-headerLinkTitle">Challenges</span>
                     </div>
                   </Link>
                 </Typography>
-                <Typography variant="h6" className={classes.title}>
-                  <Link
-                    to={
-                      LoggedContext.logged ? '/teams' : currentLocation.pathname
-                    }
-                    className="link-rout"
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginRight: '10px',
-                        marginLeft: '40px',
-                      }}
-                    >
-                      <GroupIcon style={letterColor} />
+                <Typography variant="h6" className="wide-nav-title">
+                  <Link to={LoggedContext.logged ? '/teams' : currentLocation.pathname} className="wide-nav-linkRout">
+                    <div className="wide-nav-iconFlex" style={{ marginRight: '10px', marginLeft: '40px' }}>
+                      <GroupIcon className="wide-nav-letterColor" />
                       &nbsp;
-                      <span style={letterColor} className="header-link-title">
-                        Teams
-                      </span>
+                      <span className="wide-nav-headerLinkTitle">Teams</span>
                     </div>
                   </Link>
                 </Typography>
-                <Typography variant="h6" className={classes.title}>
-                  <a
-                    href="https://suvelocity.github.io/challengeme/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-rout"
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginRight: '10px',
-                        marginLeft: '40px',
-                      }}
-                    >
-                      <DescriptionIcon style={letterColor} />
+                <Typography variant="h6" className="wide-nav-title">
+                  <a href="https://suvelocity.github.io/challengeme/" target="_blank" rel="noopener noreferrer" className="wide-nav-linkRout">
+                    <div className="wide-nav-iconFlex" style={{ marginRight: '10px', marginLeft: '40px' }}>
+                      <DescriptionIcon className="wide-nav-letterColor" />
                       &nbsp;
-                      <span style={letterColor} className="header-link-title">
-                        Docs
-                      </span>
+                      <span className="wide-nav-headerLinkTitle">Docs</span>
                     </div>
                   </a>
                 </Typography>
-                <Typography variant="h6" className={classes.title}>
-                  <a
-                    href={`${window.location.protocol}//${window.location.hostname}/api-references/`}
-                    className="link-rout"
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginRight: '10px',
-                        marginLeft: '40px',
-                      }}
-                    >
-                      <Code style={letterColor} />
+                <Typography variant="h6" className="wide-nav-title">
+                  <a href={`${window.location.protocol}//${window.location.hostname}/api-references/`} className="wide-nav-linkRout">
+                    <div className="wide-nav-iconFlex" style={{ marginRight: '10px', marginLeft: '40px' }}>
+                      <Code className="wide-nav-letterColor" />
                       &nbsp;
-                      <span style={letterColor} className="header-link-title">
-                        Api
-                      </span>
+                      <span className="wide-nav-headerLinkTitle">Api</span>
                     </div>
                   </a>
                 </Typography>
@@ -232,7 +125,7 @@ export default function WideNav() {
             )}
             {currentLocation.pathname.includes('challenges') && <Search />}
           </div>
-          <div className={classes.endFlex}>
+          <div className="wide-nav-endFlex">
             {LoggedContext.logged && Cookies.get('userName') ? (
               <Tooltip title={Cookies.get('userName')}>
                 <AccountCircleOutlinedIcon
@@ -241,16 +134,14 @@ export default function WideNav() {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   color="inherit"
-                  style={{
-                    cursor: 'pointer',
-                  }}
+                  style={{ cursor: 'pointer' }}
                 >
                   {Cookies.get('userName').slice(0, 2)}
                 </AccountCircleOutlinedIcon>
               </Tooltip>
             ) : (
-              <Link to="/login" className="link-rout under-line-hover">
-                <div className={classes.filterButton}>Login</div>
+              <Link to="/login" className="wide-nav-linkRout under-line-hover">
+                <div className="wide-nav-filterButton">Login</div>
               </Link>
             )}
           </div>
@@ -263,116 +154,86 @@ export default function WideNav() {
         keepMounted
         open={Boolean(openNavBar)}
         onClose={handleDrawerClose}
-        className={classes.menu}
+        className="wide-nav-menu"
       >
-        <div className={`${classes.drawerHeader} ${classes.flexRow}`}>
+        <div className="wide-nav-drawerHeader wide-nav-flexRow">
           <b>
-            {LoggedContext.logged && Cookies.get('userName')
-              ? `Hey ${Cookies.get('userName')}`
-              : 'Welcome to ChallengeMe'}
+            {LoggedContext.logged && Cookies.get('userName') ? `Hey ${Cookies.get('userName')}` : 'Welcome to ChallengeMe'}
           </b>
           <IconButton onClick={handleDrawerClose}>
-            <ExpandLessIcon style={drawerColor} />
+            <ExpandLessIcon className="wide-nav-drawerColor" />
           </IconButton>
         </div>
         {currentLocation.pathname === '/challenges' ? (
           <>
-            <Divider variant="middle" style={dividerColor} />
-            <Link to="/" className="link-rout">
-              <ListItem
-                className={classes.flexRow}
-                button
-                onClick={handleDrawerClose}
-                style={drawerColor}
-              >
+            <Divider variant="middle" className="wide-nav-dividerColor" />
+            <Link to="/" className="wide-nav-linkRout">
+              <ListItem className="wide-nav-flexRow wide-nav-drawerColor" button onClick={handleDrawerClose}>
                 <ListItemText primary="Home" />
-                <ListItemIcon className={classes.flexEnd}>
-                  <Cube style={drawerColor} color="#000" />
+                <ListItemIcon className="wide-nav-flexEnd">
+                  <Cube className="wide-nav-drawerColor" color="#000" />
                 </ListItemIcon>
               </ListItem>
             </Link>
           </>
         ) : (
           <>
-            <Divider variant="middle" style={dividerColor} />
-            <Link to="/challenges" className="link-rout">
-              <ListItem
-                className={classes.flexRow}
-                button
-                onClick={handleDrawerClose}
-                style={drawerColor}
-              >
+            <Divider variant="middle" className="wide-nav-dividerColor" />
+            <Link to="/challenges" className="wide-nav-linkRout">
+              <ListItem className="wide-nav-flexRow wide-nav-drawerColor" button onClick={handleDrawerClose}>
                 <ListItemText primary="Challenges" />
-                <ListItemIcon className={classes.flexEnd}>
-                  <AppsIcon style={drawerColor} />
+                <ListItemIcon className="wide-nav-flexEnd">
+                  <AppsIcon className="wide-nav-drawerColor" />
                 </ListItemIcon>
               </ListItem>
             </Link>
           </>
         )}
-        <Divider variant="middle" style={dividerColor} />
-        <List className={classes.list}>
-          <Link to="/profile/info" className="link-rout">
-            <ListItem
-              className={classes.flexRow}
-              button
-              onClick={handleDrawerClose}
-              style={drawerColor}
-            >
+        <Divider variant="middle" className="wide-nav-dividerColor" />
+        <List className="wide-nav-list">
+          <Link to="/profile/info" className="wide-nav-linkRout">
+            <ListItem className="wide-nav-flexRow wide-nav-drawerColor" button onClick={handleDrawerClose}>
               <ListItemText primary="Profile" />
-              <ListItemIcon className={classes.flexEnd}>
-                <AccountCircleIcon style={drawerColor} />
+              <ListItemIcon className="wide-nav-flexEnd">
+                <AccountCircleIcon className="wide-nav-drawerColor" />
               </ListItemIcon>
             </ListItem>
           </Link>
-          <Divider variant="middle" style={dividerColor} />
-          <Link to="/Teams" className="link-rout">
-            <ListItem
-              className={classes.flexRow}
-              button
-              onClick={handleDrawerClose}
-            >
+          <Divider variant="middle" className="wide-nav-dividerColor" />
+          <Link to="/Teams" className="wide-nav-linkRout">
+            <ListItem className="wide-nav-flexRow" button onClick={handleDrawerClose}>
               <ListItemText primary="Teams Area" />
-              <ListItemIcon className={classes.flexEnd}>
-                <GroupIcon style={drawerColor} />
+              <ListItemIcon className="wide-nav-flexEnd">
+                <GroupIcon className="wide-nav-drawerColor" />
               </ListItemIcon>
             </ListItem>
           </Link>
           {LoggedContext.isAdmin && (
             <>
-              <Divider variant="middle" style={dividerColor} />
-              <Link to="/admin/DashBoard" className="link-rout">
-                <ListItem
-                  className={classes.flexRow}
-                  button
-                  onClick={handleDrawerClose}
-                  style={drawerColor}
-                >
+              <Divider variant="middle" className="wide-nav-dividerColor" />
+              <Link to="/admin/DashBoard" className="wide-nav-linkRout">
+                <ListItem className="wide-nav-flexRow wide-nav-drawerColor" button onClick={handleDrawerClose}>
                   <ListItemText primary="Admin Area" />
-                  <ListItemIcon className={classes.flexEnd}>
-                    <LockIcon style={drawerColor} />
+                  <ListItemIcon className="wide-nav-flexEnd">
+                    <LockIcon className="wide-nav-drawerColor" />
                   </ListItemIcon>
                 </ListItem>
               </Link>
             </>
           )}
-          <Divider variant="middle" style={dividerColor} />
-          <Link to="/addnewchallenge" className="link-rout">
-            <ListItem
-              className={classes.flexRow}
-              button
-              onClick={handleDrawerClose}
-            >
+          <Divider variant="middle" className="wide-nav-dividerColor" />
+          <Link to="/addnewchallenge" className="wide-nav-linkRout">
+            <ListItem className="wide-nav-flexRow" button onClick={handleDrawerClose}>
               <ListItemText primary="Add New Challenge" />
-              <ListItemIcon className={classes.flexEnd}>
-                <AddIcon style={drawerColor} />
+              <ListItemIcon className="wide-nav-flexEnd">
+                <AddIcon className="wide-nav-drawerColor" />
               </ListItemIcon>
             </ListItem>
           </Link>
-          <Divider variant="middle" style={dividerColor} />
-          <ListItem button className={classes.flexRow} onClick={logOut}>
+          <Divider variant="middle" className="wide-nav-dividerColor" />
+          <ListItem button className="wide-nav-flexRow" onClick={logOut}>
             <ListItemText style={{ color: '#C10000' }} primary="Logout" />
-            <ListItemIcon className={classes.flexEnd}>
+            <ListItemIcon className="wide-nav-flexEnd">
               <ExitToAppIcon style={{ color: '#C10000' }} />
             </ListItemIcon>
           </ListItem>
