@@ -12,18 +12,18 @@ import CodeIcon from '@mui/icons-material/Code';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${theme.stepConnector.alternativeLabel}`]: {
+  '&.alternativeLabel': {
     top: 17,
   },
-  [`&.${theme.stepConnector.active} .${theme.stepConnector.line}`]: {
+  '&.active .line': {
     backgroundImage:
       'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
   },
-  [`&.${theme.stepConnector.completed} .${theme.stepConnector.line}`]: {
+  '&.completed .line': {
     backgroundImage:
       'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
   },
-  [`& .${theme.stepConnector.line}`]: {
+  '& .line': {
     height: 3,
     border: 0,
     backgroundColor: '#eaeaf0',
@@ -31,7 +31,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }));
 
-const ColorlibStepIconRoot = styled('div')(({ theme }) => ({
+const ColorlibStepIconRoot = styled('div')({
   backgroundColor: '#ccc',
   zIndex: 1,
   color: '#fff',
@@ -50,7 +50,7 @@ const ColorlibStepIconRoot = styled('div')(({ theme }) => ({
     backgroundImage:
       'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
   },
-}));
+});
 
 function ColorlibStepIcon(props) {
   const { active, completed, icon } = props;
