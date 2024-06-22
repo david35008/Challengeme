@@ -5,9 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 
-export default function SimpleCard({
-  head, content, picture, link, href,
-}) {
+export default function SimpleCard({ head, content, picture, link, href }) {
   return (
     <Card className="Landing-page-Sections-Single-Card">
       <CardContent>

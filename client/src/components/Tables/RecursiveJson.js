@@ -1,9 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
-import TreeView from '@mui/material/TreeView';
+import { styled } from '@mui/system';
+import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import TreeItem from '@mui/material/TreeItem';
 
 const data = {
   id: 'root',
@@ -26,17 +25,13 @@ const data = {
   ],
 };
 
-const useStyles = makeStyles({
-  root: {
-    height: 110,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-});
+const StyledTreeView = styled(SimpleTreeView)(({ theme }) => ({
+  height: 110,
+  flexGrow: 1,
+  maxWidth: 400,
+}));
 
 export default function RecursiveTreeView() {
-  const classes = useStyles();
-
   const renderTree = (nodes) => (
     <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
       {Array.isArray(nodes.children)
@@ -46,13 +41,12 @@ export default function RecursiveTreeView() {
   );
 
   return (
-    <TreeView
-      className={classes.root}
+    <StyledTreeView
       defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpanded={['root']}
       defaultExpandIcon={<ChevronRightIcon />}
+      defaultExpanded={['root']}
     >
       {renderTree(data)}
-    </TreeView>
+    </StyledTreeView>
   );
 }

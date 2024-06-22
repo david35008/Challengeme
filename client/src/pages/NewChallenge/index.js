@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useState, useCallback, useContext,
-} from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +13,7 @@ import {
   TextareaAutosize,
   Button,
   Alert,
-  AlertTitle 
+  AlertTitle,
 } from '@mui/material';
 import FilteredLabels from '../../context/FilteredLabelsContext';
 import ChooseLabels from '../../components/Choosers/ChooseLabels';
@@ -63,8 +61,8 @@ export default function NewChallengeForm() {
       }));
       setChooseLabels(optionsForSelector);
       const newFilter = optionsForSelector.filter(
-        (label) => label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+        (label) => label.value ===
+          (filteredLabels ? filteredLabels.filteredLabels[0] : null),
       );
       setLabels(newFilter);
     } catch (error) {}
@@ -96,9 +94,9 @@ export default function NewChallengeForm() {
     event.preventDefault();
     const newBadInput = [];
     if (
-      repoName.length < 1
-      || repoName.match(spaces)
-      || repoName.match(hebrew)
+      repoName.length < 1 ||
+      repoName.match(spaces) ||
+      repoName.match(hebrew)
     ) {
       newBadInput.push(
         generateAlert(
@@ -112,9 +110,9 @@ export default function NewChallengeForm() {
     } else {
       try {
         if (
-          repoLink.length > 2
-          && !repoLink.match(spaces)
-          && !repoLink.match(hebrew)
+          repoLink.length > 2 &&
+          !repoLink.match(spaces) &&
+          !repoLink.match(hebrew)
         ) {
           await network.get(
             `/api/v1/services/public-repo?repo_name=${repoLink}`,
@@ -132,9 +130,9 @@ export default function NewChallengeForm() {
       }
       try {
         if (
-          repoBoiler.length > 2
-          && !repoBoiler.match(spaces)
-          && !repoBoiler.match(hebrew)
+          repoBoiler.length > 2 &&
+          !repoBoiler.match(spaces) &&
+          !repoBoiler.match(hebrew)
         ) {
           await network.get(
             `/api/v1/services/public-repo?repo_name=${repoBoiler}`,
@@ -152,9 +150,9 @@ export default function NewChallengeForm() {
       }
     }
     if (
-      repoDescription.length < 20
-      || !!repoDescription.match(spaces)
-      || !!repoDescription.match(hebrew)
+      repoDescription.length < 20 ||
+      !!repoDescription.match(spaces) ||
+      !!repoDescription.match(hebrew)
     ) {
       newBadInput.push(
         generateAlert(

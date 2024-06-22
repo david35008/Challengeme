@@ -1,21 +1,19 @@
-import React, {
-  useState, useEffect, useContext, useCallback,
-} from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import './Search.css';
 import Divider from '@mui/material/Divider';
 import AllChallenges from '../../../context/AllChallengesContext';
 import SearchTicket from './SearchTicket';
-import useStyles from './SearchStyle';
+import { useStyles } from './SearchStyle.js';
 import { useDebounce } from '../../../utils';
+import './Search.css';
 
 const letterColor = {
   color: 'black',
 };
 
 const Search = () => {
-  const classes = useStyles();
+  const classes = useStyles;
   const [results, setResults] = useState([]);
   const allChallenges = useContext(AllChallenges).challenges;
   const [searchValue, setSearchValue] = useState('');
@@ -24,7 +22,6 @@ const Search = () => {
   // search function to the the challenges
   const search = useCallback((e) => {
     setSearchValue(e.target.value);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -46,25 +43,24 @@ const Search = () => {
       }
       setResults(filteredChallenges);
     } catch (error) {}
-    // eslint-disable-next-line
-  }, [debouncedSearchValue]);
+  }, [debouncedSearchValue, allChallenges]);
 
   const closeSearch = useCallback(() => {
     setSearchValue('');
     setResults([]);
-  }, [debouncedSearchValue]);
+  }, []);
 
   const onSearchLoseFocus = useCallback(() => {
     setTimeout(() => {
       setResults([]);
       setSearchValue('');
     }, 200);
-    // eslint-disable-next-line
   }, []);
 
-  const resultsList = results
-    && results.length > 0
-    && results.map((result) => (
+  const resultsList =
+    results &&
+    results.length > 0 &&
+    results.map((result) => (
       <SearchTicket ticket={result} key={result.id} closeSearch={closeSearch} />
     ));
 
@@ -72,8 +68,8 @@ const Search = () => {
     <>
       <Divider />
       <div id="search">
-        <div className={classes.searchLight}>
-          <div className={classes.searchIcon}>
+        <div className={classes.SearchLight}>
+          <div className={classes.SearchIcon}>
             <SearchIcon style={letterColor} />
           </div>
           <InputBase
@@ -83,8 +79,8 @@ const Search = () => {
             onChange={search}
             autoComplete="off"
             classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
+              root: classes.InputRoot,
+              input: classes.InputInput,
             }}
             onBlur={onSearchLoseFocus}
             value={searchValue}

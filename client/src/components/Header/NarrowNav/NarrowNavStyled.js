@@ -1,100 +1,63 @@
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
+import {
+  AppBar,
+  Drawer,
+  Button,
+  Avatar,
+  Typography,
+  IconButton,
+  List,
+} from '@mui/material';
 
 const drawerWidth = 240;
-export default makeStyles((theme) => ({
-  infoButton: {
-    margin: '10px',
-  },
-  logOutButton: {
-    margin: '10px',
-  },
-  root: {
-    display: 'flex',
-  },
-  appBar: {
+
+export const useStyles = {
+  AppBarStyled: styled(AppBar)(({ theme }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
+  })),
+  MenuButton: styled(IconButton)(({ theme }) => ({
     marginRight: theme.spacing(2),
-  },
-  drawer: {
+  })),
+  DrawerPaper: styled(Drawer)({
     width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: 'white',
-    boxShadow: '10px 0px 35px 0px rgba(51,51,51,0.7)',
-  },
-  drawerPaperDark: {
-    width: drawerWidth,
-    backgroundColor: 'rgb(51,51,51)',
-    boxShadow: '2px 0px 35px 0px black',
-  },
-  generalDrawerHeader: {
-    display: 'flex',
-  },
-  drawerHeader: {
-    marginLeft: 'auto',
+  }),
+  GeneralDrawerHeader: styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-  list: {
-    padding: 0,
-  },
-  avatarUserInfo: {
-    margin: '20px',
-  },
-  logOut: {
+  })),
+  AvatarUserInfo: styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+  })),
+  HeyName: styled(Typography)(({ theme }) => ({
+    marginLeft: theme.spacing(1),
+  })),
+  LogOut: styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  heyName: {
-    marginTop: '8px',
-    marginLeft: '7px',
-  },
-  authButton: {
-    backgroundColor: 'rgb(219,219,219)',
-  },
-  narrowFlex: {
+    padding: theme.spacing(0, 1),
+  })),
+  LogOutButton: styled(Button)({
+    minWidth: 150,
+  }),
+  AuthButton: styled(Button)(({ theme }) => ({
+    margin: theme.spacing(1),
+  })),
+  NarrowFlex: styled('div')({
     display: 'flex',
-    justifyContent: 'space-evenly',
-    fontSize: '10px',
-    width: '100%',
-    marginLeft: '0px',
-  },
-  title: {
-    fontSize: '10px',
-  },
-}));
+    alignItems: 'center',
+  }),
+  Title: styled(Typography)({
+    flexGrow: 1,
+  }),
+  ListStyled: styled(List)({
+    padding: 0,
+  }),
+};

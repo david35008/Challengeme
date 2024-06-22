@@ -3,31 +3,31 @@ import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import { makeStyles } from '@mui/styles';
-import { TextField, Button } from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { styled } from '@mui/system';
+import { TextField, Button, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import network from '../../../services/network';
 import { generateTime } from '../../../utils';
 import ResetPassword from '../../../components/Modals/ChangePassword';
 import '../../../styles/UserInfo.css';
 
-const useStyles = makeStyles(() => ({
-  info: {
-    width: '200px',
-    margin: '10px 0px',
+const InfoTextField = styled(TextField)(({ theme }) => ({
+  width: '200px',
+  margin: '10px 0px',
+}));
+
+const InfoTextFieldDark = styled(TextField)(({ theme }) => ({
+  width: '200px',
+  '& > label': {
+    color: 'rgba(255,255,255,0.7)',
   },
-  infoDark: {
-    width: '200px',
-    '&>label': {
-      color: 'rgba(255,255,255,0.7)',
-    },
-    '&>div': {
-      color: 'white',
-    },
+  '& > div': {
+    color: 'white',
   },
-  userProfileBackToMyProfile: {
-    margin: '20px 0px -20px 0px',
-  },
+}));
+
+const UserProfileBackToMyProfileButton = styled(Button)(({ theme }) => ({
+  margin: '20px 0px -20px 0px',
 }));
 
 const generateName = (name) => {
@@ -50,7 +50,6 @@ function UserInfo() {
   const [editedUserInfo, setEditedUserInfo] = useState({});
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [resetPasswordModal, setResetPasswordModal] = useState(false);
-  const classes = useStyles();
 
   const fetchUserInfo = useCallback(async () => {
     try {
@@ -67,13 +66,13 @@ function UserInfo() {
     fetchUserInfo();
   }, []);
 
-  const startEditInfo = useCallback(async () => {
+  const startEditInfo = useCallback(() => {
     setIsReadOnly(false);
     // eslint-disable-next-line
   }, []);
 
   const editing = useCallback(
-    async (event) => {
+    (event) => {
       const key = event.target.name;
       const { value } = event.target;
       const edited = { ...editedUserInfo };
@@ -104,7 +103,7 @@ function UserInfo() {
     // eslint-disable-next-line
   }, [userInfo]);
 
-  const changePassword = useCallback(async () => {
+  const changePassword = useCallback(() => {
     setResetPasswordModal(true);
     // eslint-disable-next-line
   }, []);
@@ -121,32 +120,29 @@ function UserInfo() {
               path="/api/v1/users/change-password"
             />
           )}
-          <Button onClick={startEditInfo}>
-            <Edit />
-          </Button>
+          <IconButton onClick={startEditInfo}>
+            <EditIcon />
+          </IconButton>
           {!isReadOnly && (
             <Button onClick={changePassword}>Change Password</Button>
           )}
-          <TextField
+          <InfoTextField
             name="firstName"
             onChange={editing}
-            className={classes.info}
             value={generateName(editedUserInfo.firstName)}
             label="First name"
             InputProps={{ readOnly: isReadOnly }}
           />
-          <TextField
+          <InfoTextField
             name="lastName"
             onChange={editing}
-            className={classes.info}
             label="Last name"
             value={generateName(editedUserInfo.lastName)}
             InputProps={{ readOnly: isReadOnly }}
           />
           {isReadOnly ? (
-            <TextField
+            <InfoTextField
               name="birthDate"
-              className={classes.info}
               style={{ color: 'white' }}
               label="Birth Date"
               value={generateTime(editedUserInfo.birthDate)}
@@ -164,7 +160,6 @@ function UserInfo() {
                 Birth Date
               </label>
               <input
-                className={classes.birthDate}
                 name="birthDate"
                 type="date"
                 value={generateTime(editedUserInfo.birthDate)}
@@ -172,42 +167,38 @@ function UserInfo() {
               />
             </>
           )}
-          <TextField
+          <InfoTextField
             onChange={editing}
             name="country"
-            className={classes.info}
             label="Country"
             value={editedUserInfo.country ? editedUserInfo.country : ''}
             InputProps={{ readOnly: isReadOnly }}
           />
-          <TextField
+          <InfoTextField
             onChange={editing}
             name="city"
-            className={classes.info}
             label="City"
             value={editedUserInfo.city ? editedUserInfo.city : ''}
             InputProps={{ readOnly: isReadOnly }}
           />
-          <TextField
+          <InfoTextField
             onChange={editing}
             name="githubAccount"
-            className={classes.info}
             label="Github"
             value={
               editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''
             }
             InputProps={{ readOnly: isReadOnly }}
           />
-          <TextField
-            className={classes.info}
+          <InfoTextField
             label="Account Created"
             value={getUpdated(editedUserInfo.createdAt)}
             InputProps={{ readOnly: true }}
           />
           {!isReadOnly && (
             <div style={{ display: 'flex' }}>
-              <Button onClick={onSave}>save</Button>
-              <Button onClick={onCancel}>cancel</Button>
+              <Button onClick={onSave}>Save</Button>
+              <Button onClick={onCancel}>Cancel</Button>
             </div>
           )}
         </div>

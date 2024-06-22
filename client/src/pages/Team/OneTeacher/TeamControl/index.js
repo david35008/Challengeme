@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
 import Box from '@mui/material/Box';
@@ -21,7 +21,7 @@ import network from '../../../../services/network';
 import AddTeamMembers from '../../../../components/Modals/AddTeamMembers';
 import './style.css';
 
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -29,35 +29,26 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
-
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
+  '& > *': {
+    borderBottom: 'unset',
   },
-});
+}));
 
 function Row(props) {
-  const {
-    row, getAllTeams, teamId, teamName,
-  } = props;
+  const { row, getAllTeams, teamId, teamName } = props;
   const [open, setOpen] = useState(false);
 
   const removeUserFromTeam = useCallback(
     async (user) => {
       try {
         const isChangeOk = window.confirm(
-          `Are you sure you want to remove ${row.userName} from ${teamName} team ?`,
+          `Are you sure you want to remove ${row.userName} from ${teamName} team?`,
         );
         if (isChangeOk) {
           await network.delete(
@@ -66,16 +57,15 @@ function Row(props) {
           getAllTeams();
         }
       } catch (error) {}
-      // eslint-disable-next-line
     },
-    [row, teamName, teamId],
+    [row, teamName, teamId, getAllTeams],
   );
 
   const changeUserPermissionToBeTeacher = useCallback(
     async (user) => {
       try {
         const isChangeOk = window.confirm(
-          `Are you sure you want to give ${row.userName}, teacher permissions on ${teamName} team?`,
+          `Are you sure you want to give ${row.userName} teacher permissions on ${teamName} team?`,
         );
         if (isChangeOk) {
           await network.patch(`/api/v1/teams/teacher-permission/${teamId}`, {
@@ -84,15 +74,13 @@ function Row(props) {
           getAllTeams();
         }
       } catch (error) {}
-      // eslint-disable-next-line
     },
-    [row, teamId, teamName],
+    [row, teamId, teamName, getAllTeams],
   );
 
-  const classes = useRowStyles();
   return (
     <React.Fragment>
-      <StyledTableRow className={classes.root}>
+      <StyledTableRow>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -143,7 +131,7 @@ function Row(props) {
                         <Button
                           onClick={() => changeUserPermissionToBeTeacher(row.id)}
                         >
-                          CLick
+                          Click
                         </Button>
                       </StyledTableCell>
                     )}
@@ -162,9 +150,9 @@ function Row(props) {
     </React.Fragment>
   );
 }
+
 function TeamsControl({ teamName }) {
   const { id } = useParams();
-
   const [allMembers, setAllMembers] = useState([]);
   const [teamNameForMember, setTeamNameForMember] = useState(false);
   const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
@@ -176,13 +164,11 @@ function TeamsControl({ teamName }) {
       );
       setAllMembers(allTeamsFromServer.Users);
     } catch (error) {}
-    // eslint-disable-next-line
   }, [id]);
 
   const handleAddMemberModal = useCallback((team) => {
     setTeamNameForMember(team);
     setOpenAddMemberModal(true);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -192,12 +178,13 @@ function TeamsControl({ teamName }) {
       User: `${user}`,
       Team: id,
     });
-  }, [id]);
+  }, [id, getAllTeamMembers]);
 
   return (
     <div className="generic-page">
       <h1 className="team-control-title-page">
         Team
+        {' '}
         {teamName}
         {' '}
         Management
@@ -227,8 +214,8 @@ function TeamsControl({ teamName }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allMembers
-              && allMembers.map((user) => (
+            {allMembers &&
+              allMembers.map((user) => (
                 <Row
                   key={user.id + user.userName}
                   row={user}

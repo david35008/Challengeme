@@ -12,13 +12,13 @@ function Header() {
     } else {
       setNavOrMenu(false);
     }
-    // eslint-disable-next-line
   }, []);
 
   useMemo(
     () => window.addEventListener('resize', displayWindowSize),
     [displayWindowSize],
   );
+
   return <>{!navOrMenu ? <WideNav /> : <NarrowNav />}</>;
 }
 

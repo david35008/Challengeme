@@ -75,6 +75,7 @@ module.exports = {
         'no-console': 0,
         'jsx-a11y/control-has-associated-label': 0,
         'react/no-array-index-key': 0,
+        'react/jsx-one-expression-per-line': 0,
         'no-use-before-define': 'off',
         'no-undef': 0,
         'prefer-const': 0,

@@ -21,28 +21,41 @@ function Row({ row, getAllTeams }) {
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
 
-  const deleteTeam = useCallback(async (teamId) => {
-    const isDeleteOk = prompt("What's your favorite cocktail drink?");
-    if (isDeleteOk !== null) {
-      await network.delete(`/api/v1/webhooks/admin/teams/${teamId}`);
-      getAllTeams();
-    }
-  }, [getAllTeams]);
+  const deleteTeam = useCallback(
+    async (teamId) => {
+      const isDeleteOk = prompt("What's your favorite cocktail drink?");
+      if (isDeleteOk !== null) {
+        await network.delete(`/api/v1/webhooks/admin/teams/${teamId}`);
+        getAllTeams();
+      }
+    },
+    [getAllTeams],
+  );
 
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">{row.id}</TableCell>
+        <TableCell component="th" scope="row">
+          {row.id}
+        </TableCell>
         <TableCell align="left">{row.teamId}</TableCell>
         <TableCell align="left">{row.webhookUrl}</TableCell>
         <TableCell align="left">{row.authorizationToken}</TableCell>
-        <TableCell align="left">{new Date(row.updatedAt).toLocaleString()}</TableCell>
-        <TableCell align="left">{new Date(row.createdAt).toLocaleString()}</TableCell>
+        <TableCell align="left">
+          {new Date(row.updatedAt).toLocaleString()}
+        </TableCell>
+        <TableCell align="left">
+          {new Date(row.createdAt).toLocaleString()}
+        </TableCell>
         <TableCell align="left">
           <Button onClick={() => deleteTeam(row.id)}>Delete Team</Button>
         </TableCell>
@@ -67,7 +80,9 @@ function Row({ row, getAllTeams }) {
                 <TableBody>
                   {row.WebhookEvents?.map((event) => (
                     <TableRow key={event.id}>
-                      <TableCell component="th" scope="row">{event.id}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {event.id}
+                      </TableCell>
                       <TableCell>{event.name}</TableCell>
                     </TableRow>
                   ))}
@@ -77,7 +92,12 @@ function Row({ row, getAllTeams }) {
           </Collapse>
         </TableCell>
       </TableRow>
-      <UpdateWebhookTeam open={openUpdate} setOpen={setOpenUpdate} getAllTeams={getAllTeams} data={row} />
+      <UpdateWebhookTeam
+        open={openUpdate}
+        setOpen={setOpenUpdate}
+        getAllTeams={getAllTeams}
+        data={row}
+      />
     </React.Fragment>
   );
 }
@@ -97,9 +117,21 @@ function TeamsControl() {
 
   return (
     <Box sx={{ textAlign: 'center', p: 2 }}>
-      <Typography variant="h4" component="h1" sx={{ mb: 2 }}>Teams Management Area</Typography>
-      <AddWebhookTeam open={openNewWebhookTeamModal} setOpen={setOpenNewWebhookTeamModal} getAllTeams={getAllWebhookTeams} />
-      <Button variant="outlined" sx={{ mb: 2 }} onClick={() => setOpenNewWebhookTeamModal(true)}>Add New Team</Button>
+      <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+        Teams Management Area
+      </Typography>
+      <AddWebhookTeam
+        open={openNewWebhookTeamModal}
+        setOpen={setOpenNewWebhookTeamModal}
+        getAllTeams={getAllWebhookTeams}
+      />
+      <Button
+        variant="outlined"
+        sx={{ mb: 2 }}
+        onClick={() => setOpenNewWebhookTeamModal(true)}
+      >
+        Add New Team
+      </Button>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>

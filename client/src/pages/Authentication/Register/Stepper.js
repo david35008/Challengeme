@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@mui/styles';
-import clsx from 'clsx';
+import { styled } from '@mui/system';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -12,56 +11,49 @@ import ContactlessIcon from '@mui/icons-material/Contactless';
 import CodeIcon from '@mui/icons-material/Code';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
-const ColorlibConnector = withStyles({
-  alternativeLabel: {
+const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${theme.stepConnector.alternativeLabel}`]: {
     top: 17,
   },
-  active: {
-    '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-    },
+  [`&.${theme.stepConnector.active} .${theme.stepConnector.line}`]: {
+    backgroundImage:
+      'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
   },
-  completed: {
-    '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-    },
+  [`&.${theme.stepConnector.completed} .${theme.stepConnector.line}`]: {
+    backgroundImage:
+      'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
   },
-  line: {
+  [`& .${theme.stepConnector.line}`]: {
     height: 3,
     border: 0,
     backgroundColor: '#eaeaf0',
     borderRadius: 1,
   },
-})(StepConnector);
+}));
 
-const useColorlibStepIconStyles = makeStyles({
-  root: {
-    backgroundColor: '#ccc',
-    zIndex: 1,
-    color: '#fff',
-    width: 30,
-    height: 30,
-    display: 'flex',
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  active: {
+const ColorlibStepIconRoot = styled('div')(({ theme }) => ({
+  backgroundColor: '#ccc',
+  zIndex: 1,
+  color: '#fff',
+  width: 30,
+  height: 30,
+  display: 'flex',
+  borderRadius: '50%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '&.active': {
     backgroundImage:
       'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   },
-  completed: {
+  '&.completed': {
     backgroundImage:
       'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
   },
-});
+}));
 
 function ColorlibStepIcon(props) {
-  const classes = useColorlibStepIconStyles();
-  const { active, completed } = props;
+  const { active, completed, icon } = props;
 
   const icons = {
     1: <PersonIcon />,
@@ -72,43 +64,25 @@ function ColorlibStepIcon(props) {
   };
 
   return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-        [classes.completed]: completed,
-      })}
+    <ColorlibStepIconRoot
+      className={`${active ? 'active' : ''} ${completed ? 'completed' : ''}`}
     >
-      {icons[String(props.icon)]}
-    </div>
+      {icons[String(icon)]}
+    </ColorlibStepIconRoot>
   );
 }
 
 ColorlibStepIcon.propTypes = {
-  /**
-   * Whether this step is active.
-   */
   active: PropTypes.bool,
-  /**
-   * Mark the step as completed. Is passed to child components.
-   */
   completed: PropTypes.bool,
-  /**
-   * The label displayed in the step icon.
-   */
   icon: PropTypes.node,
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-}));
+const Root = styled('div')({
+  width: '100%',
+});
 
 export default function CustomizedSteppers({ activeStep }) {
-  const classes = useStyles();
   const steps = [
     'Personal Details',
     'Contact Details',
@@ -118,7 +92,7 @@ export default function CustomizedSteppers({ activeStep }) {
   ];
 
   return (
-    <div className={classes.root}>
+    <Root>
       <Stepper
         alternativeLabel
         activeStep={activeStep - 1}
@@ -130,6 +104,10 @@ export default function CustomizedSteppers({ activeStep }) {
           </Step>
         ))}
       </Stepper>
-    </div>
+    </Root>
   );
 }
+
+CustomizedSteppers.propTypes = {
+  activeStep: PropTypes.number.isRequired,
+};

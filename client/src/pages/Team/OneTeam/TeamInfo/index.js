@@ -1,17 +1,17 @@
-import React, {
-  useState, useEffect, useCallback, lazy,
-} from 'react';
+import React, { useState, useEffect, useCallback, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
-import { makeStyles } from '@mui/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { styled } from '@mui/system';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 import SecondHeader from '../../../../components/Header/SecondHeader';
 import network from '../../../../services/network';
 import NotFound from '../../../NotFound';
@@ -23,17 +23,17 @@ const TopSuccessUsers = lazy(
 );
 
 const tableWidth = 40;
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  container: {
-    margin: `${tableWidth}px`,
-    width: `calc(100vw - ${tableWidth * 2}px)`,
-  },
+
+const Container = styled(Paper)({
+  margin: `${tableWidth}px`,
+  width: `calc(100vw - ${tableWidth * 2}px)`,
 });
+
+const StyledTable = styled(Table)({
+  minWidth: 650,
+});
+
 function OneTeamPage() {
-  const classes = useStyles();
   const { id } = useParams();
   const [teamMembers, setTeamMembers] = useState();
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,6 @@ function OneTeamPage() {
     } catch (error) {
       setLoading(false);
     }
-    // eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
@@ -58,8 +57,7 @@ function OneTeamPage() {
       User: `${user}`,
       Team: id,
     });
-    // eslint-disable-next-line
-  }, [id]);
+  }, [fetchTeamInfo, id]);
 
   const paths = [
     { name: 'Team Information', URL: `/teams/${id}` },
@@ -70,16 +68,13 @@ function OneTeamPage() {
     teamMembers ? (
       <>
         <SecondHeader paths={paths} />
-
         <div className="generic-page">
           <h1 className="team-info-title-page">
-            {' '}
             Team:
             {' '}
             <span className="team-info-title-page-name">
               {teamMembers.name}
             </span>
-            {' '}
           </h1>
           <div className="team-info-paper-chart">
             <TopSuccessUsers
@@ -95,11 +90,11 @@ function OneTeamPage() {
           >
             My Team Friends:
           </h2>
-          <TableContainer component={Paper} className={classes.container}>
-            <Table className={classes.table} aria-label="simple table">
+          <TableContainer component={Container}>
+            <StyledTable aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>name</TableCell>
+                  <TableCell>Name</TableCell>
                   <TableCell align="center">Phone Number</TableCell>
                   <TableCell align="center">Email</TableCell>
                 </TableRow>
@@ -119,7 +114,7 @@ function OneTeamPage() {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+            </StyledTable>
           </TableContainer>
         </div>
       </>

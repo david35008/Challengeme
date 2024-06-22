@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import mixpanel from 'mixpanel-browser';
 import Swal from 'sweetalert2';
-import { Button } from '@mui/material';
-import Rating from '@mui/material/Rating';
-import { makeStyles } from '@mui/styles';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Button, CircularProgress, Rating } from '@mui/material';
+import { styled } from '@mui/system';
 import network from '../../services/network';
 import { Logged } from '../../context/LoggedInContext';
 import FilteredLabels from '../../context/FilteredLabelsContext';
@@ -16,44 +14,41 @@ import Loading from '../../components/Loading';
 import '../../styles/OldOneChallenge.css';
 import { generateTime } from '../../utils';
 
-const useStyles = makeStyles(() => ({
-  getStartedButton: {
-    background:
-      'linear-gradient(270deg, rgba(55,99,192,1) 0%, rgba(87,159,223,1) 100%)',
-    color: 'white',
-    marginBottom: '10px',
-  },
-  getStartedButtonContainer: {
-    marginTop: 'auto',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  SubmitdButton: {
-    background:
-      'linear-gradient(270deg, rgba(55,99,192,1) 0%, rgba(87,159,223,1) 100%)',
-    color: 'white',
-    marginBottom: '10px',
-    fontSize: '15px',
-  },
-  SubmitdButtonFail: {
-    background:
-      'linear-gradient(270deg, rgba(193,36,36,1) 0%, rgba(214,95,95,1) 100%)',
-    color: 'white',
-    marginBottom: '10px',
-    fontSize: '15px',
-  },
-  SubmitdButtonSuccess: {
-    background:
-      'linear-gradient(270deg, rgba(36,193,67,1) 0%, rgba(130,214,95,1) 100%);',
-    color: 'white',
-    marginBottom: '10px',
-    fontSize: '15px',
-  },
+const GetStartedButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(270deg, rgba(55,99,192,1) 0%, rgba(87,159,223,1) 100%)',
+  color: 'white',
+  marginBottom: '10px',
+}));
+
+const GetStartedButtonContainer = styled('div')({
+  marginTop: 'auto',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'flex-end',
+});
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(270deg, rgba(55,99,192,1) 0%, rgba(87,159,223,1) 100%)',
+  color: 'white',
+  marginBottom: '10px',
+  fontSize: '15px',
+}));
+
+const SubmitButtonFail = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(270deg, rgba(193,36,36,1) 0%, rgba(214,95,95,1) 100%)',
+  color: 'white',
+  marginBottom: '10px',
+  fontSize: '15px',
+}));
+
+const SubmitButtonSuccess = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(270deg, rgba(36,193,67,1) 0%, rgba(130,214,95,1) 100%)',
+  color: 'white',
+  marginBottom: '10px',
+  fontSize: '15px',
 }));
 
 function ChallengePage() {
-  const classes = useStyles();
   const [submissions, setSubmissions] = useState();
   const [challenge, setChallenge] = useState(null);
   const { id: challengeId } = useParams();
@@ -69,10 +64,10 @@ function ChallengePage() {
   const LoggedContext = useContext(Logged);
 
   const getBoilerPlate = async () => {
-    const { data: boilerPlate } = await network.get(
+    const { data } = await network.get(
       `/api/v1/challenges/boiler-plate/${challengeId}`,
     );
-    setBoilerPlate(boilerPlate.boilerPlate);
+    setBoilerPlate(data.boilerPlate);
   };
 
   useEffect(() => {
@@ -84,7 +79,7 @@ function ChallengePage() {
       });
       getBoilerPlate();
     }
-  }, []);
+  }, [challengeId, LoggedContext.logged]);
 
   const getLastSubmissions = async () => {
     try {
@@ -105,16 +100,12 @@ function ChallengePage() {
 
   const fetchChallenge = async () => {
     try {
-      const { data: challengeFromServer } = await network.get(
+      const { data } = await network.get(
         `/api/v1/challenges/info/${challengeId}`,
       );
-      setChallenge(challengeFromServer);
-      setRating(
-        challengeFromServer.averageRaiting
-          ? Math.round(challengeFromServer.averageRaiting)
-          : 0,
-      );
-      setSubmissions(challengeFromServer.submissionsCount);
+      setChallenge(data);
+      setRating(data.averageRaiting ? Math.round(data.averageRaiting) : 0);
+      setSubmissions(data.submissionsCount);
     } catch (error) {}
   };
 
@@ -133,33 +124,32 @@ function ChallengePage() {
     } else {
       setLoadingReq(true);
     }
-    const getSubmissionInterval = setInterval(async () => {
+    const getSubmissionInterval = setInterval(() => {
       if (LoggedContext.logged) {
         getLastSubmissions();
       }
     }, 5000);
 
     return () => clearInterval(getSubmissionInterval);
-  }, [challengeId]);
+  }, [challengeId, LoggedContext.logged]);
 
-  function handleModalClose() {
+  const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
-  }
+  }, []);
+
   const getSubmissionButton = () => {
     if (!submissionStatus) {
       return LoggedContext.logged ? (
-        <Button
+        <SubmitButton
           cy-test="submit-button"
-          className={classes.SubmitdButton}
           variant="contained"
           onClick={() => setIsModalOpen(true)}
         >
           Submit
-        </Button>
+        </SubmitButton>
       ) : (
-        <Button
+        <SubmitButton
           variant="contained"
-          className={classes.SubmitdButton}
           onClick={() => Swal.fire({
             icon: 'error',
             title: 'You Must Login First!',
@@ -167,7 +157,7 @@ function ChallengePage() {
           })}
         >
           Submit
-        </Button>
+        </SubmitButton>
       );
     }
 
@@ -176,25 +166,23 @@ function ChallengePage() {
     }
     if (submissionStatus.state === 'SUCCESS') {
       return (
-        <Button
+        <SubmitButtonSuccess
           cy-test="submit-again-button"
-          className={classes.SubmitdButtonSuccess}
           variant="contained"
           onClick={() => setIsModalOpen(true)}
         >
           Submit again
-        </Button>
+        </SubmitButtonSuccess>
       );
     }
     return (
-      <Button
+      <SubmitButtonFail
         cy-test="submit-again-button"
-        className={classes.SubmitdButtonFail}
         variant="contained"
         onClick={() => setIsModalOpen(true)}
       >
         Submit again
-      </Button>
+      </SubmitButtonFail>
     );
   };
 
@@ -251,7 +239,7 @@ function ChallengePage() {
           >
             FAIL
           </div>
-          You tried to solved this challenge on
+          You tried to solve this challenge on
           {' '}
           {generateTime(submissionStatus.createdAt)}
           {' '}
@@ -284,8 +272,8 @@ function ChallengePage() {
             <div className="one-challenge-description-title">
               <b>Description:</b>
               <div className="challenge-label">
-                {challenge.Labels
-                  && challenge.Labels.map((label) => (
+                {challenge.Labels &&
+                  challenge.Labels.map((label) => (
                     <Link
                       cy-test={`challenge-label-${label.name}`}
                       className="link-rout"
@@ -345,12 +333,11 @@ function ChallengePage() {
               </div>
             </div>
           </div>
-          <div className={classes.getStartedButtonContainer}>
+          <GetStartedButtonContainer>
             {LoggedContext.logged ? (
-              <Button
+              <GetStartedButton
                 cy-test="challenge-boilerPlate"
                 variant="contained"
-                className={classes.getStartedButton}
                 onClick={async () => {
                   const user = Cookies.get('userName');
                   mixpanel.track('User Started Challenge', {
@@ -368,12 +355,11 @@ function ChallengePage() {
                 target="_blank"
               >
                 Start this challenge
-              </Button>
+              </GetStartedButton>
             ) : (
-              <Button
+              <GetStartedButton
                 cy-test="challenge-boilerPlate"
                 variant="contained"
-                className={classes.getStartedButton}
                 onClick={() => Swal.fire({
                   icon: 'error',
                   title: 'You Must Login First!',
@@ -381,9 +367,9 @@ function ChallengePage() {
                 })}
               >
                 Start this challenge
-              </Button>
+              </GetStartedButton>
             )}
-          </div>
+          </GetStartedButtonContainer>
         </div>
         <div className="one-challenge-submission-container">
           {loadingReq ? (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
@@ -18,7 +18,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Loading from '../../../../components/Loading';
 import network from '../../../../services/network';
 
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -26,17 +26,17 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
+const useRowStyles = styled({
   root: {
     '& > *': {
       borderBottom: 'unset',
@@ -92,21 +92,17 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.Submissions
-                    && row.Submissions.map((userBySubmission) => (
+                  {row.Submissions &&
+                    row.Submissions.map((userBySubmission) => (
                       <StyledTableRow key={userBySubmission.id}>
                         <StyledTableCell component="th" scope="row">
                           {userBySubmission.id}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {' '}
                           {userBySubmission.User.userName}
-                          {' '}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {' '}
                           {userBySubmission.solutionRepository}
-                          {' '}
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           {new Date(userBySubmission.createdAt)

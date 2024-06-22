@@ -1,6 +1,4 @@
-import React, {
-  lazy, Suspense, useState, useEffect, useCallback,
-} from 'react';
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { Routes, Route, useParams } from 'react-router-dom';
 import ErrorBoundary from '../../../components/ErrorBoundary.js';
 import Loading from '../../../components/Loading';

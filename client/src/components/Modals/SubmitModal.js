@@ -1,8 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import mixpanel from 'mixpanel-browser';
 import {
-  Modal, TextField, Button, Typography,
-  Rating, Alert, AlertTitle } from '@mui/material';
+  Modal,
+  TextField,
+  Button,
+  Typography,
+  Rating,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import Cookies from 'js-cookie';
 import CloseIcon from '@mui/icons-material/Close';
@@ -53,9 +59,9 @@ function SubmitModal({
       let newBadInput;
       try {
         if (
-          data.repository.length > 2
-          && !data.repository.match(spaces)
-          && !data.repository.match(hebrew)
+          data.repository.length > 2 &&
+          !data.repository.match(spaces) &&
+          !data.repository.match(hebrew)
         ) {
           await network.get(
             `/api/v1/services/public-repo?repo_name=${data.repository}`,
@@ -181,8 +187,8 @@ function SubmitModal({
             hidden
             readOnly
           />
-          {(errors.rating?.type === 'required'
-            || errors.rating?.type === 'min') && (
+          {(errors.rating?.type === 'required' ||
+            errors.rating?.type === 'min') && (
             <Typography
               variant="caption"
               id="required-rating"

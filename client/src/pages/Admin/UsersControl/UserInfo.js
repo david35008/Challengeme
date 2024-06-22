@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import moment from 'moment';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import { TextField, Button, Chip } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import network from '../../../services/network';
@@ -9,23 +9,26 @@ import Alert from '../../../components/Buttons/Alert';
 import ResetPassword from '../../../components/Modals/ChangePassword';
 import '../../../styles/AdminUserInfo.css';
 
-const useStyles = makeStyles(() => ({
-  info: {
-    width: '200px',
-    margin: '10px 0px',
+const InfoTextField = styled(TextField)(({ theme }) => ({
+  width: '200px',
+  margin: '10px 0px',
+  '& .MuiInputBase-input': {
+    color: theme.palette.text.primary,
   },
-  infoDark: {
-    width: '200px',
-    '&>label': {
-      color: 'rgba(255,255,255,0.7)',
-    },
-    '&>div': {
-      color: 'white',
-    },
+}));
+
+const InfoTextFieldDark = styled(TextField)(({ theme }) => ({
+  width: '200px',
+  '& > label': {
+    color: 'rgba(255,255,255,0.7)',
   },
-  userProfileBackToMyProfile: {
-    margin: '20px 0px -20px 0px',
+  '& > div': {
+    color: 'white',
   },
+}));
+
+const UserProfileBackButton = styled(Button)(({ theme }) => ({
+  margin: '20px 0px -20px 0px',
 }));
 
 const toCapitalCase = (string) => {
@@ -49,7 +52,6 @@ export default function UserInfo({
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState('success');
   const [alertMessage, setAlertMessage] = useState('Saved Changes Success!');
-  const classes = useStyles();
 
   const changePermission = useCallback(async () => {
     try {
@@ -76,8 +78,7 @@ export default function UserInfo({
       setAlertMessage(message);
       setShowAlert(true);
     }
-    // eslint-disable-next-line
-  }, [id, userInfo]);
+  }, [id, userInfo, fetchUserInfo]);
 
   const editing = useCallback(
     async (event) => {
@@ -86,14 +87,12 @@ export default function UserInfo({
       const edited = { ...editedUserInfo };
       edited[key] = value;
       setEditedUserInfo(edited);
-      // eslint-disable-next-line
     },
-    [editedUserInfo],
+    [editedUserInfo, setEditedUserInfo],
   );
 
   const changePassword = useCallback(async () => {
     setResetPasswordModal(true);
-    // eslint-disable-next-line
   }, []);
 
   return userInfo.userName ? (
@@ -106,6 +105,7 @@ export default function UserInfo({
         <div className="user-data-permission">
           <h2>
             Permission:
+            {' '}
             {userInfo.permission}
           </h2>
           <Button onClick={changePermission}>Change</Button>
@@ -124,59 +124,53 @@ export default function UserInfo({
       </div>
       <div className="user-page-admin">
         <div className="user-info-container-admin">
-          <TextField
+          <InfoTextField
             name="id"
             onChange={editing}
-            className={classes.info}
             value={editedUserInfo.id}
             label="Id"
             InputProps={{ readOnly: true }}
           />
-          <TextField
+          <InfoTextField
             name="userName"
-            className={classes.info}
             value={editedUserInfo.userName}
             label="User Name"
             InputProps={{ readOnly: true }}
           />
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               name="firstName"
               onChange={editing}
-              className={classes.info}
               value={toCapitalCase(editedUserInfo.firstName)}
               label="First name"
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               name="lastName"
               onChange={editing}
-              className={classes.info}
               label="Last name"
               value={toCapitalCase(editedUserInfo.lastName)}
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               onChange={editing}
               name="email"
-              className={classes.info}
               label="Email"
               value={editedUserInfo.email ? editedUserInfo.email : ''}
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               onChange={editing}
               name="phoneNumber"
-              className={classes.info}
               label="Phone Number"
               value={
                 editedUserInfo.phoneNumber ? editedUserInfo.phoneNumber : ''
@@ -185,9 +179,8 @@ export default function UserInfo({
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <TextField
+          <InfoTextField
             name="reasonOfRegistration"
-            className={classes.info}
             label="Reason Of Registration"
             value={
               editedUserInfo.reasonOfRegistration
@@ -196,9 +189,8 @@ export default function UserInfo({
             }
             InputProps={{ readOnly: true }}
           />
-          <TextField
+          <InfoTextField
             name="securityQuestion"
-            className={classes.info}
             label="Security Question"
             value={
               editedUserInfo.securityQuestion
@@ -208,9 +200,8 @@ export default function UserInfo({
             InputProps={{ readOnly: true }}
           />
           {!editMode ? (
-            <TextField
+            <InfoTextField
               name="birthDate"
-              className={classes.info}
               style={{ color: 'white' }}
               label="Birth Date"
               value={generateTime(editedUserInfo.birthDate)}
@@ -227,9 +218,9 @@ export default function UserInfo({
               >
                 Birth Date
               </label>
-              <div className={editMode && 'edit-mode-container'}>
+              <div className={editMode ? 'edit-mode-container' : ''}>
                 <input
-                  className={classes.birthDate}
+                  className="birthDate"
                   name="birthDate"
                   type="date"
                   value={generateTime(editedUserInfo.birthDate)}
@@ -239,33 +230,30 @@ export default function UserInfo({
               </div>
             </>
           )}
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               onChange={editing}
               name="country"
-              className={classes.info}
               label="Country"
               value={editedUserInfo.country ? editedUserInfo.country : ''}
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               onChange={editing}
               name="city"
-              className={classes.info}
               label="City"
               value={editedUserInfo.city ? editedUserInfo.city : ''}
               InputProps={{ readOnly: !editMode }}
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <div className={editMode && 'edit-mode-container'}>
-            <TextField
+          <div className={editMode ? 'edit-mode-container' : ''}>
+            <InfoTextField
               onChange={editing}
               name="githubAccount"
-              className={classes.info}
               label="Github"
               value={
                 editedUserInfo.githubAccount ? editedUserInfo.githubAccount : ''
@@ -274,21 +262,18 @@ export default function UserInfo({
             />
             {editMode && <Edit className="edit-icon" />}
           </div>
-          <TextField
-            className={classes.info}
+          <InfoTextField
             label="Account Created"
             value={getUpdated(editedUserInfo.createdAt)}
             InputProps={{ readOnly: true }}
           />
-          <TextField
-            className={classes.info}
+          <InfoTextField
             label="Account Updated"
             value={getUpdated(editedUserInfo.updatedAt)}
             InputProps={{ readOnly: true }}
           />
           {editedUserInfo.deletedAt && (
-            <TextField
-              className={classes.info}
+            <InfoTextField
               label="Account Deleted"
               value={getUpdated(editedUserInfo.deletedAt)}
               InputProps={{ readOnly: true }}

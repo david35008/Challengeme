@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -18,64 +18,56 @@ import AddAccessKey from '../../../../components/Modals/AddAccessKey';
 import UpdateAccessKey from '../../../../components/Modals/UpdateAccessKey';
 import './style.css';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableCellKey = withStyles((theme) => ({
-  head: {
+const StyledTableCellKey = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     maxWidth: '800px',
     overflowX: 'auto',
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
-  },
-});
-
-function Row(props) {
-  const { row, getAllAccessKeys } = props;
+function Row({ row, getAllAccessKeys }) {
   const [open, setOpen] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
-  const deleteAccessKey = useCallback(async (accessKey) => {
-    try {
-      const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        await network.delete(`/api/v1/webhooks/admin/access-key/${accessKey}`);
-        getAllAccessKeys();
-      }
-    } catch (error) {}
-    // eslint-disable-next-line
-  }, []);
+  const deleteAccessKey = useCallback(
+    async (accessKey) => {
+      try {
+        const isDeleteOk = prompt("What's your favorite cocktail drink?");
+        if (isDeleteOk != null) {
+          await network.delete(
+            `/api/v1/webhooks/admin/access-key/${accessKey}`,
+          );
+          getAllAccessKeys();
+        }
+      } catch (error) {}
+    },
+    [getAllAccessKeys],
+  );
 
-  const classes = useRowStyles();
   return (
-    <React.Fragment>
-      <StyledTableRow className={classes.root}>
+    <>
+      <StyledTableRow>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -138,9 +130,10 @@ function Row(props) {
         data={{ entityName: row.entityName, email: row.email, id: row.id }}
         getAllAccessKeys={getAllAccessKeys}
       />
-    </React.Fragment>
+    </>
   );
 }
+
 function AccessKeyControl() {
   const [allAccessKeys, setAllAccessKeys] = useState([]);
   const [openNewAccessKeyModal, setOpenNewAccessKeyModal] = useState(false);
@@ -152,17 +145,15 @@ function AccessKeyControl() {
       );
       setAllAccessKeys(allAccessKeysFromServer);
     } catch (error) {}
-    // eslint-disable-next-line
   }, []);
 
   const addNewAccessKey = useCallback(() => {
     setOpenNewAccessKeyModal(true);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     getAllAccessKeys();
-  }, []);
+  }, [getAllAccessKeys]);
 
   return (
     <div className="generic-page" style={{ textAlign: 'center' }}>
@@ -195,8 +186,8 @@ function AccessKeyControl() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allAccessKeys
-              && allAccessKeys.map((accessKey) => (
+            {allAccessKeys &&
+              allAccessKeys.map((accessKey) => (
                 <Row
                   key={accessKey.id}
                   row={accessKey}

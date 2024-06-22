@@ -1,31 +1,29 @@
 import React from 'react';
+import { styled } from '@mui/system';
 import FormControl from '@mui/material/FormControl';
-import { makeStyles } from '@mui/styles';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const useStyles = makeStyles(() => ({
-  titleUserNameForgotPass: {
-    marginTop: '130px',
-    width: '320px',
-  },
-  userNameForgotPass: {
-    marginTop: '20px',
-    marginBottom: '10px',
-    width: '320px',
-  },
-}));
-export default function Identify(props) {
-  const classes = useStyles();
+const TitleUserNameForgotPass = styled('div')({
+  marginTop: '130px',
+  width: '320px',
+});
 
+const UserNameForgotPass = styled(FormControl)({
+  marginTop: '20px',
+  marginBottom: '10px',
+  width: '320px',
+});
+
+export default function Identify(props) {
   const { data, handleChange } = props;
 
   return (
-    <div className={classes.titleUserNameForgotPass}>
-      Enter your User Name :
-      <FormControl className={classes.userNameForgotPass}>
+    <TitleUserNameForgotPass>
+      Enter your User Name:
+      <UserNameForgotPass>
         <InputLabel style={{ color: 'grey' }}>User Name</InputLabel>
         <Input
           id="userName"
@@ -39,7 +37,7 @@ export default function Identify(props) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </UserNameForgotPass>
+    </TitleUserNameForgotPass>
   );
 }

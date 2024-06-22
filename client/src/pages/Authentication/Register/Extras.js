@@ -2,34 +2,33 @@ import React from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { makeStyles } from '@mui/styles';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles(() => ({
-  reason: {
-    marginTop: '140px',
-    marginBottom: '30px',
-    width: '320px',
-  },
-  github: {
-    width: '320px',
-  },
-}));
+const Container = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '30px',
+  marginTop: '140px',
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '320px',
+});
+
 function Extras({ values, handleChange }) {
-  const classes = useStyles();
-
   return (
-    <div className="containerExtra">
-      <FormControl className={classes.reason}>
-        <InputLabel id="demo-mutiple-checkbox-label">
+    <Container className="containerExtra">
+      <StyledFormControl>
+        <InputLabel id="signUpReason-label">
           Choose your sign-up reason...
         </InputLabel>
         <Select
           id="signUpReason"
-          className={classes.reason}
           value={values.signUpReason}
           onChange={handleChange('signUpReason')}
         >
@@ -37,8 +36,8 @@ function Extras({ values, handleChange }) {
           <MenuItem value="Challenge Myself">Challenge Myself</MenuItem>
           <MenuItem value="Other">Other</MenuItem>
         </Select>
-      </FormControl>
-      <FormControl className={classes.github}>
+      </StyledFormControl>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>
           Enter your GitHub Account Username
         </InputLabel>
@@ -54,8 +53,8 @@ function Extras({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </StyledFormControl>
+    </Container>
   );
 }
 

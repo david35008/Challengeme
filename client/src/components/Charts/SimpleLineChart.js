@@ -12,9 +12,7 @@ import Loading from '../Loading';
 import network from '../../services/network';
 import '../../styles/Charts.css';
 
-function SimpleLineChart({
-  path, title, xKey, yKey,
-}) {
+function SimpleLineChart({ path, title, xKey, yKey }) {
   const [data, setData] = useState();
 
   const fetchData = useCallback(async () => {
@@ -26,9 +24,7 @@ function SimpleLineChart({
   }, []);
 
   const CustomizedLabel = useCallback(
-    ({
-      x, y, stroke, value,
-    }) => (
+    ({ x, y, stroke, value }) => (
       <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
         {value}
       </text>
@@ -37,9 +33,7 @@ function SimpleLineChart({
   );
 
   const CustomizedAxisTick = useCallback(
-    ({
-      x, y, stroke, payload,
-    }) => (
+    ({ x, y, stroke, payload }) => (
       <g transform={`translate(${x},${y})`}>
         <text
           x={0}

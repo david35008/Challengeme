@@ -1,44 +1,41 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
-import { makeStyles } from '@mui/styles';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import PublicIcon from '@mui/icons-material/Public';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles(() => ({
-  country: {
-    marginTop: '70px',
-    marginBottom: '30px',
-    width: '320px',
+const Container = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '30px',
+  marginTop: '70px',
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '320px',
+});
+
+const BirthDateInput = styled('input')({
+  width: '320px',
+  marginBottom: '30px',
+  appearance: 'none',
+  fontFamily: 'Helvetica, Arial, sans-serif',
+  border: 'transparent',
+  borderBottom: '1.5px solid gray',
+  '&:focus': {
+    outline: 'none',
   },
-  city: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-  birthDate: {
-    marginBottom: '30px',
-    width: '320px',
-    appearance: 'none',
-    fontFamily: 'Helvetica, arial, sans-serif',
-    border: 'transparent',
-    borderBottom: '1.5px solid gray',
-    '&:focus': {
-      outline: 'none',
-    },
-  },
-  phoneNumber: {
-    width: '320px',
-  },
-}));
+});
+
 function PersonalDetails({ values, handleChange }) {
-  const classes = useStyles();
-
   return (
-    <div className="containerPersonalDetails">
-      <FormControl className={classes.country}>
+    <Container className="containerPersonalDetails">
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>Country</InputLabel>
         <Input
           id="country"
@@ -52,8 +49,8 @@ function PersonalDetails({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.city}>
+      </StyledFormControl>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>City</InputLabel>
         <Input
           id="city"
@@ -67,7 +64,7 @@ function PersonalDetails({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
+      </StyledFormControl>
       <label
         style={{
           marginRight: '250px',
@@ -77,15 +74,13 @@ function PersonalDetails({ values, handleChange }) {
       >
         Birth Date
       </label>
-      <input
-        className={classes.birthDate}
+      <BirthDateInput
         id="birthDate"
         type="date"
         value={values.birthDate}
         onChange={handleChange('birthDate')}
       />
-
-      <FormControl className={classes.phoneNumber}>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>Phone Number</InputLabel>
         <Input
           id="phoneNumber"
@@ -99,8 +94,9 @@ function PersonalDetails({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </StyledFormControl>
+    </Container>
   );
 }
+
 export default PersonalDetails;

@@ -20,43 +20,60 @@ import AddTeamMembers from '../../../components/Modals/AddTeamMembers';
 function Row({ row, getAllTeams, handleAddMemberModal }) {
   const [open, setOpen] = useState(false);
 
-  const removeUserFromTeam = useCallback(async (userId) => {
-    const isDeleteOk = prompt('Are you sure you want to remove this user?');
-    if (isDeleteOk) {
-      await network.delete(`/api/v1/teams/remove-user/${row.id}?userId=${userId}`);
-      getAllTeams();
-    }
-  }, [row.id, getAllTeams]);
+  const removeUserFromTeam = useCallback(
+    async (userId) => {
+      const isDeleteOk = prompt('Are you sure you want to remove this user?');
+      if (isDeleteOk) {
+        await network.delete(
+          `/api/v1/teams/remove-user/${row.id}?userId=${userId}`,
+        );
+        getAllTeams();
+      }
+    },
+    [row.id, getAllTeams],
+  );
 
-  const changeUserPermissionOnTeam = useCallback(async (userId, permission) => {
-    const newPermission = permission === 'student' ? 'teacher' : 'student';
-    const isChangeOk = prompt(`Change permission to ${newPermission}?`);
-    if (isChangeOk) {
-      await network.patch(`/api/v1/teams/permission/${row.id}`, {
-        userId,
-        permission: newPermission,
-      });
-      getAllTeams();
-    }
-  }, [row.id, getAllTeams]);
+  const changeUserPermissionOnTeam = useCallback(
+    async (userId, permission) => {
+      const newPermission = permission === 'student' ? 'teacher' : 'student';
+      const isChangeOk = prompt(`Change permission to ${newPermission}?`);
+      if (isChangeOk) {
+        await network.patch(`/api/v1/teams/permission/${row.id}`, {
+          userId,
+          permission: newPermission,
+        });
+        getAllTeams();
+      }
+    },
+    [row.id, getAllTeams],
+  );
 
-  const deleteTeam = useCallback(async (teamId) => {
-    const isDeleteOk = prompt('Are you sure you want to delete this team?');
-    if (isDeleteOk) {
-      await network.delete(`/api/v1/teams/remove-team/${teamId}`);
-      getAllTeams();
-    }
-  }, [getAllTeams]);
+  const deleteTeam = useCallback(
+    async (teamId) => {
+      const isDeleteOk = prompt('Are you sure you want to delete this team?');
+      if (isDeleteOk) {
+        await network.delete(`/api/v1/teams/remove-team/${teamId}`);
+        getAllTeams();
+      }
+    },
+    [getAllTeams],
+  );
 
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">{row.id}</TableCell>
+        <TableCell component="th" scope="row">
+          {row.id}
+        </TableCell>
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.externalId}</TableCell>
         <TableCell>{new Date(row.createdAt).toLocaleString()}</TableCell>
@@ -64,7 +81,9 @@ function Row({ row, getAllTeams, handleAddMemberModal }) {
           <Button onClick={() => deleteTeam(row.id)}>Delete Team</Button>
         </TableCell>
         <TableCell>
-          <Button onClick={() => handleAddMemberModal(row.id)}>Add Team Members</Button>
+          <Button onClick={() => handleAddMemberModal(row.id)}>
+            Add Team Members
+          </Button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -91,7 +110,12 @@ function Row({ row, getAllTeams, handleAddMemberModal }) {
                       <TableCell>{user.userName}</TableCell>
                       <TableCell>{user.UserTeam.permission}</TableCell>
                       <TableCell>
-                        <Button onClick={() => changeUserPermissionOnTeam(user.id, user.UserTeam.permission)}>
+                        <Button
+                          onClick={() => changeUserPermissionOnTeam(
+                            user.id,
+                            user.UserTeam.permission,
+                          )}
+                        >
                           Change Permission
                         </Button>
                       </TableCell>
@@ -138,10 +162,27 @@ function TeamsControl() {
 
   return (
     <Box className="generic-page" sx={{ textAlign: 'center', p: 2 }}>
-      <Typography variant="h4" component="h1" sx={{ mb: 4 }}>Teams Management Area</Typography>
-      <AddTeam open={openNewTeamModal} setOpen={setOpenNewTeamModal} getAllTeams={getAllTeams} />
-      <AddTeamMembers open={openAddMemberModal} setOpen={setOpenAddMemberModal} getAllTeams={getAllTeams} teamId={teamNameForMember} />
-      <Button variant="outlined" sx={{ mb: 2 }} onClick={() => setOpenNewTeamModal(true)}>Add New Team</Button>
+      <Typography variant="h4" component="h1" sx={{ mb: 4 }}>
+        Teams Management Area
+      </Typography>
+      <AddTeam
+        open={openNewTeamModal}
+        setOpen={setOpenNewTeamModal}
+        getAllTeams={getAllTeams}
+      />
+      <AddTeamMembers
+        open={openAddMemberModal}
+        setOpen={setOpenAddMemberModal}
+        getAllTeams={getAllTeams}
+        teamId={teamNameForMember}
+      />
+      <Button
+        variant="outlined"
+        sx={{ mb: 2 }}
+        onClick={() => setOpenNewTeamModal(true)}
+      >
+        Add New Team
+      </Button>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -157,7 +198,12 @@ function TeamsControl() {
           </TableHead>
           <TableBody>
             {allTeams.map((team) => (
-              <Row key={team.id} row={team} getAllTeams={getAllTeams} handleAddMemberModal={handleAddMemberModal} />
+              <Row
+                key={team.id}
+                row={team}
+                getAllTeams={getAllTeams}
+                handleAddMemberModal={handleAddMemberModal}
+              />
             ))}
           </TableBody>
         </Table>

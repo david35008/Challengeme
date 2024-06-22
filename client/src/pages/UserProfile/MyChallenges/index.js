@@ -48,8 +48,8 @@ const UserProfileLanding = () => {
         This is challenges page
       </h1>
       <div className="user-profile-my-challenges-container">
-        {allMyChallenges
-          && allMyChallenges.map((challenge) => (
+        {allMyChallenges &&
+          allMyChallenges.map((challenge) => (
             <div
               key={challenge.name + challenge.id}
               className="user-profile-single-challenge-container"

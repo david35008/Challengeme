@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import ErrorIcon from '@mui/icons-material/Error';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
@@ -13,17 +13,13 @@ import Change from './Change';
 import Security from './Security';
 import '../../styles/Forgot.css';
 
-const useStyles = makeStyles(() => ({
-  nextButtonForgotPass: {
-    marginBottom: '10px',
-    background: 'linear-gradient(45deg, #447CC6 30%, #315CAB 90%)',
-    color: 'white',
-  },
-}));
+const NextButton = styled(Button)({
+  marginBottom: '10px',
+  background: 'linear-gradient(45deg, #447CC6 30%, #315CAB 90%)',
+  color: 'white',
+});
 
 export default function Forgot() {
-  const classes = useStyles();
-
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
@@ -57,16 +53,15 @@ export default function Forgot() {
         default:
           break;
       }
-      // eslint-disable-next-line
     },
     [],
   );
 
   const getQuestion = useCallback(async (userNameForQuestion) => {
     if (
-      userNameForQuestion.length < 1
-      || userNameForQuestion.length > 32
-      || /\W/.test(userNameForQuestion)
+      userNameForQuestion.length < 1 ||
+      userNameForQuestion.length > 32 ||
+      /\W/.test(userNameForQuestion)
     ) {
       setError('Please enter a valid username');
       return;
@@ -83,13 +78,12 @@ export default function Forgot() {
     } catch (e) {
       setError(e.response.data.message);
     }
-    // eslint-disable-next-line
   }, []);
 
   const validateAnswer = useCallback(
     async (userNameForValidateAnswer, securityAnswer) => {
       if (!securityAnswer) {
-        setError('Please type your anwer');
+        setError('Please type your answer');
         return;
       }
       if (securityAnswer.length < 8) {
@@ -97,7 +91,7 @@ export default function Forgot() {
         return;
       }
       if (securityAnswer.match(/[^a-zA-Z\d\s]/)) {
-        setError('Answer can not contain special characters');
+        setError('Answer cannot contain special characters');
         return;
       }
       try {
@@ -113,7 +107,6 @@ export default function Forgot() {
       } catch (e) {
         setError(e.response.data.message);
       }
-      // eslint-disable-next-line
     },
     [],
   );
@@ -121,11 +114,11 @@ export default function Forgot() {
   const resetPassword = useCallback(
     async (passwordForReset, confirmPasswordForReset, resetTokenForReset) => {
       if (passwordForReset.length < 8) {
-        setError('password should be at least 8 characters');
+        setError('Password should be at least 8 characters');
         return;
       }
       if (passwordForReset !== confirmPasswordForReset) {
-        setError('passwords do not match');
+        setError('Passwords do not match');
         return;
       }
       try {
@@ -145,9 +138,8 @@ export default function Forgot() {
       } catch (e) {
         setError(e.response.data.message);
       }
-      // eslint-disable-next-line
     },
-    [],
+    [navigate],
   );
 
   const nextStep = useCallback(() => {
@@ -165,8 +157,17 @@ export default function Forgot() {
       default:
         break;
     }
-    // eslint-disable-next-line
-  }, [step, userName, password, confirmPassword, secAnswer]);
+  }, [
+    step,
+    userName,
+    password,
+    confirmPassword,
+    secAnswer,
+    resetToken,
+    getQuestion,
+    validateAnswer,
+    resetPassword,
+  ]);
 
   const multiForm = useCallback(() => {
     switch (step) {
@@ -197,8 +198,15 @@ export default function Forgot() {
       default:
         return <></>;
     }
-    // eslint-disable-next-line
-  }, [step, userName, password, confirmPassword, secQuestion, secAnswer]);
+  }, [
+    step,
+    userName,
+    password,
+    confirmPassword,
+    secQuestion,
+    secAnswer,
+    handleChange,
+  ]);
 
   return (
     <>
@@ -232,14 +240,9 @@ export default function Forgot() {
             </motion.div>
           )}
           <div className="containerButtonsForgotPass">
-            <Button
-              id="nextButton"
-              className={classes.nextButtonForgotPass}
-              variant="contained"
-              onClick={nextStep}
-            >
+            <NextButton id="nextButton" variant="contained" onClick={nextStep}>
               next
-            </Button>
+            </NextButton>
             <Link to="/login">Login Here</Link>
           </div>
         </div>

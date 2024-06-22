@@ -1,29 +1,27 @@
 import React from 'react';
+import { styled } from '@mui/system';
 import FormControl from '@mui/material/FormControl';
-import { makeStyles } from '@mui/styles';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
-const useStyles = makeStyles(() => ({
-  securityQTitle: {
-    marginTop: '120px',
-    width: '320px',
-  },
-  answerForgotPass: {
-    marginTop: '40px',
-    marginBottom: '30px',
-    width: '320px',
-  },
-}));
-function Security({ data, handleChange }) {
-  const classes = useStyles();
+const SecurityQTitle = styled('div')({
+  marginTop: '120px',
+  width: '320px',
+});
 
+const AnswerForgotPass = styled(FormControl)({
+  marginTop: '40px',
+  marginBottom: '30px',
+  width: '320px',
+});
+
+function Security({ data, handleChange }) {
   return (
-    <div className={classes.securityQTitle}>
+    <SecurityQTitle>
       <span>{data.secQuestion}</span>
-      <FormControl className={classes.answerForgotPass}>
+      <AnswerForgotPass>
         <InputLabel style={{ color: 'grey' }}>Enter your answer</InputLabel>
         <Input
           type="text"
@@ -36,8 +34,8 @@ function Security({ data, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </AnswerForgotPass>
+    </SecurityQTitle>
   );
 }
 

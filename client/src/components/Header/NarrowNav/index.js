@@ -1,37 +1,45 @@
 import React, { useContext, useState } from 'react';
 import Cookies from 'js-cookie';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import clsx from 'clsx';
-import AppBar from '@mui/material/AppBar';
-import AppsIcon from '@mui/icons-material/Apps';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  AccountCircle as AccountCircleIcon,
+  Add as AddIcon,
+  Apps as AppsIcon,
+  Brightness4 as Brightness4Icon,
+  ChevronLeft as ChevronLeftIcon,
+  Description as DescriptionIcon,
+  Group as GroupIcon,
+  Home as HomeIcon,
+  Lock as LockIcon,
+  Menu as MenuIcon,
+} from '@mui/icons-material';
+import {
+  Avatar,
+  Button,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-import HomeIcon from '@mui/icons-material/Home';
 import IconButton from '@mui/material/IconButton';
-import DescriptionIcon from '@mui/icons-material/Description';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import GroupIcon from '@mui/icons-material/Group';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LockIcon from '@mui/icons-material/Lock';
-import AddIcon from '@mui/icons-material/Add';
-import useStyles from './NarrowNavStyled';
+import { useStyles } from './NarrowNavStyled';
 import { Logged } from '../../../context/LoggedInContext';
 import Search from '../Search';
 import network from '../../../services/network';
+import '../../../styles/Forgot.css';
+
+const headerStyle = {
+  backgroundColor: 'transparent',
+};
+const letterColor = {
+  color: 'black',
+};
+const dividerColor = {};
 
 export default function NarrowNav() {
-  const classes = useStyles();
+  const classes = useStyles;
   const navigate = useNavigate();
   const LoggedContext = useContext(Logged);
   const [openNavBar, setOpenNavBar] = useState(false);
@@ -52,7 +60,6 @@ export default function NarrowNav() {
       });
       Cookies.remove('refreshToken');
       Cookies.remove('accessToken');
-
       Cookies.remove('userId');
       Cookies.remove('userName');
       LoggedContext.setLogged(false);
@@ -60,37 +67,24 @@ export default function NarrowNav() {
       navigate('/login');
     } catch (error) {}
   };
-  const headerStyle = {
-    backgroundColor: 'transfer',
-  };
-  const letterColor = {
-    color: 'black',
-  };
-  const dividerColor = {};
+
   return (
     <>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {})}
-        style={headerStyle}
-      >
+      <classes.AppBarStyled position="fixed" style={headerStyle}>
         <Toolbar>
-          <IconButton
+          <classes.MenuButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton)}
           >
             <MenuIcon style={letterColor} />
-          </IconButton>
-          <div className={classes.narrowFlex}>
-            {currentLocation.pathname.includes('/challenges') ? (
-              <Search />
-            ) : null}
+          </classes.MenuButton>
+          <classes.NarrowFlex>
+            {currentLocation.pathname.includes('/challenges') && <Search />}
             {currentLocation.pathname === '/' && (
               <>
-                <Typography variant="h6" className={classes.title}>
+                <classes.Title variant="h6">
                   <Link to="/challenges" className="link-rout">
                     <div
                       style={{
@@ -106,8 +100,8 @@ export default function NarrowNav() {
                       </span>
                     </div>
                   </Link>
-                </Typography>
-                <Typography variant="h6" className={classes.title}>
+                </classes.Title>
+                <classes.Title variant="h6">
                   <Link
                     to={
                       LoggedContext.logged ? '/teams' : currentLocation.pathname
@@ -128,8 +122,8 @@ export default function NarrowNav() {
                       </span>
                     </div>
                   </Link>
-                </Typography>
-                <Typography variant="h6" className={classes.title}>
+                </classes.Title>
+                <classes.Title variant="h6">
                   <a
                     href="https://suvelocity.github.io/challengeme/"
                     target="_blank"
@@ -150,20 +144,15 @@ export default function NarrowNav() {
                       </span>
                     </div>
                   </a>
-                </Typography>
+                </classes.Title>
               </>
             )}
-          </div>
+          </classes.NarrowFlex>
         </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={openNavBar}
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <div className={classes.generalDrawerHeader}>
-          <div className={classes.avatarUserInfo}>
+      </classes.AppBarStyled>
+      <classes.DrawerPaper variant="persistent" anchor="left" open={openNavBar}>
+        <div className={classes.GeneralDrawerHeader}>
+          <div className={classes.AvatarUserInfo}>
             {LoggedContext.logged && Cookies.get('userName') ? (
               <Tooltip title={Cookies.get('userName')}>
                 <Avatar
@@ -180,7 +169,7 @@ export default function NarrowNav() {
                 </Avatar>
               </Tooltip>
             ) : null}
-            <div className={classes.heyName} style={letterColor}>
+            <div className={classes.HeyName} style={letterColor}>
               <b>
                 {Cookies.get('userName')
                   ? `Hey ${Cookies.get('userName')}`
@@ -188,14 +177,14 @@ export default function NarrowNav() {
               </b>
             </div>
           </div>
-          <div className={classes.drawerHeader}>
+          <div className={classes.generalDrawerHeader}>
             <IconButton onClick={handleDrawerClose}>
               <ChevronLeftIcon style={letterColor} />
             </IconButton>
           </div>
         </div>
         <Divider style={dividerColor} />
-        <List className={classes.list}>
+        <classes.ListStyled>
           <Link to="/" className="link-rout">
             <ListItem button onClick={handleDrawerClose} style={letterColor}>
               <ListItemIcon>
@@ -249,18 +238,17 @@ export default function NarrowNav() {
             </ListItem>
           </Link>
           <Divider style={dividerColor} />
-          <ListItem className={classes.logOut} onClick={handleDrawerClose}>
+          <ListItem className={classes.LogOut} onClick={handleDrawerClose}>
             <IconButton aria-label="delete">
               <Brightness4Icon style={letterColor} />
             </IconButton>
           </ListItem>
           <Divider style={dividerColor} />
           {LoggedContext.logged ? (
-            <ListItem className={classes.logOut} onClick={handleDrawerClose}>
+            <ListItem className={classes.LogOut} onClick={handleDrawerClose}>
               <Button
-                className={classes.logOutButton}
+                className={classes.LogOutButton}
                 onClick={logOut}
-                style={{ minWidth: 150 }}
                 variant="contained"
                 color="secondary"
               >
@@ -274,7 +262,7 @@ export default function NarrowNav() {
                 className="link-rout"
                 onClick={handleDrawerClose}
               >
-                <Button variant="contained" className={classes.authButton}>
+                <Button variant="contained" className={classes.AuthButton}>
                   Login
                 </Button>
               </Link>
@@ -283,15 +271,15 @@ export default function NarrowNav() {
                 className="link-rout"
                 onClick={handleDrawerClose}
               >
-                <Button variant="contained" className={classes.authButton}>
+                <Button variant="contained" className={classes.AuthButton}>
                   Register
                 </Button>
               </Link>
             </>
           )}
           <Divider style={dividerColor} />
-        </List>
-      </Drawer>
+        </classes.ListStyled>
+      </classes.DrawerPaper>
     </>
   );
 }

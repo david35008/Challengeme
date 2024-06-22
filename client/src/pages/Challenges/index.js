@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useState, useContext, useCallback,
-} from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
@@ -38,8 +36,8 @@ export default function Challenges() {
       }));
       setChooseLabels(optionsForSelector);
       const newFilter = optionsForSelector.filter(
-        (label) => label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+        (label) => label.value ===
+          (filteredLabels ? filteredLabels.filteredLabels[0] : null),
       );
       setLabels(newFilter);
     } catch (error) {}
@@ -149,8 +147,8 @@ export default function Challenges() {
           <p>Back End Challenges:</p>
           <ChallengesCarousel
             challenges={challengesFiltered.filter(
-              (challenge) => challenge.type === 'server-mysql'
-                || challenge.type === 'server-only',
+              (challenge) => challenge.type === 'server-mysql' ||
+                challenge.type === 'server-only',
             )}
             setNewImg={setNewImg}
           />

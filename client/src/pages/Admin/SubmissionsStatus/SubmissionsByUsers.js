@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
@@ -17,39 +17,34 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Loading from '../../../components/Loading';
 import network from '../../../services/network';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  '&.MuiTableCell-head': {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  '&.MuiTableCell-body': {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
+const RowRoot = styled(TableRow)({
+  '& > *': {
+    borderBottom: 'unset',
   },
 });
 
-function Row(props) {
-  const { row } = props;
+function Row({ row }) {
   const [open, setOpen] = useState(false);
-  const classes = useRowStyles();
+
   return (
-    <React.Fragment>
-      <StyledTableRow className={classes.root}>
+    <>
+      <StyledTableRow>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -89,8 +84,8 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.Submissions
-                    && row.Submissions.map((submission) => (
+                  {row.Submissions &&
+                    row.Submissions.map((submission) => (
                       <StyledTableRow key={submission.id}>
                         <StyledTableCell component="th" scope="row">
                           {submission.Challenge.name}
@@ -98,15 +93,16 @@ function Row(props) {
                         <StyledTableCell align="left">
                           {submission.solutionRepository}
                         </StyledTableCell>
-                        <StyledTableCell color="secondary">
+                        <StyledTableCell>
                           <div
-                            style={
-                              submission.state === 'SUCCESS'
-                                ? { color: 'green' }
-                                : submission.state === 'FAIL'
-                                  ? { color: 'red' }
-                                  : { color: 'black' }
-                            }
+                            style={{
+                              color:
+                                submission.state === 'SUCCESS'
+                                  ? 'green'
+                                  : submission.state === 'FAIL'
+                                    ? 'red'
+                                    : 'black',
+                            }}
                           >
                             {submission.state}
                           </div>
@@ -124,7 +120,7 @@ function Row(props) {
           </Collapse>
         </StyledTableCell>
       </StyledTableRow>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -137,17 +133,15 @@ const SubmissionsByUsers = () => {
       `/api/v1/insights/admin/users-submissions?onlyLast=${last}`,
     );
     setData(data);
-    // eslint-disable-next-line
   }, [last]);
 
   const filteredLast = useCallback(() => {
     setLast((prev) => !prev);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     fetchData();
-  }, [last]);
+  }, [last, fetchData]);
 
   return (
     <div className="generic-page">
@@ -162,7 +156,7 @@ const SubmissionsByUsers = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell />
-              <StyledTableCell color="secondary">User Name</StyledTableCell>
+              <StyledTableCell>User Name</StyledTableCell>
               <StyledTableCell align="left">First Name</StyledTableCell>
               <StyledTableCell align="left">Last Name</StyledTableCell>
               <StyledTableCell align="left">Phone Number</StyledTableCell>
@@ -171,9 +165,7 @@ const SubmissionsByUsers = () => {
           </TableHead>
           <TableBody>
             {data.length > 0 ? (
-              data.map((user) => (
-                <Row key={user.userName} color="secondary" row={user} />
-              ))
+              data.map((user) => <Row key={user.userName} row={user} />)
             ) : (
               <Loading />
             )}

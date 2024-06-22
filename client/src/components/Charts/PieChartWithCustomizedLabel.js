@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  PieChart, Pie, Tooltip, Cell, Legend,
-} from 'recharts';
+import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import '../../styles/Charts.css';
 import Loading from '../Loading';
 import network from '../../services/network';
@@ -84,9 +82,7 @@ function PieChartWithCustomizedLabel({
   }, []);
 
   const renderCustomizedLabel = useCallback(
-    ({
-      cx, cy, midAngle, innerRadius, outerRadius, percent,
-    }) => {
+    ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
       const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
       const x = cx + radius * Math.cos(-midAngle * RADIAN);
       const y = cy + radius * Math.sin(-midAngle * RADIAN);

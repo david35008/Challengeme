@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@mui/styles';
+import { styled } from '@mui/system';
 import {
   AppBar,
   CssBaseline,
@@ -10,119 +10,107 @@ import {
   List,
   ListItem,
   ListItemText,
+  useTheme,
+  Box,
 } from '@mui/material';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    zIndex: 0,
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  // necessary for content to be below app bar
-  toolbar: {
-    minHeight: '60px',
-  },
-  drawerPaper: {
+const Root = styled(Box)({
+  display: 'flex',
+  zIndex: 0,
+});
+
+const DrawerStyled = styled(Drawer)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
     width: drawerWidth,
+    flexShrink: 0,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+}));
+
+const AppBarStyled = styled(AppBar)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
   },
+}));
+
+const ToolbarStyled = styled('div')({
+  minHeight: '60px',
+});
+
+const DrawerPaper = styled('div')({
+  width: drawerWidth,
+});
+
+const Content = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
 }));
 
 function ResponsiveDrawer({ window, items = ['None'], setDrawerNum }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const classes = useStyles();
   const theme = useTheme();
 
   const handleDrawerToggle = useCallback(() => {
     setMobileOpen((state) => !state);
-    // eslint-disable-next-line
   }, []);
 
-  const ItemCLicked = useCallback((text, index) => {
-    setDrawerNum(index);
-    // eslint-disable-next-line
-  }, []);
+  const ItemClicked = useCallback(
+    (text, index) => {
+      setDrawerNum(index);
+    },
+    [setDrawerNum],
+  );
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <ToolbarStyled />
       <Divider />
       <List>
         {items.map((text, index) => (
-          <>
-            <ListItem
-              button
-              onClick={() => ItemCLicked(text, index)}
-              key={text}
-            >
+          <React.Fragment key={text}>
+            <ListItem button onClick={() => ItemClicked(text, index)}>
               <ListItemText primary={text} />
             </ListItem>
             <hr />
-          </>
+          </React.Fragment>
         ))}
       </List>
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div className={classes.root}>
+    <Root>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} />
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <AppBarStyled position="fixed" />
+      <nav>
         <Hidden smUp implementation="css">
-          <Drawer
+          <DrawerStyled
             container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
             ModalProps={{ keepMounted: true }}
           >
-            {drawer}
-          </Drawer>
+            <DrawerPaper>{drawer}</DrawerPaper>
+          </DrawerStyled>
         </Hidden>
         <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
+          <DrawerStyled variant="permanent" open>
+            <DrawerPaper>{drawer}</DrawerPaper>
+          </DrawerStyled>
         </Hidden>
       </nav>
-    </div>
+      <Content />
+    </Root>
   );
 }
 
 ResponsiveDrawer.propTypes = { window: PropTypes.func };
+
 export default ResponsiveDrawer;

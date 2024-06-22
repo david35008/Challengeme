@@ -1,9 +1,7 @@
-import React, {
-  useEffect, useState, useCallback, forwardRef,
-} from 'react';
+import React, { useEffect, useState, useCallback, forwardRef } from 'react';
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import {
   Dialog,
   AppBar,
@@ -11,6 +9,7 @@ import {
   IconButton,
   Typography,
   Slide,
+  Box,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import network from '../../services/network';
@@ -22,19 +21,21 @@ import UserInfo from '../../pages/Admin/UsersControl/UserInfo';
 import MixpanelDashBoard from '../../pages/Admin/Mixpanel/DashBoard';
 import '../../styles/EditUserModal.css';
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: 'sticky',
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
+const drawerWidth = 240;
+
+const AppBarStyled = styled(AppBar)({
+  position: 'sticky',
+});
+
+const TitleStyled = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  flex: 1,
 }));
 
 const Transition = forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ));
+
 const activityHeaders = [
   'event_name',
   'time',
@@ -57,7 +58,6 @@ export default function FullScreenDialog({
   selectedUser,
   getAllUsers,
 }) {
-  const classes = useStyles();
   const [saveAlert, setSaveAlert] = useState(false);
   const [alertType, setAlertType] = useState('success');
   const [alertMessage, setAlertMessage] = useState('Saved Changes Success!');
@@ -70,8 +70,7 @@ export default function FullScreenDialog({
   const handleClose = useCallback(() => {
     setOpenDialog(false);
     getAllUsers();
-    // eslint-disable-next-line
-  }, []);
+  }, [getAllUsers, setOpenDialog]);
 
   const fetchUserInfo = useCallback(async () => {
     try {
@@ -83,7 +82,6 @@ export default function FullScreenDialog({
       setUserInfo(info[0]);
       setEditedUserInfo(info[0]);
     } catch (error) {}
-    // eslint-disable-next-line
   }, [selectedUser]);
 
   const onSave = useCallback(async () => {
@@ -106,7 +104,6 @@ export default function FullScreenDialog({
       setAlertMessage(error.response.data.message);
       setSaveAlert(true);
     }
-    // eslint-disable-next-line
   }, [editedUserInfo, selectedUser]);
 
   const onCancel = useCallback(() => {
@@ -116,7 +113,7 @@ export default function FullScreenDialog({
 
   useEffect(() => {
     fetchUserInfo();
-  }, [selectedUser]);
+  }, [selectedUser, fetchUserInfo]);
 
   return (
     <Dialog
@@ -125,7 +122,7 @@ export default function FullScreenDialog({
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <AppBar className={classes.appBar}>
+      <AppBarStyled>
         <Toolbar>
           <IconButton
             edge="start"
@@ -135,9 +132,7 @@ export default function FullScreenDialog({
           >
             <Close />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            User Dashboard
-          </Typography>
+          <TitleStyled variant="h6">User Dashboard</TitleStyled>
           <DeleteUser
             handleClose={handleClose}
             setSaveAlert={setSaveAlert}
@@ -159,7 +154,7 @@ export default function FullScreenDialog({
             onCancel={onCancel}
           />
         </Toolbar>
-      </AppBar>
+      </AppBarStyled>
       <SideBar items={['User Info', 'Activity']} setDrawerNum={setDrawerNum} />
       <div className="edit-user-container">
         {drawerNum === 0 && (

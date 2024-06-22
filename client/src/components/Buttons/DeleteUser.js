@@ -1,44 +1,44 @@
-import React, {
-  useState, useRef, useEffect, useCallback,
-} from 'react';
-import { makeStyles } from '@mui/styles';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { styled } from '@mui/system';
 import { green, red } from '@mui/material/colors';
-import { Fab, CircularProgress } from '@mui/material';
+import { Fab, CircularProgress, Box } from '@mui/material';
 import { Delete, Loop } from '@mui/icons-material';
 import network from '../../services/network';
 import DeleteUserDialog from '../Dialogs/DeleteUser';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    transform: 'scale(0.8)',
-    height: '60px',
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative',
-  },
-  deleteButton: {
-    backgroundColor: red[500],
-    '&:hover': {
-      backgroundColor: red[700],
-    },
-  },
-  restoreButton: {
-    backgroundColor: green[500],
-    '&:hover': {
-      backgroundColor: green[700],
-    },
-  },
-  fabProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    zIndex: 1,
-  },
+const Root = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  transform: 'scale(0.8)',
+  height: '60px',
+});
+
+const Wrapper = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(1),
+  position: 'relative',
 }));
+
+const DeleteButton = styled(Fab)({
+  backgroundColor: red[500],
+  '&:hover': {
+    backgroundColor: red[700],
+  },
+});
+
+const RestoreButton = styled(Fab)({
+  backgroundColor: green[500],
+  '&:hover': {
+    backgroundColor: green[700],
+  },
+});
+
+const FabProgress = styled(CircularProgress)({
+  color: green[500],
+  position: 'absolute',
+  top: -6,
+  left: -6,
+  zIndex: 1,
+});
 
 export default function CircularIntegration({
   fetchUserInfo,
@@ -49,14 +49,12 @@ export default function CircularIntegration({
   selectedUser,
   userInfo,
 }) {
-  const classes = useStyles();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const timer = useRef();
 
   const deleteClick = useCallback(() => {
     setOpenDeleteDialog(true);
-    // eslint-disable-next-line
   }, []);
 
   const handleRestore = useCallback(async () => {
@@ -75,8 +73,13 @@ export default function CircularIntegration({
       setAlertMessage(message);
       setSaveAlert(true);
     }
-    // eslint-disable-next-line
-  }, [selectedUser]);
+  }, [
+    selectedUser,
+    fetchUserInfo,
+    setAlertMessage,
+    setAlertType,
+    setSaveAlert,
+  ]);
 
   const restoreClick = useCallback(async () => {
     const restoreOk = window.confirm(
@@ -94,8 +97,7 @@ export default function CircularIntegration({
         }, 2000);
       }
     }
-    // eslint-disable-next-line
-  }, [userInfo, loading]);
+  }, [userInfo.userName, loading, handleRestore, setSaveAlert]);
 
   useEffect(
     () => () => {
@@ -105,7 +107,7 @@ export default function CircularIntegration({
   );
 
   return (
-    <div className={classes.root}>
+    <Root>
       {openDeleteDialog && (
         <DeleteUserDialog
           openDialog={openDeleteDialog}
@@ -119,31 +121,27 @@ export default function CircularIntegration({
           fetchUserInfo={fetchUserInfo}
         />
       )}
-      <div className={classes.wrapper}>
-        <Fab
+      <Wrapper>
+        <DeleteButton
           aria-label="delete"
           color="secondary"
-          className={classes.deleteButton}
           onClick={deleteClick}
         >
           <Delete />
-        </Fab>
-      </div>
+        </DeleteButton>
+      </Wrapper>
       {userInfo.deletedAt && (
-        <div className={classes.wrapper}>
-          <Fab
+        <Wrapper>
+          <RestoreButton
             aria-label="restore"
             color="primary"
-            className={classes.restoreButton}
             onClick={restoreClick}
           >
             <Loop />
-          </Fab>
-          {loading && (
-            <CircularProgress size={68} className={classes.fabProgress} />
-          )}
-        </div>
+          </RestoreButton>
+          {loading && <FabProgress size={68} />}
+        </Wrapper>
       )}
-    </div>
+    </Root>
   );
 }

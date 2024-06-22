@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import ErrorIcon from '@mui/icons-material/Error';
 import { CircularProgress } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -16,15 +16,12 @@ import Stepper from './Stepper';
 import Background from '../../Background';
 import '../../../styles/Register.css';
 
-const useStyles = makeStyles(() => ({
-  nextButton: {
-    background: 'linear-gradient(45deg, #447CC6 30%, #315CAB 90%)',
-    color: 'white',
-  },
+const NextButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #447CC6 30%, #315CAB 90%)',
+  color: 'white',
 }));
 
 function Register() {
-  const classes = useStyles();
   const [errors, setErrors] = useState([]);
   const [step, setStep] = useState(1);
   const [firstName, setFirstName] = useState('');
@@ -45,20 +42,18 @@ function Register() {
   const navigate = useNavigate();
 
   const nextStep = async () => {
-    // eslint-disable-next-line
-    const validateEmailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const validateEmailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const githubAccountRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
     const onlyLettersAndSpacesRegex = /^[a-zA-Z\s]*$/;
     const onlyLettersAndNumbersRegex = /^[a-zA-Z0-9]*$/;
-    // eslint-disable-next-line
-    const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+    const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/;
     const noSpecialLetters = /[^a-zA-Z\d\s]/;
 
     const tempErrs = [];
     if (step === 1) {
       if (
-        firstName !== ''
-        && (firstName.length < 1 || !onlyLettersAndSpacesRegex.test(firstName))
+        firstName !== '' &&
+        (firstName.length < 1 || !onlyLettersAndSpacesRegex.test(firstName))
       ) {
         tempErrs.push({
           field: 'firstName',
@@ -66,8 +61,8 @@ function Register() {
         });
       }
       if (
-        lastName !== ''
-        && (lastName.length < 1 || !onlyLettersAndSpacesRegex.test(lastName))
+        lastName !== '' &&
+        (lastName.length < 1 || !onlyLettersAndSpacesRegex.test(lastName))
       ) {
         tempErrs.push({
           field: 'lastName',
@@ -102,8 +97,8 @@ function Register() {
       if (!validateEmailRegex.test(email)) tempErrs.push({ field: 'email', message: 'Email invalid.' });
     } else if (step === 2) {
       if (
-        country !== ''
-        && (country.length < 1 || !onlyLettersAndSpacesRegex.test(country))
+        country !== '' &&
+        (country.length < 1 || !onlyLettersAndSpacesRegex.test(country))
       ) {
         tempErrs.push({
           field: 'country',
@@ -111,8 +106,8 @@ function Register() {
         });
       }
       if (
-        city !== ''
-        && (city.length < 1 || !onlyLettersAndSpacesRegex.test(city))
+        city !== '' &&
+        (city.length < 1 || !onlyLettersAndSpacesRegex.test(city))
       ) {
         tempErrs.push({
           field: 'city',
@@ -126,8 +121,8 @@ function Register() {
         });
       }
       if (
-        birthDate !== ''
-        && new Date(birthDate).valueOf() > new Date().valueOf()
+        birthDate !== '' &&
+        new Date(birthDate).valueOf() > new Date().valueOf()
       ) {
         tempErrs.push({
           field: 'birthDate',
@@ -135,8 +130,8 @@ function Register() {
         });
       }
       if (
-        phoneNumber !== ''
-        && (phoneNumber.length < 1 || !phoneNumberRegex.test(phoneNumber))
+        phoneNumber !== '' &&
+        (phoneNumber.length < 1 || !phoneNumberRegex.test(phoneNumber))
       ) {
         tempErrs.push({
           field: 'phoneNumber',
@@ -176,8 +171,8 @@ function Register() {
       }
     } else if (step === 4) {
       if (
-        gitHub !== ''
-        && (gitHub.length < 1 || !githubAccountRegex.test(gitHub))
+        gitHub !== '' &&
+        (gitHub.length < 1 || !githubAccountRegex.test(gitHub))
       ) {
         tempErrs.push({
           field: 'gitHub',
@@ -376,14 +371,13 @@ function Register() {
               <>
                 <div className="containerButtonsRegister">
                   {step > 1 && <Button onClick={prevStep}>Back</Button>}
-                  <Button
+                  <NextButton
                     id="nextButton"
-                    className={classes.nextButton}
                     variant="contained"
                     onClick={nextStep}
                   >
                     {step === 4 ? 'Finish' : 'Next'}
-                  </Button>
+                  </NextButton>
                 </div>
               </>
             ) : (
@@ -393,28 +387,15 @@ function Register() {
                     Back
                   </Button>
                 )}
-                <Button
+                <NextButton
                   id="nextButton"
-                  className={classes.nextButton}
                   variant="contained"
                   onClick={nextStep}
                 >
                   Back To Login Page
-                </Button>
+                </NextButton>
               </div>
             )}
-            {/* {step === 2 && (
-              <div className="containerButtonsRegister">
-                <Button
-                  id="nextButton"
-                  className={classes.nextButton}
-                  variant="contained"
-                  onClick={nextStep}
-                >
-                  skip
-                </Button>
-              </div>
-            )} */}
             <p>
               Have an existing account?
               {' '}

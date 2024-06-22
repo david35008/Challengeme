@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -17,41 +17,36 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Loading from '../../../components/Loading';
 import network from '../../../services/network';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  '&.MuiTableCell-head': {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  '&.MuiTableCell-body': {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
+const useRowStyles = styled('div')({
+  '& > *': {
+    borderBottom: 'unset',
   },
 });
 
-function Row(props) {
-  const { row } = props;
+function Row({ row }) {
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
   return (
     <React.Fragment>
-      <StyledTableRow className={classes.root}>
-        <>
+      <StyledTableRow className={classes}>
+        <StyledTableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -59,7 +54,7 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </>
+        </StyledTableCell>
         <StyledTableCell component="th" scope="row">
           {row.name}
         </StyledTableCell>
@@ -91,22 +86,18 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.Submissions
-                    && row.Submissions.map((userBySubmission) => (
+                  {row.Submissions &&
+                    row.Submissions.map((userBySubmission) => (
                       <StyledTableRow key={userBySubmission.id}>
                         <StyledTableCell component="th" scope="row">
                           {userBySubmission.id}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {' '}
-                          {userBySubmission.User
-                            && userBySubmission.User.userName}
-                          {' '}
+                          {userBySubmission.User &&
+                            userBySubmission.User.userName}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {' '}
                           {userBySubmission.solutionRepository}
-                          {' '}
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           {new Date(userBySubmission.createdAt)
@@ -147,16 +138,14 @@ const SubmissionsByChallenges = () => {
       `/api/v1/insights/admin/challenges-submissions?onlyLast=${last}`,
     );
     setDataPresent(challengesSubmissionsFromServer);
-    // eslint-disable-next-line
   }, [last]);
 
   useEffect(() => {
     getChallengesSubmissions();
-  }, [last]);
+  }, [last, getChallengesSubmissions]);
 
   const filteredLast = useCallback(() => {
     setLast((prev) => !prev);
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -177,17 +166,18 @@ const SubmissionsByChallenges = () => {
               <StyledTableCell align="left">Created At</StyledTableCell>
             </TableRow>
           </TableHead>
-          {dataPresent.length > 0 ? (
-            dataPresent.map((challenge) => (
-              <Row
-                key={challenge.name + challenge.createdAt}
-                row={challenge}
-                last={last}
-              />
-            ))
-          ) : (
-            <Loading />
-          )}
+          <TableBody>
+            {dataPresent.length > 0 ? (
+              dataPresent.map((challenge) => (
+                <Row
+                  key={challenge.name + challenge.createdAt}
+                  row={challenge}
+                />
+              ))
+            ) : (
+              <Loading />
+            )}
+          </TableBody>
         </Table>
       </TableContainer>
     </div>

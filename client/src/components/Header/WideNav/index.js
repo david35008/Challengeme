@@ -1,8 +1,6 @@
 import React, { useContext, useState, useCallback } from 'react';
 import Cookies from 'js-cookie';
-import {
-  Link, NavLink, useNavigate, useLocation,
-} from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,30 +22,19 @@ import LockIcon from '@mui/icons-material/Lock';
 import Menu from '@mui/material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import Code from '@mui/icons-material/Code';
-import { withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChallengeMeSmallTitle from '../../../images/reactSvg/ChallengeMeSmallTitle';
 import Cube from '../../../images/reactSvg/Cube';
 import network from '../../../services/network';
 import { Logged } from '../../../context/LoggedInContext';
 import Search from '../Search';
-import useStyles from './WideNavStyle';
 
-const StyledMenu = withStyles({
+const StyledMenu = styled(Menu)(({ theme }) => ({
   paper: {
     border: '1px solid #d3d4d5',
   },
-})((props) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-));
+}));
 
 const letterColor = {
   color: 'white',
@@ -56,6 +43,56 @@ const drawerColor = {
   color: 'black',
 };
 const dividerColor = {};
+
+const useStyles = styled({
+  appBarRegular: {
+    backgroundColor: 'transparent',
+  },
+  flexContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  startFlex: {
+    alignItems: 'center',
+  },
+  iconFlex: {
+    alignItems: 'center',
+  },
+  middleFlex: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+  },
+  endFlex: {
+    alignItems: 'center',
+  },
+  title: {
+    marginLeft: '40px',
+  },
+  flexRow: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  list: {
+    width: '250px',
+  },
+  menu: {
+    marginTop: '45px',
+  },
+  drawerHeader: {
+    padding: '10px',
+  },
+  filterButton: {
+    backgroundColor: 'white',
+    color: 'black',
+    padding: '10px 20px',
+    borderRadius: '20px',
+  },
+});
 
 export default function WideNav() {
   const classes = useStyles();
@@ -67,12 +104,10 @@ export default function WideNav() {
 
   const handleDrawerOpen = useCallback(() => {
     setOpenNavBar(true);
-    // eslint-disable-next-line
   }, []);
 
   const handleDrawerClose = useCallback(() => {
     setOpenNavBar(false);
-    // eslint-disable-next-line
   }, []);
 
   const logOut = useCallback(async () => {
@@ -82,24 +117,20 @@ export default function WideNav() {
       });
       Cookies.remove('refreshToken');
       Cookies.remove('accessToken');
-
       Cookies.remove('userId');
       Cookies.remove('userName');
       LoggedContext.setLogged(false);
       LoggedContext.setIsAdmin(false);
       navigate('/');
       handleDrawerClose();
-    } catch (error) {}
-    // eslint-disable-next-line
-  }, [LoggedContext]);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [LoggedContext, navigate, handleDrawerClose]);
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBarRegular)}
-        style={{ backgroundColor: 'transport' }}
-      >
+      <AppBar position="fixed" className={clsx(classes.appBarRegular)}>
         <Toolbar className={classes.flexContainer}>
           <Typography variant="h6" className={classes.startFlex}>
             <NavLink to="/">
@@ -109,7 +140,7 @@ export default function WideNav() {
               </div>
             </NavLink>
           </Typography>
-          <div className={classes.middleFlex}>
+          <div style={classes.middleFlex}>
             {currentLocation.pathname === '/' && (
               <>
                 <Typography variant="h6" className={classes.title}>
@@ -201,8 +232,7 @@ export default function WideNav() {
             )}
             {currentLocation.pathname.includes('challenges') && <Search />}
           </div>
-          {/* <div style={{ flex: 1 }} /> */}
-          <div className={classes.ebdFlex}>
+          <div className={classes.endFlex}>
             {LoggedContext.logged && Cookies.get('userName') ? (
               <Tooltip title={Cookies.get('userName')}>
                 <AccountCircleOutlinedIcon

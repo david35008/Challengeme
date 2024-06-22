@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import {
   FormControl,
   InputLabel,
@@ -10,23 +10,23 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import Swal from 'sweetalert2';
-import Timer from './TImer';
+import Timer from './Timer';
 
-const useStyles = makeStyles(() => ({
-  ForogotPassContainer: {
-    marginTop: '90px',
-    marginBottom: '10px',
-    width: '320px',
-  },
-  ForogotPasspassword: {
-    marginBottom: '10px',
-    width: '320px',
-  },
-  ForogotPassconfirmPassword: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-}));
+const Container = styled('div')({
+  marginTop: '90px',
+  marginBottom: '10px',
+  width: '320px',
+});
+
+const PasswordField = styled(FormControl)({
+  marginBottom: '10px',
+  width: '320px',
+});
+
+const ConfirmPasswordField = styled(FormControl)({
+  marginBottom: '30px',
+  width: '320px',
+});
 
 const limit = 5;
 
@@ -36,8 +36,6 @@ export default function Change({
   changePassword = false,
   notAdmin = true,
 }) {
-  const classes = useStyles();
-
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -47,14 +45,13 @@ export default function Change({
     setShowOldPassword(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     // Prevent special password eye bugs
     document.addEventListener('mouseup', hideBoth);
     document.addEventListener('dragend', hideBoth);
-  }, []);
+  }, [hideBoth]);
 
   useEffect(() => {
     if (!changePassword && notAdmin) {
@@ -75,15 +72,14 @@ export default function Change({
         clearTimeout(timer);
       };
     }
-  }, [changePassword]);
+  }, [changePassword, notAdmin]);
 
   return redirect ? (
     <Navigate to="/" replace />
   ) : (
-    <div className={classes.ForogotPassContainer}>
+    <Container>
       {!changePassword && notAdmin && (
         <>
-          {' '}
           <b> Attention!</b>
           {' '}
           You have
@@ -92,16 +88,12 @@ export default function Change({
           to
           change your password.
           <br />
-          Enter new password :
+          Enter new password:
         </>
       )}
       {changePassword && (
-        <FormControl className={classes.ForogotPasspassword}>
-          <InputLabel
-            style={{ color: 'grey' }}
-            className={classes.labelPass}
-            htmlFor="standard-adornment-password"
-          >
+        <PasswordField>
+          <InputLabel style={{ color: 'grey' }} htmlFor="oldPassword">
             Old Password
           </InputLabel>
           <Input
@@ -123,14 +115,10 @@ export default function Change({
               </InputAdornment>
             )}
           />
-        </FormControl>
+        </PasswordField>
       )}
-      <FormControl className={classes.ForogotPasspassword}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+      <PasswordField>
+        <InputLabel style={{ color: 'grey' }} htmlFor="newPassword">
           Password
         </InputLabel>
         <Input
@@ -152,13 +140,9 @@ export default function Change({
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.ForogotPassconfirmPassword}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+      </PasswordField>
+      <ConfirmPasswordField>
+        <InputLabel style={{ color: 'grey' }} htmlFor="confirmNewPassword">
           Confirm Password
         </InputLabel>
         <Input
@@ -180,7 +164,7 @@ export default function Change({
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </ConfirmPasswordField>
+    </Container>
   );
 }

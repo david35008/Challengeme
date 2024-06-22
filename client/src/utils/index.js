@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import useDebounceHook from './debounceHook';
 import shuffleArrayFunc from './ShuffleArray';
 
@@ -20,7 +20,7 @@ export function getModalStyle() {
   };
 }
 
-export const useModalStyles = makeStyles((theme) => ({
+export const useModalStyles = styled((theme) => ({
   paper: {
     position: 'absolute',
     width: 400,

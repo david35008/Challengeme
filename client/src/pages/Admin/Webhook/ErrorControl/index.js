@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,7 +7,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -15,64 +15,62 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import network from '../../../../services/network';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableCellKey = withStyles((theme) => ({
-  head: {
+const StyledTableCellKey = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     maxWidth: '800px',
     overflowX: 'auto',
     fontSize: 14,
     whiteSpace: 'pre',
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
+const RowRoot = styled(TableRow)({
+  '& > *': {
+    borderBottom: 'unset',
   },
 });
 
-function Row(props) {
-  const { row, getAllErrors } = props;
+function Row({ row, getAllErrors }) {
   const [open, setOpen] = useState(false);
 
-  const deleteError = useCallback(async (error) => {
-    try {
-      const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        await network.delete(`/api/v1/webhooks/admin/errors/${error}`);
-        getAllErrors();
+  const deleteError = useCallback(
+    async (error) => {
+      try {
+        const isDeleteOk = prompt("What's your favorite cocktail drink?");
+        if (isDeleteOk != null) {
+          await network.delete(`/api/v1/webhooks/admin/errors/${error}`);
+          getAllErrors();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {}
-    // eslint-disable-next-line
-  }, []);
+    },
+    [getAllErrors],
+  );
 
-  const classes = useRowStyles();
   return (
-    <React.Fragment>
-      <StyledTableRow className={classes.root}>
+    <>
+      <StyledTableRow>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -133,9 +131,10 @@ function Row(props) {
           </Collapse>
         </StyledTableCell>
       </StyledTableRow>
-    </React.Fragment>
+    </>
   );
 }
+
 function ErrorControl() {
   const [allErrors, setAllErrors] = useState([]);
 
@@ -145,18 +144,18 @@ function ErrorControl() {
         '/api/v1/webhooks/admin/errors',
       );
       setAllErrors(allErrorsFromServer);
-    } catch (error) {}
-    // eslint-disable-next-line
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   useEffect(() => {
     getAllErrors();
-  }, []);
+  }, [getAllErrors]);
 
   return (
     <div className="generic-page" style={{ textAlign: 'center' }}>
       <h1 className="team-control-title">Errors Management Area</h1>
-
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -174,8 +173,8 @@ function ErrorControl() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allErrors
-              && allErrors.map((error) => (
+            {allErrors &&
+              allErrors.map((error) => (
                 <Row key={error.id} row={error} getAllErrors={getAllErrors} />
               ))}
           </TableBody>

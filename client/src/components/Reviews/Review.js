@@ -8,9 +8,7 @@ import network from '../../services/network';
 import AvatarProfile from './AvatarProfile';
 import '../../styles/Review.css';
 
-function Review({
-  author, createdAt, title, content, rating, reviewId,
-}) {
+function Review({ author, createdAt, title, content, rating, reviewId }) {
   const navigate = useNavigate();
 
   const LoggedContext = useContext(Logged);

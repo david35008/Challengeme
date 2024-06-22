@@ -12,9 +12,7 @@ import Loading from '../Loading';
 import network from '../../services/network';
 import '../../styles/Charts.css';
 
-function HorizontalBarChart({
-  path, title, xKey, yKey,
-}) {
+function HorizontalBarChart({ path, title, xKey, yKey }) {
   const [data, setData] = useState();
 
   const fetchData = useCallback(async () => {

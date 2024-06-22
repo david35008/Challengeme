@@ -20,9 +20,7 @@ const responsive = {
   3000: { items: 10 },
 };
 
-function ChallengesCarousel({
-  challenges, setNewImg, main, random = false,
-}) {
+function ChallengesCarousel({ challenges, setNewImg, main, random = false }) {
   const [orderedChallenges, setOrderedChallenges] = useState([]);
   const [loadingPage, setLoadingPage] = useState(true);
 
@@ -38,20 +36,21 @@ function ChallengesCarousel({
     })();
   }, [random, challenges]);
 
-  const items = orderedChallenges.length > 0
-    ? orderedChallenges.map((challenge) => (
-      <ChallengeToCarousel
-        key={challenge.id + challenge.name}
-        id={challenge.id}
-        name={challenge.name}
-        author={challenge.Author.userName}
-        submissionsCount={challenge.submissionsCount}
-        img={challenge.img}
-        setNewImg={setNewImg}
-        main={main}
-      />
-    ))
-    : [<h1>Not Found</h1>];
+  const items =
+    orderedChallenges.length > 0
+      ? orderedChallenges.map((challenge) => (
+        <ChallengeToCarousel
+          key={challenge.id + challenge.name}
+          id={challenge.id}
+          name={challenge.name}
+          author={challenge.Author.userName}
+          submissionsCount={challenge.submissionsCount}
+          img={challenge.img}
+          setNewImg={setNewImg}
+          main={main}
+        />
+      ))
+      : [<h1>Not Found</h1>];
 
   const renderPrevButton = ({ isDisabled }) => (!isDisabled ? (
     <button className="Carousel-Prev-Button">

@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { makeStyles } from '@mui/styles';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -11,47 +10,36 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import LockIcon from '@mui/icons-material/Lock';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles(() => ({
-  password: {
-    marginTop: '70px',
-    marginBottom: '30px',
-    width: '320px',
-  },
-  confirmPassword: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-  question: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-  answer: {
-    width: '320px',
-  },
-}));
+const Container = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '30px',
+  marginTop: '70px',
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '320px',
+});
+
 function Security({ values, handleChange }) {
-  const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickShowPassword = useCallback(() => {
     setShowPassword((prev) => !prev);
-    // eslint-disable-next-line
   }, []);
 
   const handleClickShowConfirmPassword = useCallback(() => {
     setShowConfirmPassword((prev) => !prev);
-    // eslint-disable-next-line
   }, []);
+
   return (
-    <div className="containerSecurity">
-      <FormControl className={classes.password}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+    <Container className="containerSecurity">
+      <StyledFormControl>
+        <InputLabel style={{ color: 'grey' }} htmlFor="password">
           Password
         </InputLabel>
         <Input
@@ -73,13 +61,9 @@ function Security({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.confirmPassword}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+      </StyledFormControl>
+      <StyledFormControl>
+        <InputLabel style={{ color: 'grey' }} htmlFor="confirmPassword">
           Confirm Password
         </InputLabel>
         <Input
@@ -101,11 +85,9 @@ function Security({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.question}>
-        <InputLabel id="demo-mutiple-checkbox-label">
-          Security Question
-        </InputLabel>
+      </StyledFormControl>
+      <StyledFormControl>
+        <InputLabel id="security-question-label">Security Question</InputLabel>
         <Select
           id="securityQuestion"
           autoWidth
@@ -128,8 +110,8 @@ function Security({ values, handleChange }) {
             What was the first concert you attended?
           </MenuItem>
         </Select>
-      </FormControl>
-      <FormControl className={classes.answer}>
+      </StyledFormControl>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>Enter your answer</InputLabel>
         <Input
           id="securityAnswer"
@@ -143,8 +125,8 @@ function Security({ values, handleChange }) {
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </StyledFormControl>
+    </Container>
   );
 }
 

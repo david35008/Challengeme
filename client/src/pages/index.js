@@ -80,19 +80,57 @@ export default function Router() {
                     <Routes>
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/challenges" element={<ChallengesPage />} />
-                      <Route path="/challenges/:id" element={<ChallengePage />} />
-                      <Route path="/register" element={!logged ? <Register /> : <Navigate to="/" />} />
-                      <Route path="/login" element={!logged ? <Login /> : <Navigate to="/" />} />
-                      <Route path="/forgot" element={!logged ? <Forgot /> : <Navigate to="/" />} />
-                      <Route path="/auth" element={!logged ? <ValidatingMail /> : <Navigate to="/" />} />
-                      <Route path="/github-auth" element={!logged ? <GithubAuth /> : <Navigate to="/" />} />
-                      <Route path="/google-auth" element={!logged ? <GoogleAuth /> : <Navigate to="/" />} />
-                      <Route path="/addnewchallenge" element={logged ? <NewChallengeForm /> : <Navigate to="/login" />} />
-                      <Route path="/profile" element={logged ? <UserProfile /> : <Navigate to="/login" />} />
-                      <Route path="/teams" element={logged ? <Team /> : <Navigate to="/login" />} />
-                      {isAdmin && (
-                        <Route path="/admin" element={<Admin />} />
-                      )}
+                      <Route
+                        path="/challenges/:id"
+                        element={<ChallengePage />}
+                      />
+                      <Route
+                        path="/register"
+                        element={!logged ? <Register /> : <Navigate to="/" />}
+                      />
+                      <Route
+                        path="/login"
+                        element={!logged ? <Login /> : <Navigate to="/" />}
+                      />
+                      <Route
+                        path="/forgot"
+                        element={!logged ? <Forgot /> : <Navigate to="/" />}
+                      />
+                      <Route
+                        path="/auth"
+                        element={
+                          !logged ? <ValidatingMail /> : <Navigate to="/" />
+                        }
+                      />
+                      <Route
+                        path="/github-auth"
+                        element={!logged ? <GithubAuth /> : <Navigate to="/" />}
+                      />
+                      <Route
+                        path="/google-auth"
+                        element={!logged ? <GoogleAuth /> : <Navigate to="/" />}
+                      />
+                      <Route
+                        path="/addnewchallenge"
+                        element={
+                          logged ? (
+                            <NewChallengeForm />
+                          ) : (
+                            <Navigate to="/login" />
+                          )
+                        }
+                      />
+                      <Route
+                        path="/profile"
+                        element={
+                          logged ? <UserProfile /> : <Navigate to="/login" />
+                        }
+                      />
+                      <Route
+                        path="/teams"
+                        element={logged ? <Team /> : <Navigate to="/login" />}
+                      />
+                      {isAdmin && <Route path="/admin" element={<Admin />} />}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </ErrorBoundary>

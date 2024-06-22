@@ -116,9 +116,9 @@ function ChallengePage() {
       if (LoggedContext.logged) {
         const status = await getLastSubmissions();
         if (
-          status === 'SUCCESS'
-          || status === 'FAIL'
-          || window.location.pathname !== currentLocation.pathname
+          status === 'SUCCESS' ||
+          status === 'FAIL' ||
+          window.location.pathname !== currentLocation.pathname
         ) clearInterval(getSubmissionInterval);
       } else {
         clearInterval(getSubmissionInterval);
@@ -218,8 +218,8 @@ function ChallengePage() {
           </h2>
           <p>{challenge.description}</p>
           <ul>
-            {challenge.Labels
-              && challenge.Labels.map((label) => (
+            {challenge.Labels &&
+              challenge.Labels.map((label) => (
                 <Link
                   key={label.id}
                   className="remove"
