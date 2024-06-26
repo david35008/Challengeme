@@ -17,36 +17,41 @@ const ChallengeApproval = () => {
 
   const getAllSubmissions = useCallback(async () => {
     try {
-      const { data } = await network.get('/api/v1/challenges/no-matter-the-state');
+      const { data } = await network.get(
+        '/api/v1/challenges/no-matter-the-state',
+      );
       setChallenges(data);
       setChallengesStates(data.map((challenge) => challenge.state));
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const refreshChallenges = useCallback(async () => {
     try {
       const { data: challengesFromServer } = await network.get('/api/v1/challenges');
       allChallengesContext.setChallenges(challengesFromServer);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const changeChallengeState = useCallback(async (event, challengeId, index) => {
-    try {
-      const newState = event.target.innerText === 'APPROVE' ? 'approved' : 'denied';
-      const cloneStateArray = [...challengesStates];
-      cloneStateArray[index] = newState;
-      setChallengesStates(cloneStateArray);
-      await network.patch(
-        `
+  const changeChallengeState = useCallback(
+    async (event, challengeId, index) => {
+      try {
+        const newState = event.target.innerText === 'APPROVE' ? 'approved' : 'denied';
+        const cloneStateArray = [...challengesStates];
+        cloneStateArray[index] = newState;
+        setChallengesStates(cloneStateArray);
+        await network.patch(
+          `
       /api/v1/challenges/state-update/${challengeId}
       `,
-        { state: newState },
-      );
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [challengesStates])
+          { state: newState },
+        );
+      } catch (error) {}
+      // eslint-disable-next-line
+    },
+    [challengesStates],
+  );
 
   useEffect(() => {
     const pendingList = [];
@@ -88,18 +93,22 @@ const ChallengeApproval = () => {
     setPendingChallenges(pendingList);
     setApprovedChallenges(approvedList);
     setDeniedChallenges(deniedList);
-    // eslint-disable-next-line
   }, [challenges, challengesStates]);
 
   useEffect(() => {
     getAllSubmissions();
     return () => refreshChallenges();
-    // eslint-disable-next-line
   }, []);
 
   return (
     <div className="generic-page" style={{ textAlign: 'center' }}>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+        }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h2 className="challenge-approval-title">Pending Challenges:</h2>
           {pendingChallenges || <Loading />}

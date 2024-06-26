@@ -13,16 +13,14 @@ const UserProfileLanding = () => {
         '/api/v1/challenges/user-challenges',
       );
       setAllMyChallenges(allMyChallengesFromServer);
-    } catch (error) {
-    }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     const username = Cookies.get('userName');
     mixpanel.track('User On My Challenges Page', { User: `${username}` });
     getMyChallenges();
-    // eslint-disable-next-line
   }, []);
 
   const statusColor = useCallback((status) => {
@@ -43,15 +41,15 @@ const UserProfileLanding = () => {
         'linear-gradient(270deg, rgba(198,198,198,1) 0%, rgba(116,116,116,1) 100%)',
     };
     // eslint-disable-next-line
-  }, [])
+  }, []);
   return (
     <div className="generic-page">
       <h1 className="user-profile-my-challenges-title">
         This is challenges page
       </h1>
       <div className="user-profile-my-challenges-container">
-        {allMyChallenges
-          && allMyChallenges.map((challenge) => (
+        {allMyChallenges &&
+          allMyChallenges.map((challenge) => (
             <div
               key={challenge.name + challenge.id}
               className="user-profile-single-challenge-container"

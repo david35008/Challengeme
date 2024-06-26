@@ -1,32 +1,29 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { styled } from '@mui/system';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const useStyles = makeStyles(() => ({
-  titleUserNameForgotPass: {
-    marginTop: '130px',
-    width: '320px',
-  },
-  userNameForgotPass: {
-    marginTop: '20px',
-    marginBottom: '10px',
-    width: '320px',
-  },
+const TitleUserNameForgotPass = styled('div')({
+  marginTop: '130px',
+  width: '320px',
+});
 
-}));
+const UserNameForgotPass = styled(FormControl)({
+  marginTop: '20px',
+  marginBottom: '10px',
+  width: '320px',
+});
+
 export default function Identify(props) {
-  const classes = useStyles();
-
   const { data, handleChange } = props;
 
   return (
-    <div className={classes.titleUserNameForgotPass}>
-      Enter your User Name :
-      <FormControl className={classes.userNameForgotPass}>
+    <TitleUserNameForgotPass>
+      Enter your User Name:
+      <UserNameForgotPass>
         <InputLabel style={{ color: 'grey' }}>User Name</InputLabel>
         <Input
           id="userName"
@@ -35,15 +32,12 @@ export default function Identify(props) {
           required
           onChange={handleChange('userName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <AccountCircleIcon />
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </UserNameForgotPass>
+    </TitleUserNameForgotPass>
   );
 }

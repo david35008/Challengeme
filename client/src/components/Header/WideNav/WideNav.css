@@ -1,0 +1,71 @@
+/* index.css */
+.wide-nav-appBarRegular {
+    background-color: transparent;
+}
+
+.wide-nav-flexContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.wide-nav-startFlex,
+.wide-nav-iconFlex,
+.wide-nav-endFlex {
+    align-items: center;
+    display: flex;
+}
+
+.wide-nav-middleFlex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.wide-nav-title {
+    margin-left: 40px;
+}
+
+.wide-nav-flexRow {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wide-nav-list {
+    width: 250px;
+}
+
+.wide-nav-menu {
+    margin-top: 45px;
+}
+
+.wide-nav-drawerHeader {
+    padding: 10px;
+}
+
+.wide-nav-filterButton {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.wide-nav-letterColor {
+    color: white;
+}
+
+.wide-nav-drawerColor {
+    color: black;
+}
+
+.wide-nav-headerLinkTitle {
+    color: white;
+}
+
+.wide-nav-linkRout {
+    text-decoration: none;
+    color: inherit;
+}

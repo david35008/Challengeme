@@ -15,32 +15,43 @@ const ChooseMembers = ({
     try {
       const url = isTeacher ? `users/teacher/${teamId}` : 'users/admin';
       const { data: allUsersFromServer } = await network.get(`/api/v1/${url}`);
-      const { data: teamAlreadyMembers } = await network.get(`/api/v1/teams/single-team/${teamId}`);
-      const allUsers = isTeacher ? allUsersFromServer.Users : allUsersFromServer;
-      setMembersOptions(allUsers.map((user) => {
-        let userForOptions;
-        if (teamAlreadyMembers[0].Users.some((memberUser) => memberUser.id === user.id)) {
-          return null;
-        }
-        userForOptions = {
-          value: user.id,
-          label: user.userName,
-        };
-        return userForOptions;
-      }).filter((option) => !(!option)));
-    } catch (error) { }
+      const { data: teamAlreadyMembers } = await network.get(
+        `/api/v1/teams/single-team/${teamId}`,
+      );
+      const allUsers = isTeacher
+        ? allUsersFromServer.Users
+        : allUsersFromServer;
+      setMembersOptions(
+        allUsers
+          .map((user) => {
+            let userForOptions;
+            if (
+              teamAlreadyMembers[0].Users.some(
+                (memberUser) => memberUser.id === user.id,
+              )
+            ) {
+              return null;
+            }
+            userForOptions = {
+              value: user.id,
+              label: user.userName,
+            };
+            return userForOptions;
+          })
+          .filter((option) => !!option),
+      );
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [teamId, isTeacher])
+  }, [teamId, isTeacher]);
 
   useEffect(() => {
     fetchUsersData();
-    // eslint-disable-next-line
   }, [teamId, isTeacher]);
 
   const selectionChange = useCallback((chosen) => {
     setChooseMembers(chosen);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>

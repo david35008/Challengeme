@@ -1,70 +1,41 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import network from '../../../../services/network';
 import AddWebhookTeam from '../../../../components/Modals/AddWebhookTeam';
 import UpdateWebhookTeam from '../../../../components/Modals/UpdateWebhookTeam';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
-  },
-});
-
-function Row(props) {
-  const { row, getAllTeams } = props;
+function Row({ row, getAllTeams }) {
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
 
-  const deleteTeam = useCallback(async (team) => {
-    try {
+  const deleteTeam = useCallback(
+    async (teamId) => {
       const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        await network.delete(`/api/v1/webhooks/admin/teams/${team}`);
+      if (isDeleteOk !== null) {
+        await network.delete(`/api/v1/webhooks/admin/teams/${teamId}`);
         getAllTeams();
       }
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [])
+    },
+    [getAllTeams],
+  );
 
-  const classes = useRowStyles();
   return (
     <React.Fragment>
-      <StyledTableRow className={classes.root}>
-        <StyledTableCell>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -72,31 +43,28 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        </TableCell>
+        <TableCell component="th" scope="row">
           {row.id}
-        </StyledTableCell>
-        <StyledTableCell align="left">{row.teamId}</StyledTableCell>
-        <StyledTableCell align="left">{row.webhookUrl}</StyledTableCell>
-        <StyledTableCell align="left">{row.authorizationToken}</StyledTableCell>
-        <StyledTableCell align="left">
-          {new Date(row.updatedAt).toString().substring(0, 24)}
-        </StyledTableCell>
-        <StyledTableCell align="left">
-          {new Date(row.createdAt).toString().substring(0, 24)}
-        </StyledTableCell>
-        <StyledTableCell align="left">
+        </TableCell>
+        <TableCell align="left">{row.teamId}</TableCell>
+        <TableCell align="left">{row.webhookUrl}</TableCell>
+        <TableCell align="left">{row.authorizationToken}</TableCell>
+        <TableCell align="left">
+          {new Date(row.updatedAt).toLocaleString()}
+        </TableCell>
+        <TableCell align="left">
+          {new Date(row.createdAt).toLocaleString()}
+        </TableCell>
+        <TableCell align="left">
           <Button onClick={() => deleteTeam(row.id)}>Delete Team</Button>
-        </StyledTableCell>
-        <StyledTableCell align="left">
+        </TableCell>
+        <TableCell align="left">
           <Button onClick={() => setOpenUpdate(true)}>Update Team</Button>
-        </StyledTableCell>
-      </StyledTableRow>
-      <StyledTableRow>
-        <StyledTableCell
-          style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
-        >
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell sx={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -105,68 +73,53 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Event Id</StyledTableCell>
-                    <StyledTableCell align="left">Event Name</StyledTableCell>
+                    <TableCell>Event Id</TableCell>
+                    <TableCell align="left">Event Name</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.WebhookEvents
-                    && row.WebhookEvents.map((event) => (
-                      <StyledTableRow key={event.id}>
-                        <StyledTableCell component="th" scope="row">
-                          {event.id}
-                        </StyledTableCell>
-                        <StyledTableCell component="th" scope="row">
-                          {event.name}
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
+                  {row.WebhookEvents?.map((event) => (
+                    <TableRow key={event.id}>
+                      <TableCell component="th" scope="row">
+                        {event.id}
+                      </TableCell>
+                      <TableCell>{event.name}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
-        </StyledTableCell>
-      </StyledTableRow>
+        </TableCell>
+      </TableRow>
       <UpdateWebhookTeam
         open={openUpdate}
         setOpen={setOpenUpdate}
         getAllTeams={getAllTeams}
-        data={{
-          webhookUrl: row.webhookUrl,
-          authorizationToken: row.authorizationToken,
-          id: row.id,
-        }}
+        data={row}
       />
     </React.Fragment>
   );
 }
+
 function TeamsControl() {
   const [allWebhookTeams, setAllWebhookTeams] = useState([]);
   const [openNewWebhookTeamModal, setOpenNewWebhookTeamModal] = useState(false);
 
   const getAllWebhookTeams = useCallback(async () => {
-    try {
-      const { data: allTeamsFromServer } = await network.get(
-        '/api/v1/webhooks/admin/teams',
-      );
-      setAllWebhookTeams(allTeamsFromServer);
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [])
-
-  const addNewWebhookTeam = useCallback(() => {
-    setOpenNewWebhookTeamModal(true);
-    // eslint-disable-next-line
-  }, [])
+    const { data } = await network.get('/api/v1/webhooks/admin/teams');
+    setAllWebhookTeams(data);
+  }, []);
 
   useEffect(() => {
     getAllWebhookTeams();
-    // eslint-disable-next-line
-  }, []);
+  }, [getAllWebhookTeams]);
 
   return (
-    <div className="generic-page" style={{ textAlign: 'center' }}>
-      <h1 className="team-control-title">Teams Management Area</h1>
+    <Box sx={{ textAlign: 'center', p: 2 }}>
+      <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+        Teams Management Area
+      </Typography>
       <AddWebhookTeam
         open={openNewWebhookTeamModal}
         setOpen={setOpenNewWebhookTeamModal}
@@ -174,42 +127,34 @@ function TeamsControl() {
       />
       <Button
         variant="outlined"
-        style={{ marginBottom: '20px' }}
-        onClick={addNewWebhookTeam}
+        sx={{ mb: 2 }}
+        onClick={() => setOpenNewWebhookTeamModal(true)}
       >
         Add New Team
       </Button>
-
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <StyledTableCell />
-              <StyledTableCell>Id</StyledTableCell>
-              <StyledTableCell align="left">Team Id</StyledTableCell>
-              <StyledTableCell align="left">Webhook Url</StyledTableCell>
-              <StyledTableCell align="left">
-                Authorization Token
-              </StyledTableCell>
-              <StyledTableCell align="left">Created At</StyledTableCell>
-              <StyledTableCell align="left">Updated At</StyledTableCell>
-              <StyledTableCell align="left" />
-              <StyledTableCell align="left" />
+              <TableCell />
+              <TableCell>Id</TableCell>
+              <TableCell align="left">Team Id</TableCell>
+              <TableCell align="left">Webhook Url</TableCell>
+              <TableCell align="left">Authorization Token</TableCell>
+              <TableCell align="left">Created At</TableCell>
+              <TableCell align="left">Updated At</TableCell>
+              <TableCell align="left" />
+              <TableCell align="left" />
             </TableRow>
           </TableHead>
           <TableBody>
-            {allWebhookTeams
-              && allWebhookTeams.map((team) => (
-                <Row
-                  key={team.id}
-                  row={team}
-                  getAllTeams={getAllWebhookTeams}
-                />
-              ))}
+            {allWebhookTeams.map((team) => (
+              <Row key={team.id} row={team} getAllTeams={getAllWebhookTeams} />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Box>
   );
 }
 

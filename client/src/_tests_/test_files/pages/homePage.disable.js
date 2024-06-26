@@ -35,14 +35,18 @@ describe('All the routes are working together', () => {
       .get('/api/v1/auth/validate-token')
       // .query(() => true)
       .reply(200, { valid: true });
-    const getAllChallenges = await nock('http://localhost:3000/', { allowUnmocked: true })
+    const getAllChallenges = await nock('http://localhost:3000/', {
+      allowUnmocked: true,
+    })
       .get('/api/v1/challenges')
       // .query(() => true)
       .reply(200, homePageMock);
     await page.goto('http://localhost:3000');
     await page.waitForSelector('.header-link-title');
     const pageTitle = await page.$('.header-link-title');
-    const pageTitleValue = await (await pageTitle.getProperty('innerText')).jsonValue();
+    const pageTitleValue = await (
+      await pageTitle.getProperty('innerText')
+    ).jsonValue();
     expect(pageTitleValue).toBe('ChallengeMe');
     const elements = await page.$$('.challenge-card');
     expect(elements).toHaveLength(homePageMock.length);

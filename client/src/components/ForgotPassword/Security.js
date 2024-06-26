@@ -1,51 +1,41 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import { styled } from '@mui/system';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
-const useStyles = makeStyles(() => ({
-  securityQTitle: {
-    marginTop: '120px',
-    width: '320px',
-  },
-  answerForgotPass: {
-    marginTop: '40px',
-    marginBottom: '30px',
-    width: '320px',
-  },
-}));
-function Security({
-  data,
-  handleChange,
-}) {
-  const classes = useStyles();
+const SecurityQTitle = styled('div')({
+  marginTop: '120px',
+  width: '320px',
+});
 
+const AnswerForgotPass = styled(FormControl)({
+  marginTop: '40px',
+  marginBottom: '30px',
+  width: '320px',
+});
+
+function Security({ data, handleChange }) {
   return (
-    <div className={classes.securityQTitle}>
+    <SecurityQTitle>
       <span>{data.secQuestion}</span>
-      <FormControl className={classes.answerForgotPass}>
-        <InputLabel style={{ color: 'grey' }}>
-          Enter your answer
-        </InputLabel>
+      <AnswerForgotPass>
+        <InputLabel style={{ color: 'grey' }}>Enter your answer</InputLabel>
         <Input
           type="text"
           value={data.secAnswer}
           required
           onChange={handleChange('answer')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <QuestionAnswerIcon />
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </AnswerForgotPass>
+    </SecurityQTitle>
   );
 }
 

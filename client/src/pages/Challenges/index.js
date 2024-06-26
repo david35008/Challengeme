@@ -1,10 +1,8 @@
-import React, {
-  useEffect, useState, useContext, useCallback,
-} from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import mixpanel from 'mixpanel-browser';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import AllChallenges from '../../context/AllChallengesContext';
 import FilteredLabels from '../../context/FilteredLabelsContext';
 import network from '../../services/network';
@@ -18,9 +16,14 @@ export default function Challenges() {
 
   const allChallenges = useContext(AllChallenges).challenges;
   const filteredLabels = useContext(FilteredLabels);
-  const allChallengesWithImgState = allChallenges.map((challenge) => ({ ...challenge, img: false }));
+  const allChallengesWithImgState = allChallenges.map((challenge) => ({
+    ...challenge,
+    img: false,
+  }));
 
-  const [challengesFiltered, setChallengesFiltered] = useState(allChallengesWithImgState);
+  const [challengesFiltered, setChallengesFiltered] = useState(
+    allChallengesWithImgState,
+  );
   const [labels, setLabels] = useState([]);
   const [chooseLabels, setChooseLabels] = useState([]);
 
@@ -32,12 +35,12 @@ export default function Challenges() {
         label: labelData.name,
       }));
       setChooseLabels(optionsForSelector);
-      const newFilter = optionsForSelector.filter((label) => (
-        label.value
-          === (filteredLabels ? filteredLabels.filteredLabels[0] : null)
-      ));
+      const newFilter = optionsForSelector.filter(
+        (label) => label.value ===
+          (filteredLabels ? filteredLabels.filteredLabels[0] : null),
+      );
       setLabels(newFilter);
-    } catch (error) { }
+    } catch (error) {}
   }, [filteredLabels]);
 
   const setNewImg = useCallback((id, newImg) => {
@@ -56,7 +59,6 @@ export default function Challenges() {
     const user = Cookies.get('userName');
     mixpanel.track('User On Home Page', { User: `${user}` });
     return () => filteredLabels.setFilteredLabels([]);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -65,7 +67,6 @@ export default function Challenges() {
     } else {
       getLabels();
     }
-    // eslint-disable-next-line
   }, [currentLocation]);
 
   const filterLabels = useCallback(() => {
@@ -87,12 +88,11 @@ export default function Challenges() {
       } else {
         setChallengesFiltered(allChallenges);
       }
-    } catch (error) { }
+    } catch (error) {}
   }, [filteredLabels, allChallenges]);
 
   useEffect(() => {
     filterLabels();
-    // eslint-disable-next-line
   }, [filteredLabels]);
 
   return (
@@ -103,7 +103,10 @@ export default function Challenges() {
         </div>
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
-        <div className="All-Challenge-Choose-Labels" style={{ minWidth: '150px', width: 'fit-content' }}>
+        <div
+          className="All-Challenge-Choose-Labels"
+          style={{ minWidth: '150px', width: 'fit-content' }}
+        >
           <ChooseLabels
             labels={labels}
             chooseLabels={chooseLabels}
@@ -144,8 +147,8 @@ export default function Challenges() {
           <p>Back End Challenges:</p>
           <ChallengesCarousel
             challenges={challengesFiltered.filter(
-              (challenge) => challenge.type === 'server-mysql'
-                || challenge.type === 'server-only',
+              (challenge) => challenge.type === 'server-mysql' ||
+                challenge.type === 'server-only',
             )}
             setNewImg={setNewImg}
           />

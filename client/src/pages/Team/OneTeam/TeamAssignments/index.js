@@ -16,20 +16,24 @@ function TeamAssignments() {
 
   const getAllAssignments = useCallback(async () => {
     try {
-      const { data: assignments } = await network.get(`/api/v1/assignments/${id}`);
+      const { data: assignments } = await network.get(
+        `/api/v1/assignments/${id}`,
+      );
       setAllAssignments(assignments);
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
     // eslint-disable-next-line
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
     getAllAssignments();
     const user = Cookies.get('userName');
-    mixpanel.track('User On Assignments Student Area', { User: `${user}`, Team: id });
-    // eslint-disable-next-line
+    mixpanel.track('User On Assignments Student Area', {
+      User: `${user}`,
+      Team: id,
+    });
   }, [id]);
 
   const paths = [

@@ -1,36 +1,41 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { Navigate } from 'react-router-dom';
+import { styled } from '@mui/system';
 import {
-  FormControl, InputLabel, Input, InputAdornment, IconButton,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff, Lock } from '@material-ui/icons';
+  FormControl,
+  InputLabel,
+  Input,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import { Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import Swal from 'sweetalert2';
-import Timer from './TImer';
+import Timer from './Timer';
 
-const useStyles = makeStyles(() => ({
-  ForogotPassContainer: {
-    marginTop: '90px',
-    marginBottom: '10px',
-    width: '320px',
-  },
-  ForogotPasspassword: {
-    marginBottom: '10px',
-    width: '320px',
-  },
-  ForogotPassconfirmPassword: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-}));
+const Container = styled('div')({
+  marginTop: '90px',
+  marginBottom: '10px',
+  width: '320px',
+});
+
+const PasswordField = styled(FormControl)({
+  marginBottom: '10px',
+  width: '320px',
+});
+
+const ConfirmPasswordField = styled(FormControl)({
+  marginBottom: '30px',
+  width: '320px',
+});
 
 const limit = 5;
 
 export default function Change({
-  data, handleChange, changePassword = false, notAdmin = true,
+  data,
+  handleChange,
+  changePassword = false,
+  notAdmin = true,
 }) {
-  const classes = useStyles();
-
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -40,94 +45,80 @@ export default function Change({
     setShowOldPassword(false);
     setShowPassword(false);
     setShowConfirmPassword(false);
-    // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     // Prevent special password eye bugs
     document.addEventListener('mouseup', hideBoth);
     document.addEventListener('dragend', hideBoth);
-    // eslint-disable-next-line
-  }, []);
+  }, [hideBoth]);
 
   useEffect(() => {
     if (!changePassword && notAdmin) {
-      const timer = setTimeout(() => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Sorry, time is up !',
-        }).then(() => {
-          setRedirect(true);
-        });
-      }, limit * 60 * 1000);
+      const timer = setTimeout(
+        () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Sorry, time is up !',
+          }).then(() => {
+            setRedirect(true);
+          });
+        },
+        limit * 60 * 1000,
+      );
 
       return () => {
         clearTimeout(timer);
       };
     }
-    // eslint-disable-next-line
-  }, [changePassword]);
+  }, [changePassword, notAdmin]);
 
   return redirect ? (
-    <Redirect to="/" />
+    <Navigate to="/" replace />
   ) : (
-    <div className={classes.ForogotPassContainer}>
+    <Container>
       {!changePassword && notAdmin && (
         <>
-          {' '}
           <b> Attention!</b>
           {' '}
           You have
-          {' '}
           <Timer limit={limit} unit="minutes" />
           {' '}
-          to change your password.
+          to
+          change your password.
           <br />
-          Enter new password :
+          Enter new password:
         </>
       )}
-      {changePassword
-          && (
-            <FormControl className={classes.ForogotPasspassword}>
-              <InputLabel
-                style={{ color: 'grey' }}
-                className={classes.labelPass}
-                htmlFor="standard-adornment-password"
-              >
-                Old Password
-              </InputLabel>
-              <Input
-                name="oldP"
-                id="oldPassword"
-                value={data.oldPassword}
-                type={showOldPassword ? 'text' : 'password'}
-                onChange={handleChange('oldP')}
-                endAdornment={(
-                  <InputAdornment position="end">
-                    <IconButton
-                      style={{ opacity: '0.7' }}
-                      aria-label="toggle password visibility"
-                      onMouseDown={() => setShowOldPassword(true)}
-                    >
-                      {showOldPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                    <Lock style={{ opacity: '0.7' }} />
-                  </InputAdornment>
-                )}
-              />
-            </FormControl>
-          )}
-      <FormControl className={classes.ForogotPasspassword}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+      {changePassword && (
+        <PasswordField>
+          <InputLabel style={{ color: 'grey' }} htmlFor="oldPassword">
+            Old Password
+          </InputLabel>
+          <Input
+            name="oldP"
+            id="oldPassword"
+            value={data.oldPassword}
+            type={showOldPassword ? 'text' : 'password'}
+            onChange={handleChange('oldP')}
+            endAdornment={(
+              <InputAdornment position="end">
+                <IconButton
+                  style={{ opacity: '0.7' }}
+                  aria-label="toggle password visibility"
+                  onMouseDown={() => setShowOldPassword(true)}
+                >
+                  {showOldPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+                <Lock style={{ opacity: '0.7' }} />
+              </InputAdornment>
+            )}
+          />
+        </PasswordField>
+      )}
+      <PasswordField>
+        <InputLabel style={{ color: 'grey' }} htmlFor="newPassword">
           Password
         </InputLabel>
         <Input
@@ -143,23 +134,15 @@ export default function Change({
                 aria-label="toggle password visibility"
                 onMouseDown={() => setShowPassword(true)}
               >
-                {showPassword ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
+                {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
               <Lock style={{ opacity: '0.7' }} />
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.ForogotPassconfirmPassword}>
-        <InputLabel
-          style={{ color: 'grey' }}
-          className={classes.labelPass}
-          htmlFor="standard-adornment-password"
-        >
+      </PasswordField>
+      <ConfirmPasswordField>
+        <InputLabel style={{ color: 'grey' }} htmlFor="confirmNewPassword">
           Confirm Password
         </InputLabel>
         <Input
@@ -175,17 +158,13 @@ export default function Change({
                 aria-label="toggle password visibility"
                 onMouseDown={() => setShowConfirmPassword(true)}
               >
-                {showConfirmPassword ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
+                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
               <Lock style={{ opacity: '0.7' }} />
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </ConfirmPasswordField>
+    </Container>
   );
 }

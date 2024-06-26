@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
 import network from '../../services/network';
 import { getModalStyle, useModalStyles } from '../../utils';
 
@@ -22,14 +22,14 @@ export default function AddWebhookEvent({
       });
       getAllEvents();
       setOpen(false);
-    } catch (error) { }
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [newName])
+  }, [newName]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <Modal

@@ -1,81 +1,73 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { styled } from '@mui/system';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import network from '../../../../services/network';
 import AddAccessKey from '../../../../components/Modals/AddAccessKey';
 import UpdateAccessKey from '../../../../components/Modals/UpdateAccessKey';
 import './style.css';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableCellKey = withStyles((theme) => ({
-  head: {
+const StyledTableCellKey = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  body: {
+  [`&.${tableCellClasses.body}`]: {
     maxWidth: '800px',
     overflowX: 'auto',
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
-  },
-});
-
-function Row(props) {
-  const { row, getAllAccessKeys } = props;
+function Row({ row, getAllAccessKeys }) {
   const [open, setOpen] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
-  const deleteAccessKey = useCallback(async (accessKey) => {
-    try {
-      const isDeleteOk = prompt("What's your favorite cocktail drink?");
-      if (isDeleteOk != null) {
-        await network.delete(`/api/v1/webhooks/admin/access-key/${accessKey}`);
-        getAllAccessKeys();
-      }
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [])
+  const deleteAccessKey = useCallback(
+    async (accessKey) => {
+      try {
+        const isDeleteOk = prompt("What's your favorite cocktail drink?");
+        if (isDeleteOk != null) {
+          await network.delete(
+            `/api/v1/webhooks/admin/access-key/${accessKey}`,
+          );
+          getAllAccessKeys();
+        }
+      } catch (error) {}
+    },
+    [getAllAccessKeys],
+  );
 
-  const classes = useRowStyles();
   return (
-    <React.Fragment>
-      <StyledTableRow className={classes.root}>
+    <>
+      <StyledTableRow>
         <StyledTableCell>
           <IconButton
             aria-label="expand row"
@@ -138,9 +130,10 @@ function Row(props) {
         data={{ entityName: row.entityName, email: row.email, id: row.id }}
         getAllAccessKeys={getAllAccessKeys}
       />
-    </React.Fragment>
+    </>
   );
 }
+
 function AccessKeyControl() {
   const [allAccessKeys, setAllAccessKeys] = useState([]);
   const [openNewAccessKeyModal, setOpenNewAccessKeyModal] = useState(false);
@@ -151,19 +144,16 @@ function AccessKeyControl() {
         '/api/v1/webhooks/admin/access-key',
       );
       setAllAccessKeys(allAccessKeysFromServer);
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [])
+    } catch (error) {}
+  }, []);
 
   const addNewAccessKey = useCallback(() => {
     setOpenNewAccessKeyModal(true);
-    // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     getAllAccessKeys();
-    // eslint-disable-next-line
-  }, []);
+  }, [getAllAccessKeys]);
 
   return (
     <div className="generic-page" style={{ textAlign: 'center' }}>
@@ -196,8 +186,8 @@ function AccessKeyControl() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allAccessKeys
-              && allAccessKeys.map((accessKey) => (
+            {allAccessKeys &&
+              allAccessKeys.map((accessKey) => (
                 <Row
                   key={accessKey.id}
                   row={accessKey}

@@ -1,35 +1,33 @@
 import React, { useState, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
+import { styled } from '@mui/system';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
 import network from '../../services/network';
 import ChooseEvents from '../Choosers/ChooseEvents';
 import { getModalStyle } from '../../utils';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: '40vw',
-    height: '60vh',
-    maxHeight: '400px',
-    overflowY: 'auto',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  input: {
-    width: '100%',
-  },
+const Paper = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  width: '40vw',
+  height: '60vh',
+  maxHeight: '400px',
+  overflowY: 'auto',
+  backgroundColor: theme.palette.background.paper,
+  border: '2px solid #000',
+  boxShadow: theme.shadows[5],
+  padding: theme.spacing(2, 4, 3),
 }));
 
+const InputStyled = styled(Input)({
+  width: '100%',
+});
+
 export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
-  const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
-  const [teamId, setTeamId] = useState();
-  const [webhookUrl, setWebhookUrl] = useState();
-  const [authorizationToken, setAuthorizationToken] = useState();
+  const [teamId, setTeamId] = useState('');
+  const [webhookUrl, setWebhookUrl] = useState('');
+  const [authorizationToken, setAuthorizationToken] = useState('');
   const [eventsOptions, setEventsOptions] = useState([]);
   const [events, setEvents] = useState([]);
 
@@ -43,14 +41,14 @@ export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
       });
       getAllTeams();
       setOpen(false);
-    } catch (error) { }
-    // eslint-disable-next-line
-  }, [teamId, webhookUrl, authorizationToken, events])
+    } catch (error) {
+      // Handle the error
+    }
+  }, [teamId, webhookUrl, authorizationToken, events, getAllTeams, setOpen]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
-    // eslint-disable-next-line
-  }, [])
+  }, [setOpen]);
 
   return (
     <Modal
@@ -59,32 +57,25 @@ export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      <div style={modalStyle} className={classes.paper}>
-        <h2 id="simple-modal-title">Text in a modal</h2>
+      <Paper style={modalStyle}>
+        <h2 id="simple-modal-title">Add New Webhook Team</h2>
         <div id="simple-modal-description">
-          <Input
-            className={classes.input}
+          <InputStyled
             onChange={(event) => setTeamId(event.target.value)}
             placeholder="Insert Team ID Name..."
           />
           <br />
-          {' '}
           <br />
-          <Input
-            className={classes.input}
+          <InputStyled
             onChange={(event) => setWebhookUrl(event.target.value)}
             placeholder="Insert Webhook Url Name..."
           />
-          {' '}
           <br />
-          {' '}
           <br />
-          <Input
-            className={classes.input}
+          <InputStyled
             onChange={(event) => setAuthorizationToken(event.target.value)}
             placeholder="Insert Authorization Token ..."
           />
-          {' '}
         </div>
         <ChooseEvents
           chooseEvents={events}
@@ -93,7 +84,6 @@ export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
           setEventsOptions={setEventsOptions}
         />
         <br />
-
         <Button
           variant="contained"
           color="primary"
@@ -101,7 +91,7 @@ export default function AddWebhookTeam({ open = false, setOpen, getAllTeams }) {
         >
           Add New Webhook Team
         </Button>
-      </div>
+      </Paper>
     </Modal>
   );
 }

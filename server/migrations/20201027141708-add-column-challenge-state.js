@@ -3,7 +3,7 @@ module.exports = {
     await queryInterface.addColumn('challenges', 'state', {
       type: Sequelize.DataTypes.ENUM,
       values: ['pending', 'denied', 'approved'],
-      defaultValue: 'Pending',
+      defaultValue: 'pending',
     });
     /**
      * Add altering commands here.

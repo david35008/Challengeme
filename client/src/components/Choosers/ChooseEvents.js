@@ -11,25 +11,27 @@ const ChooseEvents = ({
 }) => {
   const fetchEventsData = useCallback(async () => {
     try {
-      const { data: allEvents } = await network.get('/api/v1/webhooks/admin/events');
-      setEventsOptions(allEvents.map((event) => ({
-        value: event.id,
-        label: event.name,
-      })));
-    } catch (error) {
-    }
+      const { data: allEvents } = await network.get(
+        '/api/v1/webhooks/admin/events',
+      );
+      setEventsOptions(
+        allEvents.map((event) => ({
+          value: event.id,
+          label: event.name,
+        })),
+      );
+    } catch (error) {}
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     fetchEventsData();
-    // eslint-disable-next-line
   }, []);
 
   const selectionChange = useCallback((chosen) => {
     setChooseEvents(chosen);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>

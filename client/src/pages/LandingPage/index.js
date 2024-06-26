@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import IconButton from '@mui/material/IconButton';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import WalkingManIcon from '../../images/reactSvg/WalkingManIcon';
 import Title from '../../images/reactSvg/Title';
 import Stripes from '../../images/reactSvg/Stripes';
@@ -97,8 +97,7 @@ export default function LandingPage() {
       github: 'DorKachlon',
     },
     {
-      icon:
-        'https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg',
+      icon: 'https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg',
       name: 'Alon Bruk',
       github: 'AlonBru',
     },
@@ -187,7 +186,10 @@ export default function LandingPage() {
       </section>
       <section className="Landing-page-Project-Leaders">
         <h2 className="Landing-page-Project-Leaders-H2">Project Leaders</h2>
-        <div id="Landing-page-Project-Leaders" className="Landing-page-Project-Leaders-Cards">
+        <div
+          id="Landing-page-Project-Leaders"
+          className="Landing-page-Project-Leaders-Cards"
+        >
           {projectLeaders.map((elem) => (
             <ProjectLeader
               key={elem.content}

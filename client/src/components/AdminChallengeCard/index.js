@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import network from '../../services/network';
 import './AdminChallengeCard.css';
 
@@ -18,13 +18,13 @@ export default function AdminChallengeCard({
   useEffect(() => {
     (async () => {
       try {
-        const { data: coverImage } = await network.get(`/api/v1/images?id=${challengeId}`);
+        const { data: coverImage } = await network.get(
+          `/api/v1/images?id=${challengeId}`,
+        );
         setCoverImg(coverImage ? coverImage.img : '');
         setLoading(false);
-      } catch (error) {
-      }
+      } catch (error) {}
     })();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -33,7 +33,11 @@ export default function AdminChallengeCard({
       <div className="admin-chalenge-card-profile-pic">
         {!loading ? (
           coverImg.length > 0 && (
-            <img className="admin-challenge-card-img-homepage" src={coverImg} alt=" " />
+            <img
+              className="admin-challenge-card-img-homepage"
+              src={coverImg}
+              alt=" "
+            />
           )
         ) : (
           <div className="admin-challenge-card-img-homepage-loading" />
@@ -49,32 +53,42 @@ export default function AdminChallengeCard({
           {description}
         </div>
         <div className="admin-challenge-card-description-homepage">
-          {
-            `${createdAt.split('T')[0]} || by ${authorName}`
-          }
+          {`${createdAt.split('T')[0]} || by ${authorName}`}
         </div>
-        {description === 'denied'
-          ? (
-            <Button size="small" color="primary" onClick={(event) => changeChallengeState(event, challengeId, index)}>
+        {description === 'denied' ? (
+          <Button
+            size="small"
+            color="primary"
+            onClick={(event) => changeChallengeState(event, challengeId, index)}
+          >
+            Approve
+          </Button>
+        ) : description === 'approved' ? (
+          <Button
+            size="small"
+            color="primary"
+            onClick={(event) => changeChallengeState(event, challengeId, index)}
+          >
+            Deny
+          </Button>
+        ) : (
+          <>
+            <Button
+              size="small"
+              color="primary"
+              onClick={(event) => changeChallengeState(event, challengeId, index)}
+            >
               Approve
             </Button>
-          )
-          : description === 'approved'
-            ? (
-              <Button size="small" color="primary" onClick={(event) => changeChallengeState(event, challengeId, index)}>
-                Deny
-              </Button>
-            )
-            : (
-              <>
-                <Button size="small" color="primary" onClick={(event) => changeChallengeState(event, challengeId, index)}>
-                  Approve
-                </Button>
-                <Button size="small" color="primary" onClick={(event) => changeChallengeState(event, challengeId, index)}>
-                  Deny
-                </Button>
-              </>
-            )}
+            <Button
+              size="small"
+              color="primary"
+              onClick={(event) => changeChallengeState(event, challengeId, index)}
+            >
+              Deny
+            </Button>
+          </>
+        )}
       </div>
     </div>
     // </Link>

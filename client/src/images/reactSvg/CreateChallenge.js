@@ -9,13 +9,7 @@ function Icon() {
       data-name="Layer 1"
       viewBox="0 0 884.595 628.601"
     >
-      <ellipse
-        cx="75.177"
-        cy="619.601"
-        fill="#e6e6e6"
-        rx="75.139"
-        ry="9"
-      />
+      <ellipse cx="75.177" cy="619.601" fill="#e6e6e6" rx="75.139" ry="9" />
       <path fill="#e6e6e6" d="M196.217 0.39H884.595V441.258H196.217z" />
       <path
         fill="#fff"

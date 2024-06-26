@@ -1,38 +1,30 @@
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import PeopleIcon from '@material-ui/icons/People';
-import Email from '@material-ui/icons/Email';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonIcon from '@material-ui/icons/Person';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import PeopleIcon from '@mui/icons-material/People';
+import Email from '@mui/icons-material/Email';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles(() => ({
-  firstName: {
-    marginTop: '70px',
-    marginBottom: '30px',
-    width: '320px',
-  },
-  lastName: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-  userName: {
-    marginBottom: '30px',
-    width: '320px',
-  },
-  email: {
-    width: '320px',
-  },
-}));
+const Container = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '30px',
+  marginTop: '70px',
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '320px',
+});
+
 function UserDetails({ handleChange, values }) {
-  const classes = useStyles();
-
   return (
-    <div className="containerUserDetails">
-      <FormControl className={classes.firstName}>
+    <Container className="containerUserDetails">
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>First Name</InputLabel>
         <Input
           id="firstName"
@@ -41,17 +33,14 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('firstName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PersonIcon />
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.lastName}>
-        <InputLabel style={{ color: 'grey' }}>last Name</InputLabel>
+      </StyledFormControl>
+      <StyledFormControl>
+        <InputLabel style={{ color: 'grey' }}>Last Name</InputLabel>
         <Input
           id="lastName"
           type="text"
@@ -59,16 +48,13 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('lastName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <PeopleIcon />
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.userName}>
+      </StyledFormControl>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>Username</InputLabel>
         <Input
           id="userName"
@@ -77,16 +63,13 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('userName')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <AccountCircleIcon />
             </InputAdornment>
           )}
         />
-      </FormControl>
-      <FormControl className={classes.email}>
+      </StyledFormControl>
+      <StyledFormControl>
         <InputLabel style={{ color: 'grey' }}>Email</InputLabel>
         <Input
           id="email"
@@ -95,16 +78,13 @@ function UserDetails({ handleChange, values }) {
           required
           onChange={handleChange('email')}
           endAdornment={(
-            <InputAdornment
-              style={{ opacity: '0.7' }}
-              position="end"
-            >
+            <InputAdornment style={{ opacity: '0.7' }} position="end">
               <Email />
             </InputAdornment>
           )}
         />
-      </FormControl>
-    </div>
+      </StyledFormControl>
+    </Container>
   );
 }
 

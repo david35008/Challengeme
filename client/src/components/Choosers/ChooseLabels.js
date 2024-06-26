@@ -6,7 +6,7 @@ const ChooseLabels = ({ labels, chooseLabels, setLabels }) => {
   const selectionChange = useCallback((chosen) => {
     setLabels(chosen);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div>

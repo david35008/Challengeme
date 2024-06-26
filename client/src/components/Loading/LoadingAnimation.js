@@ -5,8 +5,19 @@ function SvgLogoAnim(props) {
   // hand animation variables
   const handsTime = 1.8;
   const rightAmplitude = -5;
-  const rightHandRotate = [0, rightAmplitude, 0, rightAmplitude, 0, rightAmplitude, 0];
-  const leftHandRotate = rightHandRotate.slice(1).map((x) => -x).concat([-rightAmplitude]);
+  const rightHandRotate = [
+    0,
+    rightAmplitude,
+    0,
+    rightAmplitude,
+    0,
+    rightAmplitude,
+    0,
+  ];
+  const leftHandRotate = rightHandRotate
+    .slice(1)
+    .map((x) => -x)
+    .concat([-rightAmplitude]);
   const handKeyframes = [0, 0.2, 0.4, 0.7, 0.8, 0.9, 1];
 
   // head animation variables
@@ -94,9 +105,7 @@ function SvgLogoAnim(props) {
             stopOpacity={1}
           />
         </linearGradient>
-        <linearGradient
-          id="coderain_svg__linearGradient1568"
-        >
+        <linearGradient id="coderain_svg__linearGradient1568">
           <stop
             id="coderain_svg__stop1564"
             offset={0}
@@ -2384,19 +2393,15 @@ function SvgLogoAnim(props) {
             fill="url(#coderain_svg__linearGradient2904)"
           />
         </g>
-
       </motion.g>
 
       <g id="Logo_1">
-
         <g id="hackman">
-
           <motion.g
             id="body"
             style={{
               translateY: '2%',
             }}
-
           >
             <path
               id="bodypath"
@@ -2413,11 +2418,7 @@ function SvgLogoAnim(props) {
           </motion.g>
 
           <g id="box">
-            <path
-              id="rect1924"
-              d="M0 258.541h388V329H0v-70.459z"
-              fill="#000"
-            />
+            <path id="rect1924" d="M0 258.541h388V329H0v-70.459z" fill="#000" />
             <path
               id="path899"
               opacity={0.745}
@@ -2510,7 +2511,7 @@ function SvgLogoAnim(props) {
                 translateX: '1.9%',
                 translateY: '-1%',
                 originX: 0.05,
-              // originY:.01
+                // originY:.01
               }}
               animate={{
                 rotateZ: rightHandRotate,
@@ -2521,7 +2522,6 @@ function SvgLogoAnim(props) {
                 loop: Infinity,
               }}
             >
-
               <path
                 id="path3106"
                 d="M71.769 228.508s-25.886 14.001-26.71 32.91l38.36.197 4.317-13.682s-5.427-9.701-15.967-19.42v-.005z"
@@ -2537,9 +2537,7 @@ function SvgLogoAnim(props) {
                 d="M87.493 242.338s-18.677-.186-23.4 19.508l38.361.198c8.863-1.054 16.99-2.339 18.832-5.579 1.539-2.717-1.342-6.808-11.915-13.292 0 0-8.621-5.139-21.883-.835h.005z"
                 fill="#4B5959"
               />
-
             </motion.g>
-
           </g>
 
           <g id="arm-left">
@@ -2572,7 +2570,6 @@ function SvgLogoAnim(props) {
                 d="M287.316 264.58l16.786-3.486s-8.797-15.346-15.824-16.735c-2.694-.533-8.45-2.361-14.224-4.409-9.27-3.294-15.026 2.295-15.026 2.295l-16.22 13.616 18.254 2.219 26.254 6.5z"
                 fill="#4B5959"
               />
-
             </motion.g>
           </g>
 
@@ -2604,11 +2601,7 @@ function SvgLogoAnim(props) {
               d="M185.049 152.981c-.902 4.502 1.748 14.627 1.748 14.627s.286-2.125 2.881-15.484c2.595-13.358-8.577-19.661-8.577-19.661-.555.011 8.401 5.952 3.948 20.518z"
               fill="#0042F4"
             />
-            <motion.g
-              style={{
-              }}
-            >
-
+            <motion.g style={{}}>
               <motion.path
                 animate={{
                   translateX: headX,
@@ -2638,7 +2631,6 @@ function SvgLogoAnim(props) {
                 d="M202.047 55.214a6.166 6.166 0 00-.79.018c-17.126 1.567-33.921 5.906-46.247 12.148a64.55 64.55 0 00-1.149 12.107c0 4.634.52 8.924 1.46 12.895 6.024-10.418 27.96-16.22 45.936-17.865 4.222-.386 17.65 5.788 22.999 15.04.56-3.168.867-6.521.867-10.07 0-4.62-.494-9.21-1.451-13.63-8.617-6.292-17.243-10.474-21.625-10.643z"
                 fill="#000"
               />
-
             </motion.g>
 
             <path
